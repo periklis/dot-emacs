@@ -2,8 +2,25 @@
 ;; Basic configuration
 ;;
 (add-to-list 'load-path "~/.emacs.d/site-lisp/")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'mccarthy t)
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
+(setq ident-tabs-mode nil)
+(setq tab-always-indent 'complete)
+(setq major-modes-list '(emacs-lisp-mode lisp-mode php-mode javascript-mode))
+(setq electric-ident-modes-list 'major-modes-list)
+(setq electric-pair-modes-list 'major-modes-list)
+(setq electric-layout-modes-list 'major-modes-list)
+
+;;
+;; Global key configuration
+;;
+(global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y") 
+
+;;
+;; .emacs file handling
+;;
 (defun reload-dot-emacs ()
   "Reloads .emacs file"
   (interactive)
@@ -13,9 +30,9 @@
 ;; Speedbar sr-mode
 ;;
 (setq sr-speedbar-right-side nil)
-(setq sr-speedbar-max-width 50)
-(setq sr-speedbar-width-x 25)
-(setq sr-speedbar-width-console 25)
+(setq sr-speedbar-max-width 80)
+(setq sr-speedbar-width-x 45)
+(setq sr-speedbar-width-console 45)
 (setq sr-speedbar-auto-refresh t)
 (require 'sr-speedbar)
 
@@ -46,6 +63,7 @@
 ;;
 (add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
 (add-hook 'php-mode-hook (lambda () (subword-mode 1)))
+(add-hook 'php-mode-hook (lambda () (linum-mode 1)))
 (require 'php-mode)
 
 ;;
@@ -107,6 +125,7 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(confirm-kill-emacs (quote yes-or-no-p))
+ '(custom-safe-themes (quote ("bf648fd77561aae6722f3d53965a9eb29b08658ed045207fe32ffed90433eb52" "0ebe0307942b6e159ab794f90a074935a18c3c688b526a2035d14db1214cf69c" "90b5269aefee2c5f4029a6a039fb53803725af6f5c96036dee5dc029ff4dff60" "c7359bd375132044fe993562dfa736ae79efc620f68bab36bd686430c980df1c" "a774c5551bc56d7a9c362dca4d73a374582caedb110c201a09b410c0ebbb5e70" default)))
  '(display-battery-mode t)
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
