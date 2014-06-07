@@ -66,6 +66,9 @@
 (add-hook 'php-mode-hook (lambda () (linum-mode 1)))
 (require 'php-mode)
 
+(add-to-list 'load-path "~/.emacs.d/site-lisp/phpunit")
+(require 'phpunit)
+
 ;;
 ;; Ctags configuration
 ;;

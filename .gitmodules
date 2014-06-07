@@ -13,3 +13,6 @@
 [submodule "themes"]
 	path = themes
 	url = https://github.com/owainlewis/emacs-color-themes.git
+[submodule "site-lisp/phpunit"]
+	path = site-lisp/phpunit
+	url = https://github.com/ieure/phpunit-el.git
