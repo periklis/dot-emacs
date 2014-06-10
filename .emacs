@@ -12,6 +12,7 @@
 (setq electric-ident-modes-list 'major-modes-list)
 (setq electric-pair-modes-list 'major-modes-list)
 (setq electric-layout-modes-list 'major-modes-list)
+(setq explicit-bash-args '("--login" "--init-file" "/Users/periklis/.bash_profile" "-i"))
 
 ;;
 ;; Global key configuration
@@ -64,6 +65,7 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
 (add-hook 'php-mode-hook (lambda () (subword-mode 1)))
 (add-hook 'php-mode-hook (lambda () (linum-mode 1)))
+(add-hook 'php-mode-hook (lambda () (setq truncate-lines 0)))
 (require 'php-mode)
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/phpunit")
