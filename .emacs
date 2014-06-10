@@ -13,6 +13,9 @@
 (setq electric-pair-modes-list 'major-modes-list)
 (setq electric-layout-modes-list 'major-modes-list)
 (setq explicit-bash-args '("--login" "--init-file" "/Users/periklis/.bash_profile" "-i"))
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 ;;
 ;; Global key configuration
