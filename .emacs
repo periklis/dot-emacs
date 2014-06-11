@@ -4,6 +4,7 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'mccarthy t)
+(package-initialize)
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
 (setq ident-tabs-mode nil)
@@ -29,6 +30,11 @@
   "Reloads .emacs file"
   (interactive)
   (load-file "~/.emacs"))
+
+;;
+;; Projectile configuration
+;;
+(projectile-global-mode)
 
 ;;
 ;; Speedbar sr-mode
