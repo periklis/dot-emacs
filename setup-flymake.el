@@ -1,6 +1,9 @@
 ;;
 ;; Flymake configuration
 ;;
+(require 'flymake)
+(require 'flymake-cursor)
+
 (setq flymake-cursor-auto-enable t)
 (setq flymake-no-changes-timeout 5)
 (setq flymake-max-parallel-syntax-checks 8)

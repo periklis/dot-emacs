@@ -65,16 +65,16 @@
     (load file)))
 
 (eval-after-load "dash" '(dash-enable-font-lock))
-(eval-after-load 'flymake '(require 'setup-flymake))
-(eval-after-load 'flymake-phpcs '(require 'setup-flymake-phpcs))
-(eval-after-load 'php-mode '(require 'setup-php-mode))
+
 (require 'setup-electric)
 (require 'setup-shell)
 (require 'setup-sr-speedbar)
 (require 'setup-ctags)
 (require 'setup-semantic)
 (require 'setup-ecb)
-(require 'flymake-cursor)
+(require 'setup-flymake)
+(require 'setup-flymake-phpcs)
+(require 'setup-php-mode)
 
 ;; Add global key bindings
 (require 'key-bindings)
