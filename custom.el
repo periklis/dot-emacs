@@ -5,11 +5,6 @@
 (setq ring-bell-function 'ignore)
 (setq ident-tabs-mode nil)
 (setq tab-always-indent 'complete)
-(setq major-modes-list '(emacs-lisp-mode lisp-mode php-mode javascript-mode))
-(setq electric-ident-modes-list 'major-modes-list)
-(setq electric-pair-modes-list 'major-modes-list)
-(setq electric-layout-modes-list 'major-modes-list)
-(setq explicit-bash-args '("--login" "--init-file" "/Users/periklis/.bash_profile" "-i"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

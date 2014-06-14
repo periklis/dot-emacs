@@ -6,3 +6,5 @@
 (setq sr-speedbar-width-x 45)
 (setq sr-speedbar-width-console 45)
 (setq sr-speedbar-auto-refresh t)
+
+(provide 'setup-sr-speedbar)

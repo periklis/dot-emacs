@@ -46,3 +46,5 @@
 	(setq project-tags (list project-path))
 	(mapc 'delete-from-tags-table-list project-tags)
 	(message "Unloaded tags for project %s" project-name)))
+
+(provide 'setup-ctags)

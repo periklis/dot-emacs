@@ -11,3 +11,5 @@
   (add-to-list 'semantic-default-submodes 'global-semantic-decoration-mode)
   (semantic-mode 1)
   )
+
+(provide 'setup-semantic)

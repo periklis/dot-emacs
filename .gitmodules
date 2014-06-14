@@ -16,3 +16,6 @@
 [submodule "site-lisp/phpunit"]
 	path = site-lisp/phpunit
 	url = https://github.com/ieure/phpunit-el.git
+[submodule "site-lisp/dash"]
+	path = site-lisp/dash
+	url = https://github.com/magnars/dash.el.git

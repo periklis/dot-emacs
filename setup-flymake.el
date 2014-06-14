@@ -6,3 +6,5 @@
 (setq flymake-max-parallel-syntax-checks 8)
 (setq flymake-run-in-place nil)
 (setq flymake-number-of-errors-to-display nil)
+
+(provide 'setup-flymake)
