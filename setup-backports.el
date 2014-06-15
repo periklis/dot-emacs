@@ -10,8 +10,4 @@
   Note that this should end with a directory separator.
   See also `locate-user-emacs-file'."))
 
-;; Adding backported emacs user dir var for emacs versions < 23.x
-(unless (boundp 'custom-theme-load-path)
-  (defvar custom-theme-load-path '() "Directory for themes loading"))
-
 (provide 'setup-backports)

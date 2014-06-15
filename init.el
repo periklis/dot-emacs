@@ -18,10 +18,11 @@
 ;; Set up load path
 (add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
-(add-to-list 'custom-theme-load-path custom-themes-dir)
 
-;; Load default theme
-(load-theme 'mccarthy t)
+(if (= 24 emacs-major-version)
+	(add-to-list 'custom-theme-load-path custom-themes-dir)
+	 ;; Load default theme
+	 (load-theme 'mccarthy t))
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
