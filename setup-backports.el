@@ -12,6 +12,6 @@
 
 ;; Adding backported emacs user dir var for emacs versions < 23.x
 (unless (boundp 'custom-theme-load-path)
-  (defvar custom-theme-load-path (expand-file-name "themes" user-emacs-directory) "Directory for themes loading"))
+  (defvar custom-theme-load-path '() "Directory for themes loading"))
 
 (provide 'setup-backports)
