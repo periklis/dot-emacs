@@ -3,6 +3,9 @@
 ;;
 (setq inhibit-startup-message t)
 
+;; define running os host
+(setq is-mac (equal system-type 'darwin))
+
 ;; Load backport setup if emacs version < 24.x
 (load-file "~/.emacs.d/setup-backports.el")
 
