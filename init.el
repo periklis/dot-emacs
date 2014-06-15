@@ -4,7 +4,7 @@
 (setq inhibit-startup-message t)
 
 ;; Load backport setup if emacs version < 24.x
-(require 'setup-backports)
+(load-file "~/.emacs.d/setup-backports.el")
 
 ;; Set path to dependencies
 (setq site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
