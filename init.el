@@ -3,9 +3,6 @@
 ;;
 (setq inhibit-startup-message t)
 
-;; define running os host
-(setq is-mac (equal system-type 'darwin))
-
 ;; Load backport setup if emacs version < 24.x
 (load-file "~/.emacs.d/setup-backports.el")
 
@@ -22,14 +19,8 @@
 (add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
 
-;; register mac specific keys for remote emacs session over ssh
-(when (not is-mac)
-  (setq mac-option-modifier 'super)
-  (setq mac-command-modifier 'meta)
-  (setq ns-function-modifier 'hyper))
-
 ;; Setup emacs 24 theme loading
-(when (= emacs-major-version 24)
+(when (and (equal emacs-major-version 24) (equal system-type 'darwin))
   ;; Register default theme load path
   (add-to-list 'custom-theme-load-path custom-themes-dir)
   ;; Load default theme
