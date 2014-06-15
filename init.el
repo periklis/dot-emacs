@@ -22,9 +22,13 @@
 (add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
 
-;; Add global key bindings
-(require 'key-bindings)
+;; register mac specific keys for remote emacs session over ssh
+(when (not is-mac)
+  (setq mac-option-modifier 'super)
+  (setq mac-command-modifier 'meta)
+  (setq ns-function-modifier 'hyper))
 
+;; Setup emacs 24 theme loading
 (when (= emacs-major-version 24)
   ;; Register default theme load path
   (add-to-list 'custom-theme-load-path custom-themes-dir)
@@ -89,3 +93,5 @@
 (require 'setup-php-mode)
 (require 'setup-geben)
 
+;; Add global key bindings
+(require 'key-bindings)
