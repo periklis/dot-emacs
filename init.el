@@ -46,6 +46,7 @@
    '(ecb 
 	 flx 
 	 flx-ido 
+	 geben
 	 gitconfig-mode 
 	 gitignore-mode 
 	 ssh 
@@ -75,6 +76,7 @@
 (require 'setup-flymake)
 (require 'setup-flymake-phpcs)
 (require 'setup-php-mode)
+(require 'setup-geben)
 
 ;; Add global key bindings
 (require 'key-bindings)
