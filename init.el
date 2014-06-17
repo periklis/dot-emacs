@@ -55,6 +55,9 @@
 	 geben
 	 gitconfig-mode 
 	 gitignore-mode 
+     git-messenger
+	 magit
+	 magit-filenotify
 	 ssh 
 	 ssh-config-mode 
 	 whitespace-cleanup-mode)))
@@ -83,6 +86,7 @@
 (require 'setup-flymake-phpcs)
 (require 'setup-php-mode)
 (require 'setup-geben)
+(require 'setup-magit)
 
 ;; Add global key bindings
 (require 'key-bindings)
