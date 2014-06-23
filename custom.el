@@ -20,7 +20,7 @@
  '(display-time-mode t)
  '(ecb-auto-update-methods-after-save t)
  '(ecb-force-reparse-when-semantic-idle-scheduler-off t)
- '(ecb-layout-name "left15")
+ '(ecb-layout-name "left3")
  '(ecb-major-modes-show-or-hide (quote ((php-mode))))
  '(ecb-methods-menu-sorter nil)
  '(ecb-non-semantic-exclude-modes (quote (sh-mode fundamental-mode text-mode)))
