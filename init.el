@@ -49,17 +49,19 @@
 ;; Install missing packages
 (defun init--install-packages ()
   (packages-install
-   '(ecb 
-	 flx 
-	 flx-ido 
+   '(ecb
+	 flx
+	 flx-ido
+     helm
+     imenu-anywhere
 	 geben
-	 gitconfig-mode 
-	 gitignore-mode 
+	 gitconfig-mode
+	 gitignore-mode
      git-messenger
 	 magit
 	 magit-filenotify
-	 ssh 
-	 ssh-config-mode 
+	 ssh
+	 ssh-config-mode
 	 whitespace-cleanup-mode)))
 
 (condition-case nil
@@ -90,3 +92,6 @@
 
 ;; Add global key bindings
 (require 'key-bindings)
+
+;; Load helm globaly
+(helm-mode 1)

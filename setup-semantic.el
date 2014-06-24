@@ -4,7 +4,7 @@
 (defun my-semantic-init-hook ()
   (require 'semantic)
   (require 'semantic/ia)
-  (require 'wisent-php)
+;;  (require 'wisent-php)
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode)
   (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
