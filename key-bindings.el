@@ -11,9 +11,6 @@
 ;; Duplicate line command
 (global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y") 
 
-;; Add imenu-anywhere to default imenu command
-(global-set-key (kbd "C-i") 'imenu-anywhere)
-
 ;; Helm commands
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 

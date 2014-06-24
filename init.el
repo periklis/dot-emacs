@@ -53,7 +53,6 @@
 	 flx
 	 flx-ido
      helm
-     imenu-anywhere
 	 geben
 	 gitconfig-mode
 	 gitignore-mode
