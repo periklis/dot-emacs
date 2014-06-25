@@ -52,7 +52,9 @@
    '(ecb
 	 flx
 	 flx-ido
+     projectile
      helm
+     helm-projectile
 	 geben
 	 gitconfig-mode
 	 gitignore-mode
@@ -88,9 +90,10 @@
 (require 'setup-php-mode)
 (require 'setup-geben)
 (require 'setup-magit)
+(require 'setup-helm)
+(require 'setup-projectile)
 
 ;; Add global key bindings
 (require 'key-bindings)
 
-;; Load helm globaly
-(helm-mode 1)
+
