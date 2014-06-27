@@ -92,6 +92,7 @@
 (require 'setup-magit)
 (require 'setup-helm)
 (require 'setup-projectile)
+(require 'setup-ediff)
 
 ;; Add global key bindings
 (require 'key-bindings)
