@@ -49,7 +49,13 @@
 ;; Install missing packages
 (defun init--install-packages ()
   (packages-install
-   '(ecb
+   '(auto-complete
+     ac-etags
+     ac-js2
+     ecb
+     expand-region
+     js2-mode
+     js2-refactor
 	 flx
 	 flx-ido
      projectile
@@ -79,6 +85,8 @@
 
 (eval-after-load "dash" '(dash-enable-font-lock))
 
+(require 'setup-auto-complete)
+(require 'setup-expand-region)
 (require 'setup-electric)
 (require 'setup-shell)
 (require 'setup-sr-speedbar)
