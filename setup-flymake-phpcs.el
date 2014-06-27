@@ -8,6 +8,8 @@
 
 (require 'flymake-phpcs)
 
+;; TODO: Find out why the flymake-phpcs-init procedure fails
+;;       to attach the itself correctly on flymake-allowed-file-name-masks
 (setq flymake-allowed-file-name-masks
       (quote
        (("\\.php[345s]?$" flymake-phpcs-init flymake-simple-cleanup flymake-get-real-file-name flymake-phpcs-init)

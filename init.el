@@ -24,7 +24,7 @@
   ;; Register default theme load path
   (add-to-list 'custom-theme-load-path custom-themes-dir)
   ;; Load default theme
-  (load-theme 'mccarthy t))
+  (load-theme 'solarized-light t))
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
