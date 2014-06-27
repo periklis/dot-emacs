@@ -10,12 +10,15 @@
 [submodule "site-lisp/php-mode"]
 	path = site-lisp/php-mode
 	url = https://github.com/ejmr/php-mode
-[submodule "themes"]
-	path = themes
-	url = https://github.com/owainlewis/emacs-color-themes.git
 [submodule "site-lisp/phpunit"]
 	path = site-lisp/phpunit
 	url = https://github.com/ieure/phpunit-el.git
 [submodule "site-lisp/dash"]
 	path = site-lisp/dash
 	url = https://github.com/magnars/dash.el.git
+[submodule "site-lisp/emacs-color-themes"]
+	path = site-lisp/emacs-color-themes
+	url = https://github.com/owainlewis/emacs-color-themes.git
+[submodule "site-lisp/emacs-color-theme-solarized"]
+	path = site-lisp/emacs-color-theme-solarized
+	url = https://github.com/sellout/emacs-color-theme-solarized.git
