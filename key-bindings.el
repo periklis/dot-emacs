@@ -8,10 +8,25 @@
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper))
 
-;; Duplicate line command
+;; duplicate line command
 (global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y") 
 
-;; Helm commands
+;; expand region
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+;; magit
+(global-set-key (kbd "C-x v p") #'git-messenger:popup-message)
+
+;; helm
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+;; helm-etags-plus
+(global-set-key "\M-." 'helm-etags+-select)
+
+;; helm-projectile and projectile
+(global-set-key (kbd "C-c h") 'helm-projectile)
+(global-set-key (kbd "C-c m") 'imenu-anywhere)
+(global-set-key (kbd "C-c s") 'projectile-switch-project)
+(global-set-key (kbd "C-c b") 'projectile-switch-to-buffer)
 
 (provide 'key-bindings)

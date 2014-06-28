@@ -2,10 +2,9 @@
 ;; Helm configuration
 ;;
 (require 'helm)
+(require 'helm-etags+)
 
 ;; Load helm globaly
 (helm-mode 1)
-
-(global-set-key (kbd "M-.") 'helm-etags-select)
 
 (provide 'setup-helm)
