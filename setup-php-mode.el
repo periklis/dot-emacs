@@ -7,10 +7,6 @@
 (add-hook 'php-mode-hook '(lambda () (linum-mode 1)))
 (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
 (add-hook 'php-mode-hook '(lambda () (my-semantic-init-hook)))
-(add-hook 'php-mode-hook
-          '(lambda ()
-             ((ac-etags-ac-setup)
-              (add-to-list 'ac-sources 'ac-source-etags)
-              (auto-complete-mode t))))
+(add-hook 'php-mode-hook '(lambda () (yas-minor-mode)))
 
 (provide 'setup-php-mode)

@@ -50,7 +50,8 @@
 (defun init--install-packages ()
   (packages-install
    '(auto-complete
-     ac-etags
+     auto-complete-exuberant-ctags
+     ac-helm
      ac-js2
      ecb
      expand-region
@@ -60,6 +61,7 @@
 	 flx-ido
      projectile
      helm
+     helm-flymake
      helm-projectile
 	 geben
 	 gitconfig-mode
@@ -69,7 +71,9 @@
 	 magit-filenotify
 	 ssh
 	 ssh-config-mode
-	 whitespace-cleanup-mode)))
+	 whitespace-cleanup-mode
+     yasnippet
+     php-auto-yasnippets)))
 
 (condition-case nil
     (init--install-packages)
@@ -85,6 +89,7 @@
 
 (eval-after-load "dash" '(dash-enable-font-lock))
 
+(require 'setup-yasnippet)
 (require 'setup-auto-complete)
 (require 'setup-expand-region)
 (require 'setup-electric)

@@ -23,6 +23,10 @@
 ;; helm-etags-plus
 (global-set-key "\M-." 'helm-etags+-select)
 
+;; helm auto-complete
+(global-set-key (kbd "C-;") 'ac-complete-with-helm)
+(define-key ac-complete-mode-map (kbd "C-;") 'ac-complete-with-helm)
+
 ;; helm-projectile and projectile
 (global-set-key (kbd "C-c h") 'helm-projectile)
 (global-set-key (kbd "C-c m") 'imenu-anywhere)
