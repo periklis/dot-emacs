@@ -106,6 +106,7 @@
 (require 'setup-helm)
 (require 'setup-projectile)
 (require 'setup-ediff)
+(require 'setup-js2-mode)
 
 ;; Add global key bindings
 (require 'key-bindings)

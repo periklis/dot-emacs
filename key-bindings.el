@@ -32,5 +32,6 @@
 (global-set-key (kbd "C-c m") 'imenu-anywhere)
 (global-set-key (kbd "C-c s") 'projectile-switch-project)
 (global-set-key (kbd "C-c b") 'projectile-switch-to-buffer)
+(global-set-key (kbd "C-c e") 'helm-flymake)
 
 (provide 'key-bindings)
