@@ -58,12 +58,14 @@
      js2-mode
      js2-refactor
 	 flx
-	 flx-ido
+     flymake-haskell-multi
      projectile
+     haskell-mode
      helm
      helm-flymake
      helm-projectile
 	 geben
+     ghc
 	 gitconfig-mode
 	 gitignore-mode
      git-messenger
@@ -102,6 +104,7 @@
 (require 'setup-flymake)
 (require 'setup-flymake-phpcs)
 (require 'setup-geben)
+(require 'setup-haskell)
 (require 'setup-magit)
 (require 'setup-helm)
 (require 'setup-projectile)
