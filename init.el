@@ -51,6 +51,7 @@
   (packages-install
    '(auto-complete
      auto-complete-exuberant-ctags
+     ac-haskell-process
      ac-helm
      ac-js2
      ecb
@@ -75,7 +76,10 @@
 	 ssh-config-mode
 	 whitespace-cleanup-mode
      yasnippet
-     php-auto-yasnippets)))
+     php-auto-yasnippets
+     sos
+     vagrant
+     yaml-mode)))
 
 (condition-case nil
     (init--install-packages)
