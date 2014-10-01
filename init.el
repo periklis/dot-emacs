@@ -65,7 +65,6 @@
      helm
      helm-flymake
      helm-projectile
-	 geben
      ghc
 	 gitconfig-mode
 	 gitignore-mode
@@ -107,7 +106,6 @@
 (require 'setup-php-mode)
 (require 'setup-flymake)
 (require 'setup-flymake-phpcs)
-(require 'setup-geben)
 (require 'setup-haskell)
 (require 'setup-magit)
 (require 'setup-helm)
