@@ -61,6 +61,8 @@
 	 flx
      flymake-haskell-multi
      projectile
+     perspective
+     persp-projectile
      haskell-mode
      helm
      helm-flymake

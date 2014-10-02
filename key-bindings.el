@@ -33,5 +33,6 @@
 (global-set-key (kbd "C-c s") 'projectile-switch-project)
 (global-set-key (kbd "C-c b") 'projectile-switch-to-buffer)
 (global-set-key (kbd "C-c e") 'helm-flymake)
+(define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)
 
 (provide 'key-bindings)
