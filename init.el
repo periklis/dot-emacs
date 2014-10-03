@@ -65,7 +65,10 @@
      persp-projectile
      haskell-mode
      helm
+     helm-descbinds
      helm-flymake
+     helm-hoogle
+     helm-google
      helm-projectile
      ghc
 	 gitconfig-mode
