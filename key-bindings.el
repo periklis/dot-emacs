@@ -8,6 +8,9 @@
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper))
 
+;; auto-indent newline
+(global-set-key (kbd "RET") 'newline-and-indent)
+
 ;; duplicate line command
 (global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y") 
 
