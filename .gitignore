@@ -4,3 +4,6 @@ semanticdb/*
 geben/*
 projectile*
 tmp/*
+jabber-avatar-cache/*
+jabber-history/*
+.#.*

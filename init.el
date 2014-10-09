@@ -56,6 +56,7 @@
      ac-js2
      ecb
      expand-region
+     jabber
      js2-mode
      js2-refactor
 	 flx
