@@ -1,4 +1,5 @@
 ac-*
+backups/*
 elpa/*
 semanticdb/*
 geben/*

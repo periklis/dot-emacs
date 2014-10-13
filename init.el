@@ -51,6 +51,7 @@
   (packages-install
    '(auto-complete
      auto-complete-exuberant-ctags
+     ac-etags
      ac-haskell-process
      ac-helm
      ac-js2
