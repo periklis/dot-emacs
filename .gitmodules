@@ -1,12 +1,3 @@
-[submodule "site-lisp/emacs-flymake"]
-	path = site-lisp/emacs-flymake
-	url = https://github.com/illusori/emacs-flymake.git
-[submodule "site-lisp/emacs-flymake-phpcs"]
-	path = site-lisp/emacs-flymake-phpcs
-	url = https://github.com/illusori/emacs-flymake-phpcs.git
-[submodule "site-lisp/emacs-flymake-cursor"]
-	path = site-lisp/emacs-flymake-cursor
-	url = https://github.com/illusori/emacs-flymake-cursor.git
 [submodule "site-lisp/php-mode"]
 	path = site-lisp/php-mode
 	url = https://github.com/ejmr/php-mode

@@ -22,7 +22,6 @@
  '(ecb-options-version "2.40")
  '(ecb-post-process-semantic-taglist (quote ((c++-mode ecb-group-function-tags-with-parents) (emacs-lisp-mode ecb-group-function-tags-with-parents) (c-mode ecb-filter-c-prototype-tags))))
  '(ecb-source-path (quote (("/" "/"))))
- '(flymake-no-changes-timeout 5)
  '(global-hl-line-mode t)
  '(global-linum-mode nil)
  '(global-semantic-highlight-edits-mode t)
@@ -62,7 +61,7 @@
  '(tab-width 4)
  '(tool-bar-mode nil)
  '(visible-bell nil)
- '(whitespace-style (quote (tabs spaces trailing lines space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))))
+ '(whitespace-style (quote (tabs trailing lines space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

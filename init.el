@@ -61,21 +61,21 @@
      js2-mode
      js2-refactor
 	 flx
-     flymake-haskell-multi
+     flycheck
+     flycheck-haskell
      projectile
      perspective
      persp-projectile
      haskell-mode
      helm
      helm-descbinds
-     helm-flymake
+     helm-flycheck
      helm-hoogle
      helm-google
      helm-projectile
      ghc
 	 gitconfig-mode
 	 gitignore-mode
-     git-messenger
 	 magit
 	 magit-filenotify
 	 ssh
@@ -101,6 +101,7 @@
 
 (eval-after-load "dash" '(dash-enable-font-lock))
 
+(require 'setup-flycheck)
 (require 'setup-yasnippet)
 (require 'setup-auto-complete)
 (require 'setup-expand-region)
@@ -111,8 +112,6 @@
 (require 'setup-semantic)
 (require 'setup-ecb)
 (require 'setup-php-mode)
-(require 'setup-flymake)
-(require 'setup-flymake-phpcs)
 (require 'setup-haskell)
 (require 'setup-magit)
 (require 'setup-helm)
