@@ -118,6 +118,7 @@
 (require 'setup-projectile)
 (require 'setup-ediff)
 (require 'setup-js2-mode)
+(require 'setup-jabber)
 
 ;; Add global key bindings
 (require 'key-bindings)
