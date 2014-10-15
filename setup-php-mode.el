@@ -1,6 +1,11 @@
-;;
-;; php-mode configuration
-;;
+;;; setup-php-mode.el --- PHP Mode configuration
+
+;;; Commentary:
+
+;;; PHP Mode configuration
+
+;;; Code:
+
 (require 'php-mode)
 
 (add-hook 'php-mode-hook '(lambda () (subword-mode 1)))
@@ -10,3 +15,4 @@
 (add-hook 'php-mode-hook '(lambda () (yas-minor-mode)))
 
 (provide 'setup-php-mode)
+;;; setup-php-mode.el ends here

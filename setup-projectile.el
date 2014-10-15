@@ -1,6 +1,11 @@
-;;
-;; Projectile configuration
-;;
+;;; setup-projectile.el --- Projectile configuration
+
+;;; Commentary:
+
+;;; Projectile configuration
+
+;;; Code:
+
 (require 'projectile)
 (require 'helm-projectile)
 (require 'persp-projectile)
@@ -13,3 +18,4 @@
 (persp-mode)
 
 (provide 'setup-projectile)
+;;; setup-projectile.el ends here

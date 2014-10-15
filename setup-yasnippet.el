@@ -1,6 +1,11 @@
-;;
-;; yasnippet configuration
-;;
+;;; setup-yasnippet.el --- Yasnippet configuration
+
+;;; Commentary:
+
+;;; Yasnippet configuration
+
+;;; Code:
+
 (require 'yasnippet)
 (require 'php-auto-yasnippets)
 
@@ -13,3 +18,4 @@
 (yas-reload-all)
 
 (provide 'setup-yasnippet)
+;;; setup-yasnippet.el ends here

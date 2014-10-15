@@ -1,4 +1,11 @@
-;; Setup package-archives
+;;; setup-package.el --- Package manager configuration
+
+;;; Commentary:
+
+;;; Package manager configuration
+
+;;; Code:
+
 (require 'package)
 (require 'dash)
 
@@ -24,3 +31,4 @@
   (delete-other-windows))
 
 (provide 'setup-package)
+;;; setup-package.el ends here

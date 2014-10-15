@@ -1,9 +1,14 @@
-;;
-;; Electric configuration
-;;
-(setq major-modes-list '(emacs-lisp-mode lisp-mode php-mode js2-mode haskell-mode))
-(setq electric-ident-modes-list 'major-modes-list)
-(setq electric-pair-modes-list 'major-modes-list)
-(setq electric-layout-modes-list 'major-modes-list)
+;;; setup-electric.el --- Electic configuration
+
+;;; Commentary:
+
+;;; Electric configuration
+
+;;; Code:
+
+(setq electric-indent-mode t)
+(setq electric-layout-mode t)
+(setq electric-pair-mode t)
 
 (provide 'setup-electric)
+;;; setup-electric.el ends here

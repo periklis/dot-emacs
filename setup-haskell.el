@@ -1,6 +1,11 @@
-;;
-;; Setup haskell mode
-;;
+;;; setup-haskell.el --- Haskell configuration
+
+;;; Commentary:
+
+;;; Haskell configuration
+
+;;; Code:
+
 (setq cabal-lib-dir "~/.cabal/lib/")
 (add-to-list 'load-path cabal-lib-dir)
 
@@ -41,3 +46,4 @@
 (define-key haskell-mode-map (kbd "M-.") 'haskell-mode-jump-to-def-or-tag)
 
 (provide 'setup-haskell)
+;;; setup-haskell.el ends here

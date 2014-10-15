@@ -1,6 +1,11 @@
-;;
-;; CEDET semantic module configuration
-;;
+;;; setup-semantic.el --- CEDET semantic configuration
+
+;;; Commentary:
+
+;;; CEDET semantic configuration
+
+;;; Code:
+
 (defun my-semantic-init-hook ()
   (require 'semantic)
   (require 'semantic/ia)
@@ -17,3 +22,4 @@
   (semantic-mode 1))
 
 (provide 'setup-semantic)
+;;; setup-semantic.el ends here

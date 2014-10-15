@@ -1,6 +1,10 @@
-;;
-;; Emacs backports for versions < 24.x
-;;
+;;; setup-backports.el --- Emacs 24.x backported functions
+
+;;; Commentary:
+
+;;; Emacs 24.x backported functions
+
+;;; Code:
 
 ;; Adding backported emacs user dir var for emacs versions < 23.x
 (unless (boundp 'user-emacs-directory)
@@ -11,3 +15,4 @@
   See also `locate-user-emacs-file'."))
 
 (provide 'setup-backports)
+;;; setup-backports.el ends here

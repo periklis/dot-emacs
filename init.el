@@ -1,6 +1,11 @@
-;;
-;; Emacs init configuration
-;;
+;;; init.el --- Emacs initiliazation
+
+;;; Commentary:
+
+;;; Emacs configuration
+
+;;; Code:
+
 (setq inhibit-startup-message t)
 
 ;; Load backport setup if emacs version < 24.x
@@ -122,5 +127,4 @@
 
 ;; Add global key bindings
 (require 'key-bindings)
-
-
+;;; init.el ends here

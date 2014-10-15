@@ -1,6 +1,11 @@
-;;
-;; Ctags configuration
-;;
+;;; setup-ctags.el --- Ctags configuration
+
+;;; Commentary:
+
+;;; Ctags configuration
+
+;;; Code:
+
 (setq ctags-executable "/usr/local/bin/ctags")
 
 (defun create-tags (languages options)
@@ -16,3 +21,4 @@
   (message "Created language tags (%s) for current project" languages))
 
 (provide 'setup-ctags)
+;;; setup-ctags.el ends here

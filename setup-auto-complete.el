@@ -1,6 +1,10 @@
-;;
-;; Auto-Complete configuration
-;;
+;;; setup-auto-complete.el --- AC configuration
+
+;;; Commentary:
+
+;;; AC configuration
+
+;;; Code:
 
 (global-auto-complete-mode)
 
@@ -10,3 +14,4 @@
     (ac-etags-setup)))
 
 (provide 'setup-auto-complete)
+;;; setup-auto-complete.el ends here

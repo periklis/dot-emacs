@@ -9,3 +9,4 @@ tmp/*
 jabber-avatar-cache/*
 jabber-history/*
 .#.*
+.emacs.desktop*

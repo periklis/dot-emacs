@@ -1,6 +1,11 @@
-;;
-;; Helm configuration
-;;
+;;; setup-helm.el --- Helm configuration
+
+;;; Commentary:
+
+;;; Helm configuration
+
+;;; Code:
+
 (require 'helm-config)
 (require 'helm)
 (require 'helm-etags+)
@@ -23,3 +28,4 @@
 (helm-descbinds-mode)
 
 (provide 'setup-helm)
+;;; setup-helm.el ends here
