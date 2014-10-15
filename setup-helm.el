@@ -10,6 +10,7 @@
 (require 'helm)
 (require 'helm-etags+)
 (require 'helm-descbinds)
+(require 'helm-git-grep)
 
 ;; configuration
 (when (executable-find "curl")

@@ -60,6 +60,7 @@
      ac-haskell-process
      ac-helm
      ac-js2
+     bash-completion
      ecb
      expand-region
      jabber
@@ -68,6 +69,8 @@
 	 flx
      flycheck
      flycheck-haskell
+     google-translate
+     hackernews
      projectile
      perspective
      persp-projectile
@@ -76,20 +79,28 @@
      helm-descbinds
      helm-flycheck
      helm-hoogle
+     helm-git-grep
      helm-google
      helm-projectile
      ghc
 	 gitconfig-mode
 	 gitignore-mode
+     inf-php
+     itail
 	 magit
 	 magit-filenotify
+     puppet-mode
+     puppetfile-mode
 	 ssh
 	 ssh-config-mode
+     sudo-ext
 	 whitespace-cleanup-mode
      yasnippet
      php-auto-yasnippets
      sos
+     twig-mode
      vagrant
+     wget
      yaml-mode)))
 
 (condition-case nil
@@ -105,6 +116,10 @@
     (load file)))
 
 (eval-after-load "dash" '(dash-enable-font-lock))
+
+(require 'itail)
+(require 'inf-php)
+(require 'bash-completion)
 
 (require 'setup-flycheck)
 (require 'setup-yasnippet)
