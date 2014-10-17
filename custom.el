@@ -69,6 +69,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(hackernews-link-face ((t (:foreground "cadet blue"))))
  '(helm-buffer-directory ((t (:foreground "#657b83"))))
  '(helm-ff-directory ((t nil)))
  '(helm-selection ((t (:background "gainsboro" :underline t))))
