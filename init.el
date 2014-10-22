@@ -19,7 +19,6 @@
 
 ;; Set up load path
 (add-to-list 'load-path site-lisp-dir)
-;;(load-file (expand-file-name "setup-package.el" user-emacs-directory))
 
 ;; Setup emacs 24 theme loading
 (when (and (equal emacs-major-version 24) (equal system-type 'darwin))
