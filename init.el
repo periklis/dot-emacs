@@ -8,9 +8,6 @@
 
 (setq inhibit-startup-message t)
 
-;; Load backport setup if emacs version < 24.x
-(load-file "~/.emacs.d/setup-backports.el")
-
 ;; Set path to dependencies
 (setq site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
 
@@ -21,8 +18,8 @@
 (setq temporary-file-directory (expand-file-name "tmp" user-emacs-directory))
 
 ;; Set up load path
-(add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path site-lisp-dir)
+;;(load-file (expand-file-name "setup-package.el" user-emacs-directory))
 
 ;; Setup emacs 24 theme loading
 (when (and (equal emacs-major-version 24) (equal system-type 'darwin))

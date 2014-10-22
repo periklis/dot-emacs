@@ -13,13 +13,13 @@
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 
-(unless (file-exists-p "~/.emacs.d/elpa/archives/gnu")
+(unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
   (package-refresh-contents))
 
-(unless (file-exists-p "~/.emacs.d/elpa/archives/marmalade")
+(unless (file-exists-p (expand-file-name "elpa/archives/marmalade" user-emacs-directory))
   (package-refresh-contents))
 
-(unless (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+(unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
   (package-refresh-contents))
 
 (package-initialize)
