@@ -1,4 +1,4 @@
-;;; setup-ecb.el --- Magit configuration
+;;; setup-magit.el --- Magit configuration
 
 ;;; Commentary:
 
@@ -6,10 +6,10 @@
 
 ;;; Code:
 
-(setq magit-diff-options '("-b"))
+(require 'magit-filenotify)
 
-;; Enable this when emacs-mac uses emacs 24.4 codebase
-;;(add-hook 'magit-status-mode-hook 'magit-filenotify-mode)
+(setq magit-diff-options '("-b"))
+(add-hook 'magit-status-mode-hook 'magit-filenotify-mode)
 
 (provide 'setup-magit)
 ;;; setup-magit.el ends here
