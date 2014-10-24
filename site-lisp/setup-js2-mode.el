@@ -8,6 +8,9 @@
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
+(setq ac-js2-evaluate-calls t)
+
+
 (add-hook 'js2-mode-hook '(lambda () (subword-mode 1)))
 (add-hook 'js2-mode-hook '(lambda () (linum-mode 1)))
 (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
