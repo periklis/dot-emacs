@@ -12,6 +12,10 @@
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
 
+;; auto-complete
+(define-key ac-menu-map "\C-n" 'ac-next)
+(define-key ac-menu-map "\C-p" 'ac-previous)
+
 ;; auto-indent newline
 (global-set-key (kbd "RET") 'newline-and-indent)
 

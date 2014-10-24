@@ -12,6 +12,8 @@
 
 (setq projectile-tags-command "/usr/local/bin/ctags --languages=php --options=ctags.conf -e -R .")
 (setq projectile-mode-line-lighter "")
+(setq projectile-enable-caching t)
+(setq projectile-completion-system 'helm)
 
 ;; Load projectile globaly
 (projectile-global-mode)
