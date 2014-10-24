@@ -3,7 +3,7 @@
 ;; Copyright (C) 2008 Free Software Foundation
 
 ;; Author: Periklis Tsirakidis <periklis@alhpaomega.local>
-;; Created: 2014-06-12 21:37:29+0200
+;; Created: 2014-10-24 08:24:41+0200
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
@@ -37,6 +37,8 @@
 
 ;;; Prologue
 ;;
+(declare-function wisent-php-create-merge-alias "wisent-php")
+(declare-function wisent-php-merge-alias "wisent-php")
 
 ;;; Declarations
 ;;
@@ -74,6 +76,7 @@
      ("continue" . T_CONTINUE)
      ("echo" . T_ECHO)
      ("print" . T_PRINT)
+     ("namespace" . T_NAMESPACE)
      ("class" . T_CLASS)
      ("interface" . T_INTERFACE)
      ("extends" . T_EXTENDS)
@@ -172,10 +175,12 @@
      ("final" summary "Class|Member declaration modifier: final {class|<type>} <name> ...")
      ("abstract" summary "Class|Method declaration modifier: abstract {class|<type>} <name> ...")
      ("static" summary "Declaration modifier: static {class|interface|<type>} <name> ...")
+     ("use" summary "Alias definition: use <imported> {as <name>}")
      ("implements" summary "Class SuperInterfaces declaration: implements <name> [, ...]")
      ("extends" summary "SuperClass|SuperInterfaces declaration: extends <name> [, ...]")
      ("interface" summary "Interface declaration: interface <name>")
      ("class" summary "Class declaration: class <name>")
+     ("namespace" summary "Namespace declaration: namespace <name>")
      ("continue" summary "continue [<label>] ;")
      ("break" summary "break [<label>] ;")
      ("default" summary "switch(<expr>) { ... default: <stmts>}")
@@ -188,7 +193,7 @@
      ("catch" summary "try {<stmts>} catch(<parm>) {<stmts>} ... ")
      ("try" summary "try {<stmts>} [catch(<parm>) {<stmts>} ...] [finally {<stmts>}]")
      ("return" summary "return [<expr>] ;")
-     ("const" summary "Unused reserved word")))
+     ("const" summary "const <var> [= <expr>]")))
   "Table of language keywords.")
 
 (defconst wisent-php-wy--token-table
@@ -203,10 +208,12 @@
       (NUMBER_LITERAL))
      ("string"
       (STRING_LITERAL))
+     ("variable"
+      (T_VARIABLE))
      ("symbol"
       (IDENTIFIER))
      ("punctuation"
-      (T_DOLLER . "$")
+      (T_NAMESPACE_SEP . "\\")
       (T_ASTERISK . "@")
       (T_COMP . "~")
       (T_OR . "|")
@@ -272,7 +279,12 @@
      ("code" :declared t)
      ("number" :declared t)
      ("string" :declared t)
+     ("variable" syntax "\\$\\(\\sw\\|\\s_\\)+")
+     ("variable" :declared t)
+     ("symbol" syntax "[a-zA-Z_]\\(\\sw\\|\\s_\\)*")
      ("symbol" :declared t)
+     ("punctuation" syntax "\\(\\s.\\|\\s'\\)+")
+     ("punctuation" matchdatatype string)
      ("punctuation" :declared t)
      ("block" :declared t)))
   "Table of lexical tokens.")
@@ -282,7 +294,7 @@
     (eval-when-compile
       (require 'semantic/wisent/comp))
     (wisent-compile-grammar
-     '((PAREN_BLOCK BRACE_BLOCK BRACK_BLOCK LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK T_DEREF T_PAAMAYIM_NEKUDOTAYIM T_INC T_DEC T_IS_IDENTICAL T_IS_NOT_IDENTICAL T_IS_EQUAL T_IS_NOT_EQUAL T_IS_SMALLER_OR_EQUAL T_IS_GREATER_OR_EQUAL T_PLUS_EQUAL T_MINUS_EQUAL T_MUL_EQUAL T_DIV_EQUAL T_CONCAT_EQUAL T_MOD_EQUAL T_SL_EQUAL T_SR_EQUAL T_AND_EQUAL T_OR_EQUAL T_XOR_EQUAL T_BOOLEAN_OR T_BOOLEAN_AND T_SL T_SR T_DOUBLE_ARROW T_HEREDOC T_NOT T_MOD T_AND T_MULT T_PLUS T_COMMA T_MINUS T_DOT T_DIV T_COLON T_SEMI T_LT T_EQ T_GT T_URSHIFT T_URSHIFTEQ T_QUESTION T_XOR T_OR T_COMP T_ASTERISK T_DOLLER IDENTIFIER STRING_LITERAL NUMBER_LITERAL PROLOGUE EPILOGUE T_EXIT T_FUNCTION T_CONST T_RETURN T_TRY T_CATCH T_THROW T_IF T_ELSEIF T_ENDIF T_ELSE T_WHILE T_ENDWHILE T_DO T_FOR T_ENDFOR T_FOREACH T_ENDFOREACH T_DECLARE T_ENDDECLARE T_INSTANCEOF INT T_AS T_SWITCH T_ENDSWITCH T_CASE T_DEFAULT T_BREAK T_CONTINUE T_ECHO T_PRINT T_CLASS T_INTERFACE T_EXTENDS T_IMPLEMENTS T_NEW PACKAGE T_CLONE T_VAR T_EVAL T_INCLUDE T_INCLUDE_ONCE T_REQUIRE T_REQUIRE_ONCE T_USE T_GLOBAL T_ISSET T_EMPTY T_HALT_COMPILER T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_UNSET T_LIST T_ARRAY T_LOGICAL_OR T_LOGICAL_AND T_LOGICAL_XOR T_CLASS_C T_FUNC_C T_METHOD_C T_LINE T_FILE _AUTHOR _VERSION _PARAM _RETURN _EXCEPTION _THROWS _SEE _SINCE _SERIAL _SERIALDATA _SERIALFIELD _DEPRECATED)
+     '((PAREN_BLOCK BRACE_BLOCK BRACK_BLOCK LPAREN RPAREN LBRACE RBRACE LBRACK RBRACK T_DEREF T_PAAMAYIM_NEKUDOTAYIM T_INC T_DEC T_IS_IDENTICAL T_IS_NOT_IDENTICAL T_IS_EQUAL T_IS_NOT_EQUAL T_IS_SMALLER_OR_EQUAL T_IS_GREATER_OR_EQUAL T_PLUS_EQUAL T_MINUS_EQUAL T_MUL_EQUAL T_DIV_EQUAL T_CONCAT_EQUAL T_MOD_EQUAL T_SL_EQUAL T_SR_EQUAL T_AND_EQUAL T_OR_EQUAL T_XOR_EQUAL T_BOOLEAN_OR T_BOOLEAN_AND T_SL T_SR T_DOUBLE_ARROW T_HEREDOC T_NOT T_MOD T_AND T_MULT T_PLUS T_COMMA T_MINUS T_DOT T_DIV T_COLON T_SEMI T_LT T_EQ T_GT T_URSHIFT T_URSHIFTEQ T_QUESTION T_XOR T_OR T_COMP T_ASTERISK T_NAMESPACE_SEP IDENTIFIER T_VARIABLE STRING_LITERAL NUMBER_LITERAL PROLOGUE EPILOGUE T_EXIT T_FUNCTION T_CONST T_RETURN T_TRY T_CATCH T_THROW T_IF T_ELSEIF T_ENDIF T_ELSE T_WHILE T_ENDWHILE T_DO T_FOR T_ENDFOR T_FOREACH T_ENDFOREACH T_DECLARE T_ENDDECLARE T_INSTANCEOF INT T_AS T_SWITCH T_ENDSWITCH T_CASE T_DEFAULT T_BREAK T_CONTINUE T_ECHO T_PRINT T_NAMESPACE T_CLASS T_INTERFACE T_EXTENDS T_IMPLEMENTS T_NEW PACKAGE T_CLONE T_VAR T_EVAL T_INCLUDE T_INCLUDE_ONCE T_REQUIRE T_REQUIRE_ONCE T_USE T_GLOBAL T_ISSET T_EMPTY T_HALT_COMPILER T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_UNSET T_LIST T_ARRAY T_LOGICAL_OR T_LOGICAL_AND T_LOGICAL_XOR T_CLASS_C T_FUNC_C T_METHOD_C T_LINE T_FILE _AUTHOR _VERSION _PARAM _RETURN _EXCEPTION _THROWS _SEE _SINCE _SERIAL _SERIALDATA _SERIALFIELD _DEPRECATED)
        ((left T_INCLUDE T_INCLUDE_ONCE T_EVAL T_REQUIRE T_REQUIRE_ONCE)
 	(left T_COMMA)
 	(left T_LOGICAL_OR)
@@ -315,6 +327,9 @@
 	((PROLOGUE compilation_units)
 	 (identity $2)))
        (compilation_units
+	((T_NAMESPACE namespaced_identifier T_SEMI compilation_units)
+	 (wisent-raw-tag
+	  (semantic-tag-new-type $2 $1 $4 nil)))
 	(nil)
 	((compilation_unit compilation_units)
 	 (if $2
@@ -325,8 +340,6 @@
 	((include_declaration))
 	((type_declaration)))
        (include_declaration
-	((T_USE require_expr T_SEMI)
-	 (identity $2))
 	((T_REQUIRE require_expr T_SEMI)
 	 (identity $2))
 	((T_REQUIRE_ONCE require_expr T_SEMI)
@@ -345,7 +358,9 @@
        (type_declaration
 	((function_declaration))
 	((class_declaration))
-	((interface_declaration)))
+	((interface_declaration))
+	((namespace_declaration))
+	((use_statement)))
        (class_declaration
 	((class_modifiers_opt T_CLASS IDENTIFIER superc_opt interfaces_opt class_body)
 	 (wisent-raw-tag
@@ -356,7 +371,7 @@
 				 :typemodifiers $1))))
        (superc_opt
 	(nil)
-	((T_EXTENDS IDENTIFIER)
+	((T_EXTENDS namespaced_identifier)
 	 (identity $2)))
        (interfaces_opt
 	(nil)
@@ -378,7 +393,37 @@
 	((interface_declaration))
 	((class_declaration))
 	((method_declaration))
-	((field_declaration)))
+	((field_declaration))
+	((constant_declaration)))
+       (namespace_declaration
+	((T_NAMESPACE namespaced_identifier namespace_body)
+	 (wisent-raw-tag
+	  (semantic-tag-new-type $2 $1 $3 nil))))
+       (namespace_body
+	((BRACE_BLOCK)
+	 (semantic-parse-region
+	  (car $region1)
+	  (cdr $region1)
+	  'compilation_unit 1)))
+       (use_statement
+	((T_USE use_declarations T_SEMI)
+	 (identity $2)))
+       (use_declarations
+	((use_declaration T_COMMA use_declarations)
+	 (wisent-php-merge-alias $1 $region1 $3))
+	((use_declaration)
+	 (wisent-php-create-merge-alias $1 $region1)))
+       (use_declaration
+	((namespaced_identifier T_AS IDENTIFIER)
+	 (wisent-raw-tag
+	  (semantic-tag-new-alias $3 "alias" $1)))
+	((namespaced_identifier)
+	 (wisent-raw-tag
+	  (semantic-tag-new-alias
+	   (car
+	    (last
+	     (split-string $1 "\\\\")))
+	   "alias" $1))))
        (interface_declaration
 	((class_modifiers_opt T_INTERFACE IDENTIFIER extends_interfaces_opt interface_body)
 	 (wisent-raw-tag
@@ -404,7 +449,8 @@
 	((interface_declaration))
 	((class_declaration))
 	((method_declaration))
-	((field_declaration)))
+	((field_declaration))
+	((constant_declaration)))
        (function_declaration
 	((method_declarator method_body)
 	 (wisent-raw-tag
@@ -424,9 +470,9 @@
 	((T_FUNCTION reference_opt IDENTIFIER formal_parameter_list)
 	 (cons $3 $4)))
        (identifier_list
-	((identifier_list T_COMMA IDENTIFIER)
+	((identifier_list T_COMMA namespaced_identifier)
 	 (cons $3 $1))
-	((IDENTIFIER)
+	((namespaced_identifier)
 	 (list $1)))
        (method_body
 	((T_SEMI))
@@ -447,29 +493,35 @@
 	((formal_parameter T_COMMA))
 	((formal_parameter RPAREN)))
        (formal_parameter
-	((variable_declarator_id T_EQ expression)
+	((type_opt T_VARIABLE T_EQ expression)
 	 (wisent-raw-tag
-	  (semantic-tag-new-variable $1 nil $region3)))
-	((variable_declarator_id)
+	  (semantic-tag-new-variable $2 $1 $region4)))
+	((type_opt T_VARIABLE)
 	 (wisent-raw-tag
-	  (semantic-tag-new-variable $1 nil nil))))
+	  (semantic-tag-new-variable $2 $1 nil))))
+       (type_opt
+	(nil)
+	((T_ARRAY))
+	((namespaced_identifier)))
        (field_declaration
-	((field_modifiers_opt variable_declarators T_SEMI)
+	((field_modifiers_opt variable_declarator T_SEMI)
 	 (wisent-raw-tag
-	  (semantic-tag-new-variable $2 nil nil :typemodifiers $1))))
-       (variable_declarators
-	((variable_declarators T_COMMA variable_declarator)
-	 (cons $3 $1))
-	((variable_declarator)
-	 (list $1)))
+	  (semantic-tag-new-variable
+	   (car $2)
+	   nil
+	   (cdr $2)
+	   :typemodifiers $1))))
        (variable_declarator
-	((variable_declarator_id T_EQ variable_initializer)
-	 (list $1 nil nil $3))
-	((variable_declarator_id)
-	 (list $1)))
-       (variable_declarator_id
-	((reference_opt IDENTIFIER dims_opt)
-	 (concat $2 $3)))
+	((T_VARIABLE T_EQ variable_initializer)
+	 (cons $1 $3))
+	((T_VARIABLE)
+	 (cons $1 nil)))
+       (constant_declaration
+	((T_CONST IDENTIFIER T_EQ variable_initializer T_SEMI)
+	 (wisent-raw-tag
+	  (semantic-tag-new-variable $2 nil $region3 :typemodifiers
+				     (list "static" "public")
+				     :constant-flag t))))
        (reference_opt
 	(nil)
 	((T_AND)))
@@ -482,12 +534,20 @@
 	((literal))
 	((operator))
 	((IDENTIFIER))
+	((namespaced_identifier))
+	((T_VARIABLE))
 	((BRACK_BLOCK))
 	((PAREN_BLOCK))
 	((BRACE_BLOCK))
 	((T_NEW))
 	((T_CLONE))
 	((T_ARRAY)))
+       (namespaced_identifier
+	((T_NAMESPACE_SEP namespaced_identifier)
+	 (concat "\\" $2))
+	((IDENTIFIER T_NAMESPACE_SEP namespaced_identifier)
+	 (concat $1 "\\" $3))
+	((IDENTIFIER)))
        (literal
 	((STRING_LITERAL))
 	((NUMBER_LITERAL)))
@@ -594,7 +654,7 @@
 	 (concat $1 "[]"))
 	((BRACK_BLOCK)
 	 (identity "[]"))))
-     '(start compilation_units compilation_unit include_declaration require_expr type_declaration class_declaration class_body class_member_declaration interface_declaration interface_body interface_member_declaration method_declaration method_declarator identifier_list method_body block formal_parameter_list formal_parameters formal_parameter field_declaration variable_declarators variable_declarator variable_declarator_id variable_initializer class_modifiers class_modifier method_modifiers method_modifier field_modifiers field_modifier)))
+     '(start compilation_units compilation_unit include_declaration require_expr use_statement type_declaration class_declaration class_body class_member_declaration namespace_declaration namespace_body interface_declaration interface_body interface_member_declaration method_declaration method_declarator identifier_list method_body block formal_parameter_list formal_parameters formal_parameter field_declaration variable_declarator constant_declaration variable_initializer class_modifiers class_modifier method_modifiers method_modifier field_modifiers field_modifier)))
   "Parser table.")
 
 (defun wisent-php-wy--install-parser ()
@@ -627,8 +687,8 @@
 
 (define-lex-string-type-analyzer wisent-php-wy--<punctuation>-string-analyzer
   "string analyzer for <punctuation> tokens."
-  "\\(\\s.\\|\\s$\\|\\s'\\)+"
-  '((T_DOLLER . "$")
+  "\\(\\s.\\|\\s'\\)+"
+  '((T_NAMESPACE_SEP . "\\")
     (T_ASTERISK . "@")
     (T_COMP . "~")
     (T_OR . "|")
@@ -680,9 +740,15 @@
     (T_DEREF . "->"))
   'punctuation)
 
+(define-lex-regex-type-analyzer wisent-php-wy--<variable>-regexp-analyzer
+  "regexp analyzer for <variable> tokens."
+  "\\$\\(\\sw\\|\\s_\\)+"
+  nil
+  'T_VARIABLE)
+
 (define-lex-regex-type-analyzer wisent-php-wy--<symbol>-regexp-analyzer
   "regexp analyzer for <symbol> tokens."
-  "\\(\\sw\\|\\s_\\)+"
+  "[a-zA-Z_]\\(\\sw\\|\\s_\\)*"
   nil
   'IDENTIFIER)
 
@@ -789,7 +855,7 @@ FLOATING_POINT_LITERAL:
     (semantic-lex-push-token
      (semantic-lex-token 'EPILOGUE start end))))
 
-  
+
 (define-lex-regex-analyzer wisent-php-lex-heredoc
   "Detect and create an epilogue or percent-percent token."
   (concat "<<<[[:blank:]]*\\(" wisent-php-label-regex "\\)$")
@@ -832,6 +898,7 @@ It ignores whitespaces, newlines and comments."
   wisent-php-wy--<string>-sexp-analyzer
   ;; Must detect keywords before other symbols
   wisent-php-wy--<keyword>-keyword-analyzer
+  wisent-php-wy--<variable>-regexp-analyzer
   wisent-php-wy--<symbol>-regexp-analyzer
   wisent-php-wy--<punctuation>-string-analyzer
   wisent-php-wy--<block>-block-analyzer

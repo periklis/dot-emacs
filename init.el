@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 
-;;; Emacs configuration
+;;; Emacs initialization
 
 ;;; Code:
 
@@ -92,6 +92,7 @@
      sudo-ext
 	 whitespace-cleanup-mode
      yasnippet
+     php-mode
      php-auto-yasnippets
      sos
      twig-mode
@@ -116,14 +117,12 @@
 (require 'itail)
 (require 'inf-php)
 (require 'bash-completion)
-
 (require 'setup-flycheck)
 (require 'setup-yasnippet)
 (require 'setup-auto-complete)
 (require 'setup-expand-region)
 (require 'setup-electric)
 (require 'setup-shell)
-(require 'setup-sr-speedbar)
 (require 'setup-ctags)
 (require 'setup-semantic)
 (require 'setup-ecb)

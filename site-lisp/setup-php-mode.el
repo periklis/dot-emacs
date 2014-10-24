@@ -13,6 +13,7 @@
 (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
 (add-hook 'php-mode-hook '(lambda () (my-semantic-init-hook)))
 (add-hook 'php-mode-hook '(lambda () (yas-minor-mode)))
+(add-hook 'php-mode-hoom '(lambda () (auto-complete-mode)))
 
 (provide 'setup-php-mode)
 ;;; setup-php-mode.el ends here
