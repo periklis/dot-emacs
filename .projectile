@@ -1,4 +1,9 @@
--/themes
+-/backups
+-/elpa
 -/jabber-avatar-cache
 -/jabber-history
--/backups
+-/semanticdb
+-/themes
+-/tmp
+-/url
+

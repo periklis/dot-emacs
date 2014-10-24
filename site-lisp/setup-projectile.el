@@ -16,6 +16,7 @@
 ;; Load projectile globaly
 (projectile-global-mode)
 (persp-mode)
+(helm-projectile-on)
 
 (provide 'setup-projectile)
 ;;; setup-projectile.el ends here

@@ -63,6 +63,7 @@
      js2-mode
      js2-refactor
 	 flx
+     flx-ido
      flycheck
      flycheck-haskell
      google-translate
