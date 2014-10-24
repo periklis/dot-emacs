@@ -6,12 +6,16 @@
 
 ;;; Code:
 
-(global-auto-complete-mode)
+(require 'auto-complete)
+(require 'auto-complete-config)
+(require 'ac-helm)
 
-(setq ac-etags-requires 1)
-(eval-after-load "etags"
-  '(progn
-    (ac-etags-setup)))
+(setq ac-auto-start nil)
+(setq ac-auto-show-menu nil)
+(setq ac-use-quick-help nil)
+(setq ac-ignore-case t)
+
+(global-auto-complete-mode)
 
 (provide 'setup-auto-complete)
 ;;; setup-auto-complete.el ends here

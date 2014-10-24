@@ -1,10 +1,14 @@
-;;
-;; Global key configuration
-;;
+;;; setup-auto-complete.el --- Global key configuration
+
+;;; Commentary:
+
+;;; Global key configuration
+
+;;; Code:
 
 ;; register mac specific keys for remote emacs session over ssh
 (when (equal system-type 'darwin)
-;;  (setq mac-option-modifier 'super)
+  ;;(setq mac-option-modifier 'super)
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
 
@@ -35,7 +39,6 @@
 
 ;; helm auto-complete
 (global-set-key (kbd "C-;") 'ac-complete-with-helm)
-(define-key ac-complete-mode-map (kbd "C-;") 'ac-complete-with-helm)
 
 ;; helm-projectile and projectile
 (global-set-key (kbd "C-c h") 'helm-projectile)
@@ -46,3 +49,4 @@
 (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)
 
 (provide 'key-bindings)
+;;; key-bindings.el ends here
