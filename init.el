@@ -115,27 +115,39 @@
 
 (eval-after-load "dash" '(dash-enable-font-lock))
 
+;; Genereal requires
 (require 'itail)
 (require 'inf-php)
+(require 'expand-region)
 (require 'bash-completion)
-(require 'setup-flycheck)
-(require 'setup-yasnippet)
+
+;; Programming environment configs
 (require 'setup-auto-complete)
-(require 'setup-expand-region)
-(require 'setup-electric)
-(require 'setup-shell)
 (require 'setup-ctags)
+(require 'setup-flycheck)
 (require 'setup-semantic)
 (require 'setup-ecb)
+(require 'setup-yasnippet)
+
+;; Programming languages configs
 (require 'setup-php-mode)
 (require 'setup-haskell)
-(require 'setup-magit)
+(require 'setup-js2-mode)
+
+;; Navigation/Project management configs
 (require 'setup-helm)
 (require 'setup-projectile)
 (require 'setup-ediff)
-(require 'setup-js2-mode)
+
+;; External tools
+(require 'setup-shell)
+(require 'setup-magit)
 (require 'setup-jabber)
 
 ;; Add global key bindings
 (require 'key-bindings)
+
+;; Add emacs hooks
+(require 'setup-hooks)
+
 ;;; init.el ends here

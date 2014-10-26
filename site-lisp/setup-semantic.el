@@ -8,6 +8,7 @@
 
 (require 'semantic)
 (require 'semantic/ia)
+(require 'semantic/db-ebrowse)
 (require 'wisent-php)
 
 (defun my-semantic-init-hook ()

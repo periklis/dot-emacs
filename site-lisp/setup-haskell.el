@@ -16,6 +16,11 @@
 
 (require 'ghc)
 (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+(add-hook 'haskell-mode-hook 'subword-mode)
+(add-hook 'haskell-mode-hook 'linum-mode)
+(add-hook 'haskell-mode-hook 'electric-indent-mode)
+(add-hook 'haskell-mode-hook 'electric-layout-mode)
+(add-hook 'haskell-mode-hook 'electric-pair-mode)
 
 ;; Haskell mode identation
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
@@ -36,7 +41,6 @@
 (define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
 (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
 (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
-
 
 ;; Haskell tags && stylish
 (custom-set-variables

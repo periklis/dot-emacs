@@ -12,9 +12,12 @@
 
 (setq ac-js2-evaluate-calls t)
 
-(add-hook 'js2-mode-hook '(lambda () (subword-mode 1)))
-(add-hook 'js2-mode-hook '(lambda () (linum-mode 1)))
 (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
+(add-hook 'js2-mode-hook 'subword-mode)
+(add-hook 'js2-mode-hook 'linum-mode)
+(add-hook 'js2-mode-hook 'electric-indent-mode)
+(add-hook 'js2-mode-hook 'electric-layout-mode)
+(add-hook 'js2-mode-hook 'electric-pair-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 
 (provide 'setup-js2-mode)
