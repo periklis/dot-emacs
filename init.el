@@ -128,7 +128,6 @@
 (require 'setup-flycheck)
 (require 'setup-semantic)
 (require 'setup-ecb)
-(require 'setup-yasnippet)
 
 ;; Programming languages configs
 (require 'setup-php-mode)
