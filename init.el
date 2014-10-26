@@ -62,7 +62,7 @@
      jabber
      js2-mode
      js2-refactor
-	 flx
+     flx
      flx-ido
      flycheck
      flycheck-haskell
@@ -80,18 +80,18 @@
      helm-google
      helm-projectile
      ghc
-	 gitconfig-mode
-	 gitignore-mode
+     gitconfig-mode
+     gitignore-mode
      inf-php
      itail
-	 magit
-	 magit-filenotify
+     magit
+     magit-filenotify
      puppet-mode
      puppetfile-mode
-	 ssh
-	 ssh-config-mode
+     ssh
+     ssh-config-mode
      sudo-ext
-	 whitespace-cleanup-mode
+     whitespace-cleanup-mode
      yasnippet
      php-mode
      php-auto-yasnippets
@@ -133,6 +133,7 @@
 (require 'setup-php-mode)
 (require 'setup-haskell)
 (require 'setup-js2-mode)
+(require 'setup-xml)
 
 ;; Navigation/Project management configs
 (require 'setup-helm)
