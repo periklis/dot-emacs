@@ -63,5 +63,8 @@
 (global-set-key (kbd "C-c e") 'helm-flycheck)
 (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)
 
+;; magit
+(global-set-key (kbd "C-x g") 'magit-status)
+
 (provide 'key-bindings)
 ;;; key-bindings.el ends here

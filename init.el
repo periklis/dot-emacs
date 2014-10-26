@@ -82,6 +82,7 @@
      ghc
      gitconfig-mode
      gitignore-mode
+     git-timemachine
      inf-php
      itail
      magit
