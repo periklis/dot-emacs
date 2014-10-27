@@ -11,3 +11,4 @@ jabber-history/*
 url/*
 .#.*
 .emacs.desktop*
+recentf
