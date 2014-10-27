@@ -49,6 +49,7 @@
 
 ;; Install missing packages
 (defun init--install-packages ()
+  "Install package list on init."
   (packages-install
    '(auto-complete
      auto-complete-exuberant-ctags
