@@ -8,8 +8,9 @@
 
 (require 'helm-config)
 (require 'helm)
-(require 'helm-etags+)
+(require 'helm-ack)
 (require 'helm-descbinds)
+(require 'helm-etags+)
 (require 'helm-git-grep)
 
 ;; configuration
@@ -23,6 +24,9 @@
       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
       helm-ff-file-name-history-use-recentf t)
+
+;; helm-ack configs
+(setq helm-ack-base-command "ack -H --nogroup")
 
 ;; Load helm globaly
 (helm-mode 1)

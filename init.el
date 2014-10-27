@@ -73,6 +73,7 @@
      persp-projectile
      haskell-mode
      helm
+     helm-ack
      helm-descbinds
      helm-flycheck
      helm-hoogle
@@ -132,6 +133,7 @@
 ;; Programming languages configs
 (require 'setup-php-mode)
 (require 'setup-haskell)
+(require 'setup-java)
 (require 'setup-js2-mode)
 (require 'setup-xml)
 
