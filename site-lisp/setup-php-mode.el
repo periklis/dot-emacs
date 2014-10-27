@@ -7,6 +7,8 @@
 ;;; Code:
 
 (require 'php-mode)
+(require 'php-refactor-mode)
+(require 'php-extras)
 
 (defun setup-php-mode-ac-sources ()
   "Set the ac-sources for php-mode."

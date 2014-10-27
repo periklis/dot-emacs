@@ -96,6 +96,8 @@
      whitespace-cleanup-mode
      yasnippet
      php-mode
+     php-extras
+     php-refactor-mode
      php-auto-yasnippets
      sos
      twig-mode
