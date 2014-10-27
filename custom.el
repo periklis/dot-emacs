@@ -57,9 +57,6 @@
  '(jabber-roster-sort-functions
    (quote
     (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group)))
- '(php-executable "/usr/local/bin/php")
- '(php-mode-coding-style (quote symfony2))
- '(php-mode-speedbar-open nil)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(semantic-mode t)
