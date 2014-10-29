@@ -132,6 +132,7 @@
 (require 'setup-flycheck)
 (require 'setup-semantic)
 (require 'setup-ecb)
+(require 'setup-geben)
 
 ;; Programming languages configs
 (require 'setup-elisp)
