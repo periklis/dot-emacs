@@ -102,6 +102,7 @@
      php-auto-yasnippets
      phpunit
      geben
+     restclient
      sos
      twig-mode
      vagrant
