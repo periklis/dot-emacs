@@ -24,6 +24,7 @@
 
 ;; expand region
 (global-set-key (kbd "C-=") 'er/expand-region)
+
 ;; helm
 (global-unset-key (kbd "C-x c"))
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
@@ -64,6 +65,11 @@
 
 ;; magit
 (global-set-key (kbd "C-c m g") 'magit-status)
+
+;;phpunit
+(define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
+(define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
+(define-key php-mode-map (kbd "C-x p") 'phpunit-current-project)
 
 (provide 'key-bindings)
 ;;; key-bindings.el ends here

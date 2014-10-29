@@ -100,6 +100,8 @@
      php-extras
      php-refactor-mode
      php-auto-yasnippets
+     phpunit
+     geben
      sos
      twig-mode
      vagrant

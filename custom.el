@@ -57,6 +57,14 @@
  '(jabber-roster-sort-functions
    (quote
     (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group)))
+ '(php-executable "/usr/local/bin/php")
+ '(php-mode-coding-style (quote symfony2))
+ '(php-mode-speedbar-open nil)
+ '(php-refactor-command "refactor")
+ '(phpunit-arg "")
+ '(phpunit-program "phpunit --colors --disallow-test-output")
+ '(phpunit-stop-on-error t)
+ '(phpunit-stop-on-failure t)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(semantic-mode t)
