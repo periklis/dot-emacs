@@ -134,6 +134,7 @@
 (require 'setup-ecb)
 
 ;; Programming languages configs
+(require 'setup-elisp)
 (require 'setup-php-mode)
 (require 'setup-haskell)
 (require 'setup-java)
