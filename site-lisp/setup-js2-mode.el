@@ -19,6 +19,7 @@
 (add-hook 'js2-mode-hook 'electric-layout-mode)
 (add-hook 'js2-mode-hook 'electric-pair-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
+(add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
 
 (provide 'setup-js2-mode)
 ;;; setup-js2-mode.el ends here
