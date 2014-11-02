@@ -8,6 +8,8 @@
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
+;; Load default theme
+(add-hook 'after-init-hook (lambda () (load-theme 'solarized-light t)))
 
 (provide 'setup-hooks)
 

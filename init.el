@@ -11,21 +11,11 @@
 ;; Set path to dependencies
 (setq site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
 
-;; Set path to themes
-(setq custom-themes-dir (expand-file-name "themes" user-emacs-directory))
-
 ;; Set path for temporary directory
 (setq temporary-file-directory (expand-file-name "tmp" user-emacs-directory))
 
 ;; Set up load path
 (add-to-list 'load-path site-lisp-dir)
-
-;; Setup emacs 24 theme loading
-(when (and (equal emacs-major-version 24) (equal system-type 'darwin))
-  ;; Register default theme load path
-  (add-to-list 'custom-theme-load-path custom-themes-dir)
-  ;; Load default theme
-  (load-theme 'solarized-light t))
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -125,7 +115,6 @@
 
 ;; Genereal requires
 (require 'itail)
-(require 'inf-php)
 (require 'expand-region)
 (require 'bash-completion)
 
