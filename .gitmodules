@@ -1,9 +1,6 @@
 [submodule "site-lisp/dash"]
 	path = site-lisp/dash
 	url = https://github.com/magnars/dash.el.git
-[submodule "site-lisp/emacs-color-themes"]
-	path = site-lisp/emacs-color-themes
-	url = https://github.com/owainlewis/emacs-color-themes.git
 [submodule "site-lisp/helm-etags-plus"]
 	path = site-lisp/helm-etags-plus
 	url = https://github.com/jixiuf/helm-etags-plus.git
