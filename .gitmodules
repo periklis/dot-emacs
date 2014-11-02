@@ -4,9 +4,6 @@
 [submodule "site-lisp/emacs-color-themes"]
 	path = site-lisp/emacs-color-themes
 	url = https://github.com/owainlewis/emacs-color-themes.git
-[submodule "site-lisp/emacs-color-theme-solarized"]
-	path = site-lisp/emacs-color-theme-solarized
-	url = https://github.com/sellout/emacs-color-theme-solarized.git
 [submodule "site-lisp/helm-etags-plus"]
 	path = site-lisp/helm-etags-plus
 	url = https://github.com/jixiuf/helm-etags-plus.git

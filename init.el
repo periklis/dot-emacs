@@ -51,7 +51,8 @@
 (defun init--install-packages ()
   "Install package list on init."
   (packages-install
-   '(auto-complete
+   '(color-theme-solarized
+     auto-complete
      auto-complete-exuberant-ctags
      ac-etags
      ac-haskell-process
