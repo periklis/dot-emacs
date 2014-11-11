@@ -51,6 +51,9 @@
  '(jabber-connection-ssl-program nil)
  '(jabber-groupchat-buffer-format "jabber-%n")
  '(jabber-mode-line-mode t)
+ '(jabber-muc-default-nicknames
+   (quote
+    (("mayflower@conference.mayflower.de" . "periklis"))))
  '(jabber-muc-private-buffer-format "jabber-%g-%n")
  '(jabber-roster-buffer "jabber-roster")
  '(jabber-roster-line-format " %c %-25n %u %-8s  %S")
@@ -65,6 +68,11 @@
  '(phpunit-program "phpunit --colors --disallow-test-output")
  '(phpunit-stop-on-error t)
  '(phpunit-stop-on-failure t)
+ '(projectile-mode-line
+   (quote
+    (:eval
+     (format " Prj[%s]"
+             (projectile-project-name)))))
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(semantic-mode t)
