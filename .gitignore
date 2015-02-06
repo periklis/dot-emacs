@@ -6,6 +6,7 @@ semanticdb/*
 geben/*
 projectile*
 tmp/*
+tramp/*
 jabber-avatar-cache/*
 jabber-history/*
 url/*

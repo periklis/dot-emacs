@@ -138,6 +138,7 @@
 (require 'setup-helm)
 (require 'setup-projectile)
 (require 'setup-ediff)
+(require 'setup-smart-mode-line)
 
 ;; External tools
 (require 'setup-shell)
