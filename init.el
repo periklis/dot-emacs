@@ -82,6 +82,8 @@
      magit-filenotify
      puppet-mode
      puppetfile-mode
+     smart-mode-line
+     smart-mode-line-powerline-theme
      ssh
      ssh-config-mode
      sudo-ext
