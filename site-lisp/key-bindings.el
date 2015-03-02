@@ -41,6 +41,10 @@
 (global-set-key (kbd "C-c h d") 'helm-info-emacs)
 (global-set-key (kbd "C-c h l") 'helm-locate-library)
 (global-set-key (kbd "C-c h i") 'helm-semantic-or-imenu)
+(global-set-key (kbd "M-i") 'helm-swoop)
+(global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+(global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
+(global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal

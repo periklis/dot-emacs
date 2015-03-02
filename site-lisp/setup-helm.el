@@ -12,6 +12,7 @@
 (require 'helm-descbinds)
 (require 'helm-etags+)
 (require 'helm-git-grep)
+(require 'helm-swoop)
 
 ;; configuration
 (when (executable-find "curl")
@@ -30,7 +31,10 @@
       helm-M-x-fuzzy-match                  t
       helm-semantic-fuzzy-match             t
       helm-imenu-fuzzy-match                t
-      helm-apropos-fuzzy-match              t)
+      helm-apropos-fuzzy-match              t
+      helm-swoop-move-to-line-cycle         t
+      helm-swoop-use-line-number-face       t
+      helm-swoop-split-direction            'split-window-horizontally)
 
 ;; helm-ack configs
 (setq helm-ack-base-command "ack -H --nogroup")

@@ -72,6 +72,7 @@
      helm-git-grep
      helm-google
      helm-projectile
+     helm-swoop
      ghc
      gitconfig-mode
      gitignore-mode
