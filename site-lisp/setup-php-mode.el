@@ -33,6 +33,7 @@
 (add-hook 'php-mode-hook 'setup-php-mode-ac-sources)
 (add-hook 'php-mode-hook 'php-refactor-mode)
 (add-hook 'php-mode-hook 'yas-minor-mode)
+(add-hook 'php-mode-hook 'history-mode)
 
 (provide 'setup-php-mode)
 ;;; setup-php-mode.el ends here

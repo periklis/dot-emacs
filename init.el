@@ -60,6 +60,7 @@
      flycheck-haskell
      google-translate
      hackernews
+     history
      projectile
      perspective
      persp-projectile
@@ -142,6 +143,7 @@
 (require 'setup-projectile)
 (require 'setup-ediff)
 (require 'setup-smart-mode-line)
+(require 'setup-history)
 
 ;; External tools
 (require 'setup-shell)
