@@ -52,6 +52,7 @@
      ecb
      expand-region
      jabber
+     jira
      js2-mode
      js2-refactor
      flx
@@ -103,6 +104,7 @@
      vagrant
      vagrant-tramp
      wget
+     xml-rpc
      yaml-mode)))
 
 (condition-case nil
