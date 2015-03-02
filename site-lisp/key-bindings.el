@@ -67,6 +67,10 @@
 (global-set-key (kbd "C-c f e") 'helm-flycheck)
 (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)
 
+;; history-mode
+(global-set-key (kbd "M-]") 'history-next-history)
+(global-set-key (kbd "M-[") 'history-prev-history)
+
 ;; magit
 (global-set-key (kbd "C-c m g") 'magit-status)
 
