@@ -84,6 +84,7 @@
      magit-filenotify
      puppet-mode
      puppetfile-mode
+     sass-mode
      smart-mode-line
      smart-mode-line-powerline-theme
      ssh
@@ -100,6 +101,7 @@
      sos
      twig-mode
      vagrant
+     vagrant-tramp
      wget
      yaml-mode)))
 

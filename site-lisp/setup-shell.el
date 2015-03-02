@@ -20,5 +20,9 @@
                            (setq dirtrackp nil)))
 
 (tramp-get-completion-function "ssh")
+
+(eval-after-load 'tramp
+  '(vagrant-tramp-enable))
+
 (provide 'setup-shell)
 ;;; setup-shell.el ends here
