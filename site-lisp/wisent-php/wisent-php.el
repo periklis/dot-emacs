@@ -37,6 +37,7 @@
   (require 'semantic/ctxt)
   (require 'semantic/imenu)
   (require 'semantic/senator))
+(require 'ede-php-root)
 
 ;;;;
 ;;;; Simple parser error reporting function
@@ -121,6 +122,45 @@ In PHP, (\"foo\" \"bar\") becomes \"foo\\bar\"."
   (mapconcat 'identity namelist "\\"))
 
 ;;;;
+;;;; Tag scoping
+;;;;
+
+(defun wisent-php-import-file-content-for-class (project class-name)
+  "Import the tags in the file that defines a certain class.
+
+PROJECT is the ede php project in which class is defined.
+CLASS-NAME is the name of the class.
+
+Return nil if it could not find the file or if the file was the current file."
+  (let ((file (ede-php-root-find-class-def-file project class-name)))
+    (when (and file (not (string= file (buffer-file-name))))
+      (semanticdb-file-stream file))))
+
+(define-mode-local-override semantic-ctxt-scoped-types
+  php-mode (&optional point)
+  "Return type names in scope at POINT.
+
+Add types in function arguments."
+  (when point (goto-char point))
+  (let ((tag-names '())
+        (tags '())
+        (project (ede-current-project))
+        (tags-overlay (semantic-find-tag-by-overlay)))
+    (dolist (tag tags-overlay)
+      (cond
+       ((equal 'function (semantic-tag-class tag))
+        (dolist (arg-tag (semantic-tag-function-arguments tag))
+          (add-to-list 'tag-names (semantic-tag-type arg-tag))))
+       ((and (equal 'type (semantic-tag-class tag)))
+        (setq tag-names (append tag-names (semantic-tag-type-superclasses tag))))))
+
+    (if (ede-php-root-project-p project)
+        (dolist (name tag-names tags)
+          (when (stringp name)
+            (setq tags (append tags (wisent-php-import-file-content-for-class project name)))))
+      tag-names)))
+
+;;;;
 ;;;; Semantic integration of the Php LALR parser
 ;;;;
 
@@ -185,7 +225,7 @@ are the bounds in the declaration, related to this variable NAME."
   (let ((elts (semantic-tag-name tag))
         elt clone start end xpand)
     ;; There are multiple names in the same variable declaration.
-    (when (consp elts)
+    (if (consp elts)
       (while elts
         ;; For each name element, clone the initial tag and give it
         ;; the name of the element.
@@ -197,7 +237,14 @@ are the bounds in the declaration, related to this variable NAME."
               xpand (cons clone xpand))
         ;; Set the bounds of the cloned tag with those of the name
         ;; element.
-        (semantic-tag-set-bounds clone start end)))
+        (semantic-tag-set-bounds clone start end))
+      (add-to-list 'xpand tag))
+
+    (dolist (subtag xpand)
+      (when (and (member "attribute" (semantic-tag-modifiers subtag))
+                 (not (member "static" (semantic-tag-modifiers subtag))))
+        (semantic-tag-set-name tag (substring (semantic-tag-name tag) 1))))
+
     xpand))
 
 (defun wisent-php-expand-tag-alias (tag)

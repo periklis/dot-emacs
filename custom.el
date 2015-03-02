@@ -73,6 +73,17 @@
  '(scroll-bar-mode nil)
  '(semantic-mode t)
  '(show-trailing-whitespace nil)
+ '(sml/replacer-regexp-list
+   (quote
+    (("^~/org" ":Org:")
+     ("^~/\\.emacs\\.d/" ":ED:")
+     ("^/sudo:.*:" ":SU:")
+     ("^~/Documents/" ":Doc:")
+     ("^~/Dropbox/" ":DB:")
+     ("^:\\([^:]*\\):Documento?s/" ":\\1/Doc:")
+     ("^~/[Gg]it/" ":Git:")
+     ("^~/[Gg]it[Hh]ub/" ":Git:")
+     ("^~/[Gg]it\\([Hh]ub\\|\\)-?[Pp]rojects/" ":Git:"))))
  '(sr-speedbar-max-width 80)
  '(sr-speedbar-right-side nil)
  '(ssh-directory-tracking-mode t)

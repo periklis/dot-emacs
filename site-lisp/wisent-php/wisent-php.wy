@@ -584,7 +584,7 @@ type_opt
 ;; ("NAME" variable "TYPE" DEFAULT-VALUE EXTRA-SPEC "DOCSTRING")
 field_declaration
   : field_modifiers_opt variable_declarator T_SEMI
-    (VARIABLE-TAG (car $2) nil (cdr $2) :typemodifiers $1)
+    (VARIABLE-TAG (car $2) nil (cdr $2) :typemodifiers (cons "attribute" $1))
   ;
 
 variable_declarator

@@ -16,7 +16,7 @@
       '("fcp" "rsync" "scp" "scpc" "scpx" "sftp" "ssh"))
 
 (add-hook 'ssh-mode-hook (lambda ()
-                           (shell-dirtrack-mode t)
+                           (shell-dirtrack-mode nil)
                            (setq dirtrackp nil)))
 
 (tramp-get-completion-function "ssh")

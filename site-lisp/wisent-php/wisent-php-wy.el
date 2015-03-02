@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2008 Free Software Foundation
 
-;; Author: Periklis Tsirakidis <periklis@alhpaomega.local>
-;; Created: 2014-10-24 08:24:41+0200
+;; Author: Periklis Tsirakidis <periklis@alphaomega.local>
+;; Created: 2015-03-02 18:52:24+0100
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
@@ -510,7 +510,8 @@
 	   (car $2)
 	   nil
 	   (cdr $2)
-	   :typemodifiers $1))))
+	   :typemodifiers
+	   (cons "attribute" $1)))))
        (variable_declarator
 	((T_VARIABLE T_EQ variable_initializer)
 	 (cons $1 $3))
