@@ -6,6 +6,8 @@
 
 ;;; Code:
 
+(require 'hardcore-mode)
+
 ;; register mac specific keys for remote emacs session over ssh
 (when (equal system-type 'darwin)
   ;;(setq mac-option-modifier 'super)
@@ -78,6 +80,10 @@
 (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
 (define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
 (define-key php-mode-map (kbd "C-x p") 'phpunit-current-project)
+
+(setq too-hardcore-backspace nil)
+(setq too-hardcore-return nil)
+(global-hardcore-mode)
 
 (provide 'key-bindings)
 ;;; key-bindings.el ends here

@@ -65,6 +65,7 @@
      projectile
      perspective
      persp-projectile
+     hardcore-mode
      haskell-mode
      helm
      helm-ack
