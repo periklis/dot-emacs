@@ -55,6 +55,7 @@
      jira
      js2-mode
      js2-refactor
+     json-mode
      flx
      flx-ido
      flycheck
