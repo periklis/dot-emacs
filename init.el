@@ -96,6 +96,7 @@
      whitespace-cleanup-mode
      yasnippet
      php-mode
+     phpcbf
      php-extras
      php-refactor-mode
      php-auto-yasnippets

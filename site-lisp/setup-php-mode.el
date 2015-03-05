@@ -7,6 +7,7 @@
 ;;; Code:
 
 (require 'php-mode)
+(require 'phpcbf)
 (require 'php-refactor-mode)
 (require 'php-extras)
 
@@ -18,7 +19,9 @@
  '(php-executable "/usr/local/bin/php")
  '(php-mode-coding-style (quote symfony2))
  '(php-mode-speedbar-open nil)
- '(php-refactor-command "refactor"))
+ '(php-refactor-command "refactor")
+ '(phpcbf-executable "/usr/local/bin/phpcbf")
+ '(phpcbf-standard "MO4"))
 
 (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
 (add-hook 'php-mode-hook 'electric-indent-mode)
