@@ -71,6 +71,8 @@
  '(phpunit-stop-on-error t)
  '(phpunit-stop-on-failure t)
  '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
+ '(restclient-inhibit-cookies t)
+ '(restclient-log-request nil)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(semantic-mode t)
