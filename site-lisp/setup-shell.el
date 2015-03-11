@@ -5,6 +5,7 @@
 ;;; Shell configuration
 
 ;;; Code:
+(require 'ansi-color)
 
 (setq explicit-bash-args '("--login" "--init-file" "~/.bash_profile" "-i"))
 
@@ -23,6 +24,12 @@
 
 (eval-after-load 'tramp
   '(vagrant-tramp-enable))
+
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (provide 'setup-shell)
 ;;; setup-shell.el ends here
