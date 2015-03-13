@@ -21,7 +21,9 @@
  '(php-mode-speedbar-open nil)
  '(php-refactor-command "refactor")
  '(phpcbf-executable "/usr/local/bin/phpcbf")
- '(phpcbf-standard "MO4"))
+ '(phpcbf-standard "MO4")
+ '(flycheck-php-phpcs-executable "/usr/local/bin/phpcs")
+ '(flycheck-phpcs-standard "MO4"))
 
 (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
 (add-hook 'php-mode-hook 'electric-indent-mode)

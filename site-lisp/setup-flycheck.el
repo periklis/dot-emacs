@@ -11,4 +11,3 @@
 
 (provide 'setup-flycheck)
 ;;; setup-flycheck.el ends here
-
