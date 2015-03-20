@@ -97,6 +97,7 @@
      yasnippet
      php-mode
      phpcbf
+     php-eldoc
      php-extras
      php-refactor-mode
      php-auto-yasnippets
