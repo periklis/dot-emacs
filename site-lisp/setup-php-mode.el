@@ -21,7 +21,7 @@
  '(phpcbf-standard "MO4")
  '(flycheck-php-phpcs-executable "/usr/local/bin/phpcs")
  '(flycheck-phpcs-standard "MO4")
- '(php-eldoc-probe-executable concat(php-executable " /usr/local/bin/probe.php")))
+ '(php-eldoc-probe-executable 'concat(php-executable " /usr/local/bin/probe.php")))
 
 (defun setup-php-mode-ac-sources ()
   "Set the ac-sources for php-mode."
