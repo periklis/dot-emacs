@@ -38,7 +38,7 @@
 (require 'setup-package)
 
 ;; Install missing packages
-(defun init--install-packages ()
+(defun init/install-packages ()
   "Install package list on init."
   (packages-install
    '(color-theme-solarized
@@ -112,10 +112,10 @@
      yaml-mode)))
 
 (condition-case nil
-    (init--install-packages)
+    (init/install-packages)
   (error
    (package-refresh-contents)
-   (init--install-packages)))
+   (init/install-packages)))
 
 ;; Functions (load all files in defuns-dir)
 (setq defuns-dir (expand-file-name "defuns" user-emacs-directory))

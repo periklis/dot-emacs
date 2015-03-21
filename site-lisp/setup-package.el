@@ -25,6 +25,7 @@
 (package-initialize)
 
 (defun packages-install (packages)
+  "Install each item of the list PACKAGES."
   (--each packages
     (when (not (package-installed-p it))
       (package-install it)))
