@@ -95,6 +95,7 @@
      sudo-ext
      whitespace-cleanup-mode
      yasnippet
+     pdf-tools
      php-mode
      phpcbf
      php-eldoc
