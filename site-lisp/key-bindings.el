@@ -72,7 +72,7 @@
 (global-set-key (kbd "M-[") 'history-prev-history)
 
 ;; magit
-(global-set-key (kbd "C-c m g") 'magit-status)
+;;(global-set-key (kbd "C-c m g") 'magit-status)
 
 ;;phpunit
 (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)

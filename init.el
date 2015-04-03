@@ -80,18 +80,12 @@
 
 (use-package auto-complete
   :ensure t
-  :defer t
   :init
-  (use-package auto-complete-exuberant-ctags
-    :ensure t)
-  (use-package ac-etags
-    :ensure t)
-  (use-package ac-haskell-process
-    :ensure t)
-  (use-package ac-helm
-    :ensure t)
-  (use-package ac-js2
-    :ensure t)
+  (use-package auto-complete-exuberant-ctags :ensure t)
+  (use-package ac-etags                      :ensure t)
+  (use-package ac-haskell-process            :ensure t)
+  (use-package ac-helm                       :ensure t)
+  (use-package ac-js2                        :ensure t)
   :config
   (require 'auto-complete-config)
   (require 'ac-helm)
@@ -101,6 +95,23 @@
   (setq ac-use-quick-help nil)
   (setq ac-ignore-case t)
   (global-auto-complete-mode))
+
+(use-package ctags
+  :ensure t
+  :config
+  (setq ctags-executable "/usr/local/bin/ctags")
+
+  (defun create-tags (languages options)
+    "Create tags file."
+    (interactive)
+    (shell-command
+     (format "%s --languages=%s --options=%s -e -R ." ctags-executable languages options)))
+
+  (defun create-project-tags (languages options-file-name)
+    "Create tags for current project."
+    (interactive "sLanguages: \nsOptions: ")
+    (create-tags languages options-file-name)
+    (message "Created language tags (%s) for current project" languages)))
 
 (use-package ecb
   :ensure t
@@ -118,10 +129,30 @@
       ((c++-mode ecb-group-function-tags-with-parents)
        (emacs-lisp-mode ecb-group-function-tags-with-parents)
        (c-mode ecb-filter-c-prototype-tags))))
-   '(ecb-source-path (quote (("/" "/")))))
-  (setq ecb-tip-of-the-day nil)
-  (setq ecb-windows-width 45)
-  (setq ecb-major-modes-show-or-hide '((php-mode js2-mode haskell-mode))))
+   '(ecb-source-path (quote (("/" "/"))))
+   '(ecb-tip-of-the-day nil)
+   '(ecb-windows-width 45)
+   '(ecb-major-modes-show-or-hide '((php-mode js2-mode haskell-mode)))))
+
+(use-package ediff
+  :defer t
+  :config
+  (add-hook 'ediff-load-hook 'ecb-deactivate)
+  (add-hook 'ediff-quit-hook 'ecb-activate)
+
+  (setq ediff-split-window-function 'split-window-vertically)
+  (setq ediff-ignore-similar-regions t))
+
+(use-package emacs-lisp
+  :defer t
+  :config
+  (add-hook 'emacs-lisp-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'emacs-lisp-mode-hook 'electric-indent-mode)
+  (add-hook 'emacs-lisp-mode-hook 'electric-layout-mode)
+  (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
+  (add-hook 'emacs-lisp-mode-hook 'subword-mode)
+  (add-hook 'emacs-lisp-mode-hook 'linum-mode)
+  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode))
 
 (use-package hardcore-mode
   :ensure t
@@ -148,8 +179,8 @@
    '(jabber-connection-ssl-program nil)
    '(jabber-groupchat-buffer-format "%n-jabber")
    '(jabber-mode-line-mode t)
-   '(jabber-muc-private-buffer-format "jabber-%g-%n")
-   '(jabber-roster-buffer "jabber-roster")
+   '(jabber-muc-private-buffer-format "%g-%n-jabber")
+   '(jabber-roster-buffer "roster")
    '(jabber-roster-line-format " %c %-25n %u %-8s  %S")
    '(jabber-roster-sort-functions
      (quote
@@ -163,7 +194,8 @@
 (use-package js2-mode
   :ensure t
   :defer t
-  :mode ("\\.js\\'" . js2-mode)
+  :mode (("\\.js\\'" . js2-mode)
+         ("\\.spec\\'" . js2-mode))
   :init
   (use-package js2-refactor
     :ensure t
@@ -197,9 +229,10 @@
 (use-package flycheck
   :ensure t
   :config
-  (setq flycheck-php-phpcs-executable "/usr/local/bin/phpcs")
-  (setq flycheck-phpcs-standard "MO4")
-  (setq flycheck-display-errors-function nil)
+  (custom-set-variables
+   '(flycheck-php-phpcs-executable "/usr/local/bin/phpcs")
+   '(flycheck-phpcs-standard "MO4")
+   '(flycheck-display-errors-function nil))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package projectile
@@ -308,6 +341,11 @@
   (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
 
+(use-package geben
+  :defer t
+  :config
+  (setq geben-dbgp-default-proxy '("10.0.2.2" 9000 "EMACS" nil t)))
+
 (use-package magit
   :ensure t
   :init
@@ -315,6 +353,7 @@
   (use-package gitconfig-mode   :ensure t)
   (use-package gitignore-mode   :ensure t)
   (use-package git-timemachine  :ensure t)
+  :bind (("C-c m g" . magit-status))
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
   (setq magit-diff-options '("-b"))
@@ -369,6 +408,36 @@
   (add-hook 'php-mode-hook 'yas-minor-mode)
   (add-hook 'php-mode-hook 'history-mode))
 
+(use-package java
+  :defer t
+  :config
+  (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'java-mode-hook 'electric-indent-mode)
+  (add-hook 'java-mode-hook 'electric-layout-mode)
+  (add-hook 'java-mode-hook 'electric-pair-mode)
+  (add-hook 'java-mode-hook 'subword-mode)
+  (add-hook 'java-mode-hook 'linum-mode)
+  (add-hook 'java-mode-hook 'my-semantic-init-hook)
+  (add-hook 'java-mode-hook 'auto-complete-mode)
+  (add-hook 'java-mode-hook 'c-toggle-auto-newline)
+  (add-hook 'java-mode-hook 'c-toggle-hungry-state))
+
+
+(use-package nxml
+  :defer t
+  :mode (("\\.xml\\'" . nxml-mode)
+         ("\\.pom\\'" . nxml-mode))
+  :config
+  (push '("<\\?xml" . nxml-mode) magic-mode-alist)
+
+  (custom-set-variables
+   '(nxml-child-indent                     4)
+   '(nxml-attribute-indent                 4)
+   '(nxml-auto-insert-xml-declaration-flag t)
+   '(nxml-bind-meta-tab-to-complete-flag   t)
+   '(nxml-slash-auto-complete-flag         t)
+   '(nxml-sexp-element-flag                t)))
+
 (use-package puppet-mode
   :ensure t
   :defer t)
@@ -380,6 +449,66 @@
 (use-package sass-mode
   :ensure t
   :defer t)
+
+(use-package semantic
+  :defer t
+  :config
+  (require 'semantic)
+  (require 'semantic/ia)
+  (require 'semantic/db-ebrowse)
+  (require 'wisent-php)
+
+  (defun my-semantic-init-hook ()
+    "Basic semantic init method to be added to language mode hooks."
+
+    ;; Enabe idle semenatic modes
+    (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+    (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode)
+    (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+    (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
+
+    ;; Enable semanticdb modes
+    (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+
+    ;; Enable semenatic highlighting/bookmarking modes
+    (add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode-hook)
+    (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+    (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+    (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
+
+    ;; Enable semantic status modes
+    (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
+
+    (semantic-mode 1)))
+
+(use-package shell
+  :ensure t
+  :config
+  (require 'ansi-color)
+
+  (setq explicit-bash-args '("--login" "--init-file" "~/.bash_profile" "-i"))
+
+  (setq my-tramp-ssh-completions '((tramp-parse-sconfig "/etc/ssh_config")
+                                   (tramp-parse-sconfig "~/.ssh/config")))
+
+  (mapc (lambda (method)
+          (tramp-set-completion-function method my-tramp-ssh-completions))
+        '("fcp" "rsync" "scp" "scpc" "scpx" "sftp" "ssh"))
+
+  (add-hook 'ssh-mode-hook (lambda ()
+                             (shell-dirtrack-mode nil)
+                             (setq dirtrackp nil)))
+
+  (tramp-get-completion-function "ssh")
+
+  (eval-after-load 'tramp
+    '(vagrant-tramp-enable))
+
+  (defun colorize-compilation-buffer ()
+    (toggle-read-only)
+    (ansi-color-apply-on-region (point-min) (point-max))
+    (toggle-read-only))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
 
 (use-package ssh
   :ensure t
@@ -416,22 +545,6 @@
 (use-package yasnippet
   :ensure t
   :defer t)
-
-;; Programming environment configs
-(require 'setup-ctags)
-(require 'setup-semantic)
-(require 'setup-geben)
-
-;; Programming languages configs
-(require 'setup-elisp)
-(require 'setup-java)
-(require 'setup-xml)
-
-;; Navigation/Project management configs
-(require 'setup-ediff)
-
-;; External tools
-(require 'setup-shell)
 
 ;; Add global key bindings
 (require 'key-bindings)
