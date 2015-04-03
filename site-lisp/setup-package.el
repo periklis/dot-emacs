@@ -22,14 +22,7 @@
 (unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
   (package-refresh-contents))
 
-(package-initialize)
-
-(defun packages-install (packages)
-  "Install each item of the list PACKAGES."
-  (--each packages
-    (when (not (package-installed-p it))
-      (package-install it)))
-  (delete-other-windows))
+(package-initialize nil)
 
 (provide 'setup-package)
 ;;; setup-package.el ends here
