@@ -132,7 +132,10 @@
   (global-hardcore-mode))
 
 (use-package history
-  :ensure t)
+  :ensure t
+  :config
+  (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
+  (add-to-list 'history-advised-before-functions 'find-file-noselect t))
 
 (use-package jabber
   :ensure t
@@ -150,7 +153,8 @@
    '(jabber-roster-line-format " %c %-25n %u %-8s  %S")
    '(jabber-roster-sort-functions
      (quote
-      (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group)))))
+      (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group))))
+  (add-hook 'jabber-chat-mode-hook 'goto-address))
 
 (use-package jira
   :ensure t
@@ -159,10 +163,24 @@
 (use-package js2-mode
   :ensure t
   :defer t
+  :mode ("\\.js\\'" . js2-mode)
   :init
   (use-package js2-refactor
     :ensure t
-    :defer t))
+    :defer t)
+  :config
+  ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+  (setq ac-js2-evaluate-calls t)
+
+  (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'js2-mode-hook 'subword-mode)
+  (add-hook 'js2-mode-hook 'linum-mode)
+  (add-hook 'js2-mode-hook 'electric-indent-mode)
+  (add-hook 'js2-mode-hook 'electric-layout-mode)
+  (add-hook 'js2-mode-hook 'electric-pair-mode)
+  (add-hook 'js2-mode-hook 'ac-js2-mode)
+  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
 (use-package json-mode
   :ensure t
@@ -194,7 +212,16 @@
       :ensure t))
   :config
   (custom-set-variables
-   '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))))
+   '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
+   '(projectile-tags-command "/usr/local/bin/ctags --languages=php --options=ctags.conf -e -R .")
+   '(projectile-mode-line-lighter "")
+   '(projectile-enable-caching t)
+   '(projectile-completion-system 'helm))
+
+  ;; Load projectile globaly
+  (projectile-global-mode)
+  (persp-mode)
+  (helm-projectile-on))
 
 (use-package helm
   :ensure t
@@ -289,7 +316,9 @@
   (use-package gitignore-mode   :ensure t)
   (use-package git-timemachine  :ensure t)
   :config
-  (setq magit-last-seen-setup-instructions "1.4.0"))
+  (setq magit-last-seen-setup-instructions "1.4.0")
+  (setq magit-diff-options '("-b"))
+  (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 
 (use-package php-mode
   :ensure t
@@ -312,7 +341,33 @@
    '(phpunit-arg "")
    '(phpunit-program "phpunit --colors --disallow-test-output")
    '(phpunit-stop-on-error t)
-   '(phpunit-stop-on-failure t)))
+   '(phpunit-stop-on-failure t)
+   '(php-eldoc-probe-executable 'concat(php-executable " /usr/local/bin/probe.php")))
+
+  (defun setup-php-mode-ac-sources ()
+    "Set the ac-sources for php-mode."
+    (setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
+
+  (defun setup-php-eldoc-mode ()
+    "Setup php eldoc content."
+    (php-eldoc-enable)
+    (php-eldoc-probe-load 'php-eldoc-probe-executable))
+
+  (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'php-mode-hook 'electric-indent-mode)
+  (add-hook 'php-mode-hook 'electric-layout-mode)
+  (add-hook 'php-mode-hook 'electric-pair-mode)
+  (add-hook 'php-mode-hook 'subword-mode)
+  (add-hook 'php-mode-hook 'linum-mode)
+  (add-hook 'php-mode-hook 'my-semantic-init-hook)
+  (add-hook 'php-mode-hook 'c-toggle-auto-newline)
+  (add-hook 'php-mode-hook 'c-toggle-hungry-state)
+  (add-hook 'php-mode-hook 'auto-complete-mode)
+  (add-hook 'php-mode-hook 'setup-php-mode-ac-sources)
+  (add-hook 'php-mode-hook 'setup-php-eldoc-mode)
+  (add-hook 'php-mode-hook 'php-refactor-mode)
+  (add-hook 'php-mode-hook 'yas-minor-mode)
+  (add-hook 'php-mode-hook 'history-mode))
 
 (use-package puppet-mode
   :ensure t
@@ -363,30 +418,20 @@
   :defer t)
 
 ;; Programming environment configs
-;; (require 'setup-auto-complete)
-;; (require 'setup-ctags)
-;; (require 'setup-flycheck)
-;; (require 'setup-semantic)
-;; (require 'setup-ecb)
-;; (require 'setup-geben)
+(require 'setup-ctags)
+(require 'setup-semantic)
+(require 'setup-geben)
 
 ;; Programming languages configs
-;; (require 'setup-elisp)
-;; (require 'setup-php-mode)
-;; (require 'setup-haskell)
-;; (require 'setup-java)
-;; (require 'setup-js2-mode)
-;; (require 'setup-xml)
+(require 'setup-elisp)
+(require 'setup-java)
+(require 'setup-xml)
 
 ;; Navigation/Project management configs
-(require 'setup-projectile)
-;; (require 'setup-ediff)
-(require 'setup-history)
+(require 'setup-ediff)
 
 ;; External tools
 (require 'setup-shell)
-;; (require 'setup-magit)
-;; (require 'setup-jabber)
 
 ;; Add global key bindings
 (require 'key-bindings)
