@@ -374,7 +374,7 @@
   (setq magit-diff-options '("-b"))
   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 
-(use-package nxml
+(use-package nxml-mode
   :defer t
   :mode (("\\.xml\\'" . nxml-mode)
          ("\\.pom\\'" . nxml-mode))
@@ -461,7 +461,8 @@
 
 (use-package puppet-mode
   :ensure t
-  :defer t)
+  :defer t
+  :mode ("\\.pp\\'" . puppet-mode))
 
 (use-package puppetfile-mode
   :ensure t
