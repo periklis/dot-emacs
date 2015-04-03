@@ -42,20 +42,38 @@
 
 ;; Add package manager configuration
 (eval-and-compile
-  (defvar use-package-verbose t)  
-  ;; (defvar use-package-expand-minimally t)
-  (require 'setup-package)
+  (package-initialize nil)
+  
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
+  (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
+    (package-refresh-contents))
+
+  (unless (file-exists-p (expand-file-name "elpa/archives/marmalade" user-emacs-directory))
+    (package-refresh-contents))
+
+  (unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
+    (package-refresh-contents))
+
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+
+  (defvar use-package-verbose t)
+  
   (require 'cl)
   (require 'use-package))
 
 ;; Load Libraries
-(use-package dash            :ensure t :defer 1 :load-path "site-lisp/dash" :config (eval-after-load "dash" '(dash-enable-font-lock)))
-(use-package bind-key        :ensure t :defer 1)
-(use-package diminish        :ensure t :defer 1)
-(use-package itail           :ensure t :defer t)
-(use-package expand-region   :ensure t :defer t)
-(use-package bash-completion :ensure t :defer t)
-(use-package xml-rpc         :ensure t :defer t)
+(use-package async     :ensure t :defer t)
+(use-package bind-key  :ensure t :defer t)
+(use-package dash      :ensure t :defer 1 :load-path "site-lisp/dash" :config (eval-after-load "dash" '(dash-enable-font-lock)))
+(use-package diminish  :ensure t :defer t)
+(use-package f         :ensure t :defer t)
+(use-package let-alist :ensure t :defer t)
+(use-package s         :ensure t :defer t)
+(use-package xml-rpc   :ensure t :defer t)
 
 ;; Load tools
 (use-package pdf-tools  :ensure t :defer t)
@@ -68,16 +86,6 @@
 (use-package sos              :ensure t :defer t)
 
 ;; Load packages
-(use-package color-theme-solarized
-  :ensure t
-  :defer t)
-
-(use-package smart-mode-line
-  :ensure t
-  :config
-  (sml/setup)
-  (sml/apply-theme 'respectful))
-
 (use-package auto-complete
   :ensure t
   :init
@@ -96,6 +104,10 @@
   (setq ac-ignore-case t)
   (global-auto-complete-mode))
 
+(use-package bash-completion
+  :ensure t
+  :defer t)
+
 (use-package ctags
   :ensure t
   :config
@@ -112,6 +124,10 @@
     (interactive "sLanguages: \nsOptions: ")
     (create-tags languages options-file-name)
     (message "Created language tags (%s) for current project" languages)))
+
+(use-package color-theme-solarized
+  :ensure t
+  :defer t)
 
 (use-package ecb
   :ensure t
@@ -143,78 +159,7 @@
   (setq ediff-split-window-function 'split-window-vertically)
   (setq ediff-ignore-similar-regions t))
 
-(use-package emacs-lisp
-  :defer t
-  :config
-  (add-hook 'emacs-lisp-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'emacs-lisp-mode-hook 'electric-indent-mode)
-  (add-hook 'emacs-lisp-mode-hook 'electric-layout-mode)
-  (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
-  (add-hook 'emacs-lisp-mode-hook 'subword-mode)
-  (add-hook 'emacs-lisp-mode-hook 'linum-mode)
-  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode))
-
-(use-package hardcore-mode
-  :ensure t
-  :init
-  (setq too-hardcore-backspace t)
-  (setq too-hardcore-return t)
-  :config
-  (global-hardcore-mode))
-
-(use-package history
-  :ensure t
-  :config
-  (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
-  (add-to-list 'history-advised-before-functions 'find-file-noselect t))
-
-(use-package jabber
-  :ensure t
-  :defer 1
-  :config
-  (custom-set-variables
-   '(jabber-auto-reconnect t)
-   '(jabber-chat-buffer-format "%n-jabber")
-   '(jabber-chat-buffer-show-avatar nil)
-   '(jabber-connection-ssl-program nil)
-   '(jabber-groupchat-buffer-format "%n-jabber")
-   '(jabber-mode-line-mode t)
-   '(jabber-muc-private-buffer-format "%g-%n-jabber")
-   '(jabber-roster-buffer "roster")
-   '(jabber-roster-line-format " %c %-25n %u %-8s  %S")
-   '(jabber-roster-sort-functions
-     (quote
-      (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group))))
-  (add-hook 'jabber-chat-mode-hook 'goto-address))
-
-(use-package jira
-  :ensure t
-  :defer t)
-
-(use-package js2-mode
-  :ensure t
-  :defer t
-  :mode (("\\.js\\'" . js2-mode)
-         ("\\.spec\\'" . js2-mode))
-  :init
-  (use-package js2-refactor
-    :ensure t
-    :defer t)
-  :config
-  ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
-  (setq ac-js2-evaluate-calls t)
-
-  (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'js2-mode-hook 'subword-mode)
-  (add-hook 'js2-mode-hook 'linum-mode)
-  (add-hook 'js2-mode-hook 'electric-indent-mode)
-  (add-hook 'js2-mode-hook 'electric-layout-mode)
-  (add-hook 'js2-mode-hook 'electric-pair-mode)
-  (add-hook 'js2-mode-hook 'ac-js2-mode)
-  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
-
-(use-package json-mode
+(use-package expand-region
   :ensure t
   :defer t)
 
@@ -235,26 +180,55 @@
    '(flycheck-display-errors-function nil))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
-(use-package projectile
+(use-package hardcore-mode
   :ensure t
   :init
-  (use-package perspective
-    :ensure t
-    :init
-    (use-package persp-projectile
-      :ensure t))
+  (setq too-hardcore-backspace t)
+  (setq too-hardcore-return t)
   :config
-  (custom-set-variables
-   '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
-   '(projectile-tags-command "/usr/local/bin/ctags --languages=php --options=ctags.conf -e -R .")
-   '(projectile-mode-line-lighter "")
-   '(projectile-enable-caching t)
-   '(projectile-completion-system 'helm))
+  (global-hardcore-mode))
 
-  ;; Load projectile globaly
-  (projectile-global-mode)
-  (persp-mode)
-  (helm-projectile-on))
+(use-package haskell-mode
+  :ensure t
+  :defer t
+  :mode ("\\.l?hs\\'" . haskell-mode)
+  :init
+  (use-package flycheck-haskell :ensure t)
+  (use-package ghc              :ensure t)
+  :bind (("C-c C-l" . haskell-process-load-or-reload)
+         ("C-`"     . haskell-interactive-bring)
+         ("C-c C-t" . haskell-process-do-type)
+         ("C-c C-i" . haskell-process-do-info)
+         ("C-c C-c" . haskell-process-cabal-build)
+         ("C-c C-k" . haskell-interactive-mode-clear)
+         ("C-c c"   . haskell-process-cabal)
+         ("SPC"     . haskell-mode-contextual-space)
+         ("M-."     . haskell-mode-jump-to-def-or-tag))
+  :config
+  (setq cabal-lib-dir "~/.cabal/lib/")
+  (add-to-list 'load-path cabal-lib-dir)
+
+  ;; Load cabal projects
+  (dolist (project (directory-files cabal-lib-dir t "\\w+"))
+    (when (file-directory-p project)
+      (add-to-list 'load-path project)))
+
+  (custom-set-variables
+   '(haskell-process-auto-import-loaded-modules  t)
+   '(haskell-process-log                         t)
+   '(haskell-process-suggest-hoogle-imports      t)
+   '(haskell-process-suggest-remove-import-lines t)
+   '(haskell-stylish-on-save                     t)
+   '(haskell-tags-on-save                        t))
+
+  (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+  (add-hook 'haskell-mode-hook 'subword-mode)
+  (add-hook 'haskell-mode-hook 'linum-mode)
+  (add-hook 'haskell-mode-hook 'electric-indent-mode)
+  (add-hook 'haskell-mode-hook 'electric-layout-mode)
+  (add-hook 'haskell-mode-hook 'electric-pair-mode)
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
 
 (use-package helm
   :ensure t
@@ -299,52 +273,93 @@
   (helm-descbinds-mode)
   (helm-autoresize-mode 1))
 
-(use-package haskell-mode
+(use-package history
   :ensure t
-  :defer t
-  :mode ("\\.l?hs\\'" . haskell-mode)
-  :init
-  (use-package flycheck-haskell :ensure t)
-  (use-package ghc              :ensure t)
-  :bind (("C-c C-l" . haskell-process-load-or-reload)
-         ("C-`"     . haskell-interactive-bring)
-         ("C-c C-t" . haskell-process-do-type)
-         ("C-c C-i" . haskell-process-do-info)
-         ("C-c C-c" . haskell-process-cabal-build)
-         ("C-c C-k" . haskell-interactive-mode-clear)
-         ("C-c c"   . haskell-process-cabal)
-         ("SPC"     . haskell-mode-contextual-space)
-         ("M-."     . haskell-mode-jump-to-def-or-tag))
   :config
-  (setq cabal-lib-dir "~/.cabal/lib/")
-  (add-to-list 'load-path cabal-lib-dir)
-
-  ;; Load cabal projects
-  (dolist (project (directory-files cabal-lib-dir t "\\w+"))
-    (when (file-directory-p project)
-      (add-to-list 'load-path project)))
-
-  (custom-set-variables
-   '(haskell-process-auto-import-loaded-modules  t)
-   '(haskell-process-log                         t)
-   '(haskell-process-suggest-hoogle-imports      t)
-   '(haskell-process-suggest-remove-import-lines t)
-   '(haskell-stylish-on-save                     t)
-   '(haskell-tags-on-save                        t))
-
-  (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-  (add-hook 'haskell-mode-hook 'subword-mode)
-  (add-hook 'haskell-mode-hook 'linum-mode)
-  (add-hook 'haskell-mode-hook 'electric-indent-mode)
-  (add-hook 'haskell-mode-hook 'electric-layout-mode)
-  (add-hook 'haskell-mode-hook 'electric-pair-mode)
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
+  (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
+  (add-to-list 'history-advised-before-functions 'find-file-noselect t))
 
 (use-package geben
   :defer t
   :config
   (setq geben-dbgp-default-proxy '("10.0.2.2" 9000 "EMACS" nil t)))
+
+(use-package itail
+  :ensure t
+  :defer t)
+
+(use-package jabber
+  :ensure t
+  :defer 1
+  :config
+  (custom-set-variables
+   '(jabber-auto-reconnect t)
+   '(jabber-chat-buffer-format "%n-jabber")
+   '(jabber-chat-buffer-show-avatar nil)
+   '(jabber-connection-ssl-program nil)
+   '(jabber-groupchat-buffer-format "%n-jabber")
+   '(jabber-mode-line-mode t)
+   '(jabber-muc-private-buffer-format "%g-%n-jabber")
+   '(jabber-roster-buffer "roster")
+   '(jabber-roster-line-format " %c %-25n %u %-8s  %S")
+   '(jabber-roster-sort-functions
+     (quote
+      (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group))))
+  (add-hook 'jabber-chat-mode-hook 'goto-address))
+
+(use-package jasminejs-mode
+  :ensure t
+  :defer t)
+
+(use-package java
+  :defer t
+  :config
+  (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'java-mode-hook 'electric-indent-mode)
+  (add-hook 'java-mode-hook 'electric-layout-mode)
+  (add-hook 'java-mode-hook 'electric-pair-mode)
+  (add-hook 'java-mode-hook 'subword-mode)
+  (add-hook 'java-mode-hook 'linum-mode)
+  (add-hook 'java-mode-hook 'my-semantic-init-hook)
+  (add-hook 'java-mode-hook 'auto-complete-mode)
+  (add-hook 'java-mode-hook 'c-toggle-auto-newline)
+  (add-hook 'java-mode-hook 'c-toggle-hungry-state))
+
+(use-package jira
+  :ensure t
+  :defer t)
+
+(use-package json-mode
+  :ensure t
+  :defer t
+  :init
+  (use-package json-reformat :ensure t :defer t)
+  (use-package json-snatcher :ensure t :defer t))
+
+(use-package js2-mode
+  :ensure t
+  :defer t
+  :mode (("\\.js\\'" . js2-mode)
+         ("\\.spec\\'" . js2-mode))
+  :init
+  (use-package js2-refactor
+    :ensure t
+    :defer t)
+  :config
+  (setq ac-js2-evaluate-calls t)
+
+  (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'js2-mode-hook 'subword-mode)
+  (add-hook 'js2-mode-hook 'linum-mode)
+  (add-hook 'js2-mode-hook 'electric-indent-mode)
+  (add-hook 'js2-mode-hook 'electric-layout-mode)
+  (add-hook 'js2-mode-hook 'electric-pair-mode)
+  (add-hook 'js2-mode-hook 'ac-js2-mode)
+  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
+
+(use-package karma
+  :ensure t
+  :defer t)
 
 (use-package magit
   :ensure t
@@ -358,6 +373,42 @@
   (setq magit-last-seen-setup-instructions "1.4.0")
   (setq magit-diff-options '("-b"))
   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+
+(use-package nxml
+  :defer t
+  :mode (("\\.xml\\'" . nxml-mode)
+         ("\\.pom\\'" . nxml-mode))
+  :config
+  (push '("<\\?xml" . nxml-mode) magic-mode-alist)
+
+  (custom-set-variables
+   '(nxml-child-indent                     4)
+   '(nxml-attribute-indent                 4)
+   '(nxml-auto-insert-xml-declaration-flag t)
+   '(nxml-bind-meta-tab-to-complete-flag   t)
+   '(nxml-slash-auto-complete-flag         t)
+   '(nxml-sexp-element-flag                t)))
+
+(use-package projectile
+  :ensure t
+  :init
+  (use-package perspective
+    :ensure t
+    :init
+    (use-package persp-projectile
+      :ensure t))
+  :config
+  (custom-set-variables
+   '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
+   '(projectile-tags-command "/usr/local/bin/ctags --languages=php --options=ctags.conf -e -R .")
+   '(projectile-mode-line-lighter "")
+   '(projectile-enable-caching t)
+   '(projectile-completion-system 'helm))
+
+  ;; Load projectile globaly
+  (projectile-global-mode)
+  (persp-mode)
+  (helm-projectile-on))
 
 (use-package php-mode
   :ensure t
@@ -408,36 +459,6 @@
   (add-hook 'php-mode-hook 'yas-minor-mode)
   (add-hook 'php-mode-hook 'history-mode))
 
-(use-package java
-  :defer t
-  :config
-  (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'java-mode-hook 'electric-indent-mode)
-  (add-hook 'java-mode-hook 'electric-layout-mode)
-  (add-hook 'java-mode-hook 'electric-pair-mode)
-  (add-hook 'java-mode-hook 'subword-mode)
-  (add-hook 'java-mode-hook 'linum-mode)
-  (add-hook 'java-mode-hook 'my-semantic-init-hook)
-  (add-hook 'java-mode-hook 'auto-complete-mode)
-  (add-hook 'java-mode-hook 'c-toggle-auto-newline)
-  (add-hook 'java-mode-hook 'c-toggle-hungry-state))
-
-
-(use-package nxml
-  :defer t
-  :mode (("\\.xml\\'" . nxml-mode)
-         ("\\.pom\\'" . nxml-mode))
-  :config
-  (push '("<\\?xml" . nxml-mode) magic-mode-alist)
-
-  (custom-set-variables
-   '(nxml-child-indent                     4)
-   '(nxml-attribute-indent                 4)
-   '(nxml-auto-insert-xml-declaration-flag t)
-   '(nxml-bind-meta-tab-to-complete-flag   t)
-   '(nxml-slash-auto-complete-flag         t)
-   '(nxml-sexp-element-flag                t)))
-
 (use-package puppet-mode
   :ensure t
   :defer t)
@@ -445,6 +466,9 @@
 (use-package puppetfile-mode
   :ensure t
   :defer t)
+
+(use-package rich-minority
+  :ensure t)
 
 (use-package sass-mode
   :ensure t
@@ -480,6 +504,12 @@
     (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
 
     (semantic-mode 1)))
+
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (sml/setup)
+  (sml/apply-theme 'respectful))
 
 (use-package shell
   :ensure t
