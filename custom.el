@@ -26,8 +26,6 @@
  '(global-visual-line-mode t)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(restclient-inhibit-cookies t)
- '(restclient-log-request nil)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(semantic-mode t)

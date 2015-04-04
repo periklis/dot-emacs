@@ -47,6 +47,7 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  ;; (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
     (package-refresh-contents))
@@ -57,13 +58,18 @@
   (unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
     (package-refresh-contents))
 
+  ;; (unless (file-exists-p (expand-file-name "elpa/archives/melpa-stable" user-emacs-directory))
+  ;;   (package-refresh-contents))
+
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
 
   (defvar use-package-verbose t)
   
   (require 'cl)
-  (require 'use-package))
+  (require 'use-package)
+  (require 'bind-key)
+  (require 'diminish nil t))
 
 ;; Load Libraries
 (use-package async     :ensure t :defer t)
@@ -75,25 +81,16 @@
 (use-package s         :ensure t :defer t)
 (use-package xml-rpc   :ensure t :defer t)
 
-;; Load tools
-(use-package pdf-tools  :ensure t :defer t)
-(use-package restclient :ensure t :defer t)
-(use-package wget       :ensure t :defer t)
-
-;; Load web utils
-(use-package google-translate :ensure t :defer t)
-(use-package hackernews       :ensure t :defer t)
-(use-package sos              :ensure t :defer t)
-
 ;; Load packages
 (use-package auto-complete
   :ensure t
+  :demand t
   :init
   (use-package auto-complete-exuberant-ctags :ensure t)
   (use-package ac-etags                      :ensure t)
-  (use-package ac-haskell-process            :ensure t)
-  (use-package ac-helm                       :ensure t)
-  (use-package ac-js2                        :ensure t)
+  (use-package ac-haskell-process            :ensure t :commands haskell-mode)
+  (use-package ac-helm                       :ensure t :commands helm-M-x)
+  (use-package ac-js2                        :ensure t :commands (js2-mode jasminejs-mode))
   :config
   (require 'auto-complete-config)
   (require 'ac-helm)
@@ -110,6 +107,7 @@
 
 (use-package ctags
   :ensure t
+  :demand t
   :config
   (setq ctags-executable "/usr/local/bin/ctags")
 
@@ -127,11 +125,14 @@
 
 (use-package color-theme-solarized
   :ensure t
-  :defer t)
+  :defer t
+  :init
+  (add-hook 'after-init-hook (lambda () (load-theme 'solarized-light t))))
 
 (use-package ecb
   :ensure t
   :defer t
+  :commands (ecb-activate ecb-deactivate)
   :config
   (custom-set-variables
    '(ecb-auto-update-methods-after-save t)
@@ -165,14 +166,15 @@
 
 (use-package flx
   :ensure t
-  :defer t
+  :demand t
   :init
   (use-package flx-ido
     :ensure t
-    :defer t))
+    :demand t))
 
 (use-package flycheck
   :ensure t
+  :demand t
   :config
   (custom-set-variables
    '(flycheck-php-phpcs-executable "/usr/local/bin/phpcs")
@@ -180,8 +182,17 @@
    '(flycheck-display-errors-function nil))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
+(use-package google-translate
+  :ensure t
+  :defer t)
+
+(use-package hackernews
+  :ensure t
+  :defer t)
+
 (use-package hardcore-mode
   :ensure t
+  :demand t
   :init
   (setq too-hardcore-backspace t)
   (setq too-hardcore-return t)
@@ -193,8 +204,8 @@
   :defer t
   :mode ("\\.l?hs\\'" . haskell-mode)
   :init
-  (use-package flycheck-haskell :ensure t)
-  (use-package ghc              :ensure t)
+  (use-package flycheck-haskell :ensure t :commands haskell-mode)
+  (use-package ghc              :ensure t :commands haskell-mode)
   :bind (("C-c C-l" . haskell-process-load-or-reload)
          ("C-`"     . haskell-interactive-bring)
          ("C-c C-t" . haskell-process-do-type)
@@ -232,16 +243,16 @@
 
 (use-package helm
   :ensure t
-  :defer 1
+  :demand t
   :init
-  (use-package helm-ack        :ensure t)
-  (use-package helm-descbinds  :ensure t)
-  (use-package helm-flycheck   :ensure t)
-  (use-package helm-hoogle     :ensure t)
-  (use-package helm-git-grep   :ensure t)
-  (use-package helm-google     :ensure t)
-  (use-package helm-projectile :ensure t)
-  (use-package helm-swoop      :ensure t)
+  (use-package helm-ack        :ensure t :demand t)
+  (use-package helm-descbinds  :ensure t :demand t)
+  (use-package helm-flycheck   :ensure t :demand t)
+  (use-package helm-hoogle     :ensure t :commands helm-hoogle)
+  (use-package helm-git-grep   :ensure t :demand t)
+  (use-package helm-google     :ensure t :demand t)
+  (use-package helm-projectile :ensure t :demand t)
+  (use-package helm-swoop      :ensure t :demand t)
   :config
   (when (executable-find "curl")
     (setq helm-google-suggest-use-curl-p t))
@@ -275,12 +286,13 @@
 
 (use-package history
   :ensure t
+  :commands (php-mode js2-mode emacs-lisp-mode haskell-mode)
   :config
   (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
   (add-to-list 'history-advised-before-functions 'find-file-noselect t))
 
 (use-package geben
-  :defer t
+  :commands php-mode
   :config
   (setq geben-dbgp-default-proxy '("10.0.2.2" 9000 "EMACS" nil t)))
 
@@ -290,7 +302,7 @@
 
 (use-package jabber
   :ensure t
-  :defer 1
+  :demand t
   :config
   (custom-set-variables
    '(jabber-auto-reconnect t)
@@ -309,10 +321,10 @@
 
 (use-package jasminejs-mode
   :ensure t
-  :defer t)
+  :commands jasminejs-mode)
 
 (use-package java
-  :defer t
+  :commands java-mode
   :config
   (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
   (add-hook 'java-mode-hook 'electric-indent-mode)
@@ -331,14 +343,14 @@
 
 (use-package json-mode
   :ensure t
-  :defer t
+  :commands json-mode
   :init
   (use-package json-reformat :ensure t :defer t)
   (use-package json-snatcher :ensure t :defer t))
 
 (use-package js2-mode
   :ensure t
-  :defer t
+  :commands (js2-mode jasminejs-mode)
   :mode (("\\.js\\'" . js2-mode)
          ("\\.spec\\'" . js2-mode))
   :init
@@ -359,7 +371,18 @@
 
 (use-package karma
   :ensure t
-  :defer t)
+  :commands karma-mode)
+
+(use-package emacs-lisp-mode
+  :demand t
+  :config
+  (add-hook 'emacs-lisp-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'emacs-lisp-mode-hook 'electric-indent-mode)
+  (add-hook 'emacs-lisp-mode-hook 'electric-layout-mode)
+  (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
+  (add-hook 'emacs-lisp-mode-hook 'subword-mode)
+  (add-hook 'emacs-lisp-mode-hook 'linum-mode)
+  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode))
 
 (use-package magit
   :ensure t
@@ -376,6 +399,7 @@
 
 (use-package nxml-mode
   :defer t
+  :commands nxml-mode
   :mode (("\\.xml\\'" . nxml-mode)
          ("\\.pom\\'" . nxml-mode))
   :config
@@ -389,14 +413,21 @@
    '(nxml-slash-auto-complete-flag         t)
    '(nxml-sexp-element-flag                t)))
 
+(use-package pdf-tools
+  :ensure t
+  :defer t)
+
 (use-package projectile
   :ensure t
+  :demand t
   :init
   (use-package perspective
     :ensure t
+    :demand t
     :init
     (use-package persp-projectile
-      :ensure t))
+      :ensure t
+      :demand t))
   :config
   (custom-set-variables
    '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
@@ -412,8 +443,12 @@
 
 (use-package php-mode
   :ensure t
+  :commands (php-mode php-refactor-mode phpunit phpcbf)
+  :mode (("\\.php\\'" . php-mode)
+         ("\\.inc\\'" . php-mode)
+         ("\\.phtml\\'" . php-mode))
   :init
-  (use-package inf-php             :ensure t)
+  (use-package inf-php             :ensure t :commands inf-php)
   (use-package phpcbf              :ensure t)
   (use-package php-eldoc           :ensure t)
   (use-package php-extras          :ensure t)
@@ -468,6 +503,15 @@
   :ensure t
   :defer t)
 
+(use-package restclient
+  :ensure t
+  :defer t
+  :commands restclient-mode
+  :config
+  (custom-set-variables
+   '(restclient-inhibit-cookies t)
+   '(restclient-log-request nil)))
+
 (use-package rich-minority
   :ensure t)
 
@@ -476,7 +520,7 @@
   :defer t)
 
 (use-package semantic
-  :defer t
+  :commands (php-mode js2-mode emacs-lisp-mode c-mode c++-mode)
   :config
   (require 'semantic)
   (require 'semantic/ia)
@@ -508,12 +552,14 @@
 
 (use-package smart-mode-line
   :ensure t
+  :demand t
   :config
   (sml/setup)
   (sml/apply-theme 'respectful))
 
 (use-package shell
   :ensure t
+  :demand t
   :config
   (require 'ansi-color)
 
@@ -541,13 +587,17 @@
     (toggle-read-only))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
 
-(use-package ssh
+(use-package sos
   :ensure t
   :defer t)
 
+(use-package ssh
+  :ensure t
+  :demand t)
+
 (use-package ssh-config-mode
   :ensure t
-  :defer t)
+  :commands ssh-config-mode)
 
 (use-package sudo-ext
   :ensure t
@@ -555,11 +605,11 @@
 
 (use-package twig-mode
   :ensure t
-  :defer t)
+  :commands twig-mode)
 
 (use-package vagrant
   :ensure t
-  :defer t
+  :commands (vagrant-up vagrant-resume vagrant-suspend)
   :init
   (use-package vagrant-tramp
     :ensure t
@@ -567,20 +617,24 @@
 
 (use-package whitespace-cleanup-mode
   :ensure t
-  :defer t)
+  :demand t
+  :config
+  (add-hook 'before-save-hook 'whitespace-cleanup))
+
+(use-package wget
+  :ensure t
+  :defer t
+  :commands wget)
 
 (use-package yaml-mode
   :ensure t
-  :defer t)
+  :commands yaml-mode)
 
 (use-package yasnippet
   :ensure t
-  :defer t)
+  :commands yas-minor-mode)
 
 ;; Add global key bindings
 (require 'key-bindings)
-
-;; Add emacs hooks
-(require 'setup-hooks)
 
 ;;; init.el ends here
