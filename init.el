@@ -10,7 +10,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Set path to dependencies
-(setq site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
+(defvar site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
 
 ;; Set path for temporary directory
 (setq temporary-file-directory (expand-file-name "tmp" user-emacs-directory))
@@ -28,7 +28,7 @@
     (add-to-list 'load-path project)))
 
 ;; Functions (load all files in defuns-dir)
-(setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
+(defvar defuns-dir (expand-file-name "defuns" user-emacs-directory))
 (dolist (file (directory-files defuns-dir t "\\w+"))
   (when (file-regular-p file)
     (load file)))
@@ -79,12 +79,12 @@
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-mode t)
- '(fringe-mode (quote (1 . 1)) nil (fringe))
+ '(fringe-mode '(4 . 0))
+ '(global-linum-mode nil)
  '(global-hl-line-mode t)
  '(global-visual-line-mode t)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(linum-format "%d ")
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace nil)
@@ -142,7 +142,7 @@
   :ensure t
   :demand t
   :config
-  (setq ctags-executable "/usr/local/bin/ctags")
+  (defvar ctags-executable "/usr/local/bin/ctags")
 
   (defun create-tags (languages options)
     "Create tags file."
@@ -240,6 +240,7 @@
 (use-package hardcore-mode
   :ensure t
   :demand t
+  :diminish hardcore-mode
   :init
   (setq too-hardcore-backspace t)
   (setq too-hardcore-return t)
@@ -253,6 +254,7 @@
   :init
   (use-package flycheck-haskell :ensure t :commands haskell-mode)
   (use-package ghc              :ensure t :commands haskell-mode)
+  (add-hook 'haskell-mode-hook 'linum-mode)
   :bind (("C-c C-l" . haskell-process-load-or-reload)
          ("C-`"     . haskell-interactive-bring)
          ("C-c C-t" . haskell-process-do-type)
@@ -263,7 +265,7 @@
          ("SPC"     . haskell-mode-contextual-space)
          ("M-."     . haskell-mode-jump-to-def-or-tag))
   :config
-  (setq cabal-lib-dir "~/.cabal/lib/")
+  (defvar cabal-lib-dir "~/.cabal/lib/")
   (add-to-list 'load-path cabal-lib-dir)
 
   ;; Load cabal projects
@@ -280,7 +282,6 @@
    '(haskell-tags-on-save                        t))
 
   (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-  (add-hook 'haskell-mode-hook '(lambda () (linum-mode t)))
   (add-hook 'haskell-mode-hook 'subword-mode)
   (add-hook 'haskell-mode-hook 'electric-indent-mode)
   (add-hook 'haskell-mode-hook 'electric-layout-mode)
@@ -291,6 +292,7 @@
 (use-package helm
   :ensure t
   :demand t
+  :diminish helm-mode
   :init
   (use-package helm-ack        :ensure t :demand t)
   (use-package helm-descbinds  :ensure t :demand t)
@@ -312,7 +314,7 @@
    '(helm-split-window-in-side-p           t)
    '(helm-buffers-fuzzy-matching           t)
    '(helm-move-to-line-cycle-in-source     t)
-   '(helm-ff-search-library-in-sexp        t) 
+   '(helm-ff-search-library-in-sexp        t)
    '(helm-scroll-amount                    8)
    '(helm-ff-file-name-history-use-recentf t)
    '(helm-recentf-fuzzy-match              t)
@@ -348,7 +350,8 @@
 (use-package geben
   :commands php-mode
   :config
-  (setq geben-dbgp-default-proxy '("10.0.2.2" 9000 "EMACS" nil t))
+  (custom-set-variables
+   '(geben-dbgp-default-proxy '("10.0.2.2" 9000 "EMACS" nil t)))
 
   (defun my-geben-release ()
     (interactive)
@@ -419,14 +422,12 @@
   :mode (("\\.js\\'" . js2-mode)
          ("\\.spec\\'" . js2-mode))
   :init
-  (use-package js2-refactor
-    :ensure t
-    :defer t)
+  (use-package js2-refactor :ensure t :defer t)
+  (add-hook 'js2-mode-hook 'linum-mode)
   :config
   (setq ac-js2-evaluate-calls t)
 
   (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'js2-mode-hook '(lambda () (linum-mode t)))
   (add-hook 'js2-mode-hook 'subword-mode)
   (add-hook 'js2-mode-hook 'electric-indent-mode)
   (add-hook 'js2-mode-hook 'electric-layout-mode)
@@ -527,10 +528,10 @@
     "Set the ac-sources for php-mode."
     (setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
 
-  (defun setup-php-eldoc-mode ()
-    "Setup php eldoc content."
-    (php-eldoc-enable)
-    (php-eldoc-probe-load 'php-eldoc-probe-executable))
+  ;; (defun setup-php-eldoc-mode ()
+  ;;   "Setup php eldoc content."
+  ;;   (php-eldoc-enable)
+  ;;   (php-eldoc-probe-load 'php-eldoc-probe-executable))
 
   (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook '(lambda () (linum-mode t)))
@@ -538,7 +539,7 @@
   (add-hook 'php-mode-hook 'electric-layout-mode)
   (add-hook 'php-mode-hook 'electric-pair-mode)
   (add-hook 'php-mode-hook 'subword-mode)
-  (add-hook 'php-mode-hook 'php-semantic-init-hook)  
+  (add-hook 'php-mode-hook 'php-semantic-init-hook)
   (add-hook 'php-mode-hook 'c-toggle-auto-newline)
   (add-hook 'php-mode-hook 'c-toggle-hungry-state)
   (add-hook 'php-mode-hook 'auto-complete-mode)
@@ -622,16 +623,17 @@
 
   (setq explicit-bash-args '("--login" "--init-file" "~/.bash_profile" "-i"))
 
-  (setq my-tramp-ssh-completions '((tramp-parse-sconfig "/etc/ssh_config")
+  (defvar my-tramp-ssh-completions '((tramp-parse-sconfig "/etc/ssh_config")
                                    (tramp-parse-sconfig "~/.ssh/config")))
 
   (mapc (lambda (method)
           (tramp-set-completion-function method my-tramp-ssh-completions))
         '("fcp" "rsync" "scp" "scpc" "scpx" "sftp" "ssh"))
 
-  (add-hook 'ssh-mode-hook (lambda ()
-                             (shell-dirtrack-mode nil)
-                             (setq dirtrackp nil)))
+
+  ;; (add-hook 'ssh-mode-hook (lambda ()
+  ;;                            (shell-dirtrack-mode nil)
+  ;;                            (setq dirtrackp nil)))
 
   (tramp-get-completion-function "ssh")
 
@@ -639,7 +641,8 @@
     '(vagrant-tramp-enable))
 
   (defun colorize-compilation-buffer ()
-    (toggle-read-only)
+    "Turns ascii colors in compilation buffer."
+    (read-only-mode)
     (ansi-color-apply-on-region (point-min) (point-max))
     (toggle-read-only))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
@@ -692,6 +695,6 @@
   :commands yas-minor-mode)
 
 ;; Add global key bindings
-(require 'key-bindings)
-
+(use-package key-bindings
+  :demand t)
 ;;; init.el ends here
