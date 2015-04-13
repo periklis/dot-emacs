@@ -7,6 +7,7 @@
 ;;; Code:
 
 (setq inhibit-startup-message t)
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Set path to dependencies
 (setq site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
@@ -67,27 +68,55 @@
   (defvar use-package-verbose t)
   
   (require 'cl)
-  (require 'use-package)
-  (require 'bind-key)
-  (require 'diminish nil t))
+  (require 'use-package))
+
+;; Custom variables definitions
+(custom-set-variables
+ '(blink-cursor-mode nil)
+ '(column-number-mode t)
+ '(confirm-kill-emacs (quote yes-or-no-p))
+ '(display-battery-mode t)
+ '(display-time-24hr-format t)
+ '(display-time-day-and-date t)
+ '(display-time-mode t)
+ '(fringe-mode (quote (1 . 1)) nil (fringe))
+ '(global-hl-line-mode t)
+ '(global-visual-line-mode t)
+ '(indent-tabs-mode nil)
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(linum-format "%d ")
+ '(ring-bell-function (quote ignore) t)
+ '(scroll-bar-mode nil)
+ '(show-trailing-whitespace nil)
+ '(tab-always-indent (quote complete))
+ '(tab-width 4)
+ '(tool-bar-mode nil)
+ '(visible-bell nil)
+ '(whitespace-style
+   (quote
+    (tabs spaces lines space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))))
+
+;; Custom face definitions
+(custom-set-faces
+ '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil)))))
 
 ;; Load Libraries
-(use-package async     :ensure t :defer t)
-(use-package bind-key  :ensure t :defer t)
-(use-package dash      :ensure t :defer 1 :load-path "site-lisp/dash" :config (eval-after-load "dash" '(dash-enable-font-lock)))
-(use-package diminish  :ensure t :defer t)
-(use-package f         :ensure t :defer t)
-(use-package let-alist :ensure t :defer t)
-(use-package s         :ensure t :defer t)
-(use-package xml-rpc   :ensure t :defer t)
+(use-package async      :ensure t :defer t)
+(use-package bind-key   :ensure t :defer t)
+(use-package dash       :defer t :load-path "site-lisp/dash" :config (eval-after-load "dash" '(dash-enable-font-lock)))
+(use-package diminish   :ensure t :defer t)
+(use-package f          :ensure t :defer t)
+(use-package let-alist  :ensure t :defer t)
+(use-package s          :ensure t :defer t)
+(use-package xml-rpc    :ensure t :defer t)
 
 ;; Load packages
 (use-package auto-complete
   :ensure t
   :demand t
   :init
-  (use-package auto-complete-exuberant-ctags :ensure t)
-  (use-package ac-etags                      :ensure t)
+  (use-package auto-complete-exuberant-ctags :ensure t :commands auto-complete)
+  (use-package ac-etags                      :ensure t :commands auto-complete)
   (use-package ac-haskell-process            :ensure t :commands haskell-mode)
   (use-package ac-helm                       :ensure t :commands helm-M-x)
   (use-package ac-js2                        :ensure t :commands (js2-mode jasminejs-mode))
@@ -99,7 +128,11 @@
   (setq ac-use-menu-map t)
   (setq ac-use-quick-help nil)
   (setq ac-ignore-case t)
-  (global-auto-complete-mode))
+  (global-auto-complete-mode)
+
+  ;; auto-complete
+  (define-key ac-menu-map "\C-n" 'ac-next)
+  (define-key ac-menu-map "\C-p" 'ac-previous))
 
 (use-package bash-completion
   :ensure t
@@ -160,6 +193,17 @@
   (setq ediff-split-window-function 'split-window-vertically)
   (setq ediff-ignore-similar-regions t))
 
+(use-package emacs-lisp-mode
+  :demand t
+  :init
+  (add-hook 'emacs-lisp-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'emacs-lisp-mode-hook 'linum-mode)
+  (add-hook 'emacs-lisp-mode-hook 'electric-indent-mode)
+  (add-hook 'emacs-lisp-mode-hook 'electric-layout-mode)
+  (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
+  (add-hook 'emacs-lisp-mode-hook 'subword-mode)
+  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode))
+
 (use-package expand-region
   :ensure t
   :defer t)
@@ -188,7 +232,10 @@
 
 (use-package hackernews
   :ensure t
-  :defer t)
+  :defer t
+  :config
+  (custom-set-faces
+   '(hackernews-link-face ((t (:foreground "cadet blue"))))))
 
 (use-package hardcore-mode
   :ensure t
@@ -233,8 +280,8 @@
    '(haskell-tags-on-save                        t))
 
   (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+  (add-hook 'haskell-mode-hook '(lambda () (linum-mode t)))
   (add-hook 'haskell-mode-hook 'subword-mode)
-  (add-hook 'haskell-mode-hook 'linum-mode)
   (add-hook 'haskell-mode-hook 'electric-indent-mode)
   (add-hook 'haskell-mode-hook 'electric-layout-mode)
   (add-hook 'haskell-mode-hook 'electric-pair-mode)
@@ -278,6 +325,13 @@
    '(helm-swoop-move-to-line-cycle         t)
    '(helm-swoop-use-line-number-face       t)
    '(helm-swoop-split-direction            'split-window-horizontally))
+
+  (custom-set-faces
+   '(helm-buffer-directory ((t (:foreground "#657b83"))))
+   '(helm-ff-directory ((t nil)))
+   '(helm-selection ((t (:background "gainsboro" :underline t))))
+   '(helm-source-header ((t (:background "#eee8d5" :foreground "#839496" :weight bold :height 1.3 :family "Sans Serif"))))
+   '(helm-visible-mark ((t (:background "gainsboro")))))
   
   ;; Load helm globaly
   (helm-mode 1)
@@ -294,7 +348,14 @@
 (use-package geben
   :commands php-mode
   :config
-  (setq geben-dbgp-default-proxy '("10.0.2.2" 9000 "EMACS" nil t)))
+  (setq geben-dbgp-default-proxy '("10.0.2.2" 9000 "EMACS" nil t))
+
+  (defun my-geben-release ()
+    (interactive)
+    (geben-stop)
+    (dolist (session geben-sessions)
+      (ignore-errors
+        (geben-session-release session)))))
 
 (use-package itail
   :ensure t
@@ -325,14 +386,18 @@
 
 (use-package java
   :commands java-mode
+  :preface
+  (defun java-semantic-init-hook ()
+    (semantic-mode t))
+  :init
+  (add-hook 'java-mode-hook 'java-semantic-init-hook)
+  (add-hook 'java-mode-hook 'linum-mode)
   :config
   (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
   (add-hook 'java-mode-hook 'electric-indent-mode)
   (add-hook 'java-mode-hook 'electric-layout-mode)
   (add-hook 'java-mode-hook 'electric-pair-mode)
   (add-hook 'java-mode-hook 'subword-mode)
-  (add-hook 'java-mode-hook 'linum-mode)
-  (add-hook 'java-mode-hook 'my-semantic-init-hook)
   (add-hook 'java-mode-hook 'auto-complete-mode)
   (add-hook 'java-mode-hook 'c-toggle-auto-newline)
   (add-hook 'java-mode-hook 'c-toggle-hungry-state))
@@ -361,8 +426,8 @@
   (setq ac-js2-evaluate-calls t)
 
   (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'js2-mode-hook '(lambda () (linum-mode t)))
   (add-hook 'js2-mode-hook 'subword-mode)
-  (add-hook 'js2-mode-hook 'linum-mode)
   (add-hook 'js2-mode-hook 'electric-indent-mode)
   (add-hook 'js2-mode-hook 'electric-layout-mode)
   (add-hook 'js2-mode-hook 'electric-pair-mode)
@@ -372,17 +437,6 @@
 (use-package karma
   :ensure t
   :commands karma-mode)
-
-(use-package emacs-lisp-mode
-  :demand t
-  :config
-  (add-hook 'emacs-lisp-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'emacs-lisp-mode-hook 'electric-indent-mode)
-  (add-hook 'emacs-lisp-mode-hook 'electric-layout-mode)
-  (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
-  (add-hook 'emacs-lisp-mode-hook 'subword-mode)
-  (add-hook 'emacs-lisp-mode-hook 'linum-mode)
-  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode))
 
 (use-package magit
   :ensure t
@@ -443,18 +497,18 @@
 
 (use-package php-mode
   :ensure t
-  :commands (php-mode php-refactor-mode phpunit phpcbf)
-  :mode (("\\.php\\'" . php-mode)
-         ("\\.inc\\'" . php-mode)
-         ("\\.phtml\\'" . php-mode))
+  :preface
+  (defun php-semantic-init-hook ()
+    (use-package wisent-php :demand t)
+    (semantic-mode t))
   :init
   (use-package inf-php             :ensure t :commands inf-php)
-  (use-package phpcbf              :ensure t)
-  (use-package php-eldoc           :ensure t)
-  (use-package php-extras          :ensure t)
-  (use-package php-refactor-mode   :ensure t)
-  (use-package php-auto-yasnippets :ensure t)
-  (use-package phpunit             :ensure t)
+  (use-package phpcbf              :ensure t :commands php-mode)
+  ;; (use-package php-eldoc           :ensure t :commands php-mode)
+  (use-package php-extras          :ensure t :commands php-mode)
+  (use-package php-refactor-mode   :ensure t :commands php-mode)
+  (use-package php-auto-yasnippets :ensure t :commands php-mode)
+  (use-package phpunit             :ensure t :commands php-mode)
   :config
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
@@ -466,8 +520,8 @@
    '(phpunit-arg "")
    '(phpunit-program "phpunit --colors --disallow-test-output")
    '(phpunit-stop-on-error t)
-   '(phpunit-stop-on-failure t)
-   '(php-eldoc-probe-executable 'concat(php-executable " /usr/local/bin/probe.php")))
+   '(phpunit-stop-on-failure t))
+   ;; '(php-eldoc-probe-executable 'concat(php-executable " /usr/local/bin/probe.php")))
 
   (defun setup-php-mode-ac-sources ()
     "Set the ac-sources for php-mode."
@@ -479,20 +533,25 @@
     (php-eldoc-probe-load 'php-eldoc-probe-executable))
 
   (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'php-mode-hook '(lambda () (linum-mode t)))
   (add-hook 'php-mode-hook 'electric-indent-mode)
   (add-hook 'php-mode-hook 'electric-layout-mode)
   (add-hook 'php-mode-hook 'electric-pair-mode)
   (add-hook 'php-mode-hook 'subword-mode)
-  (add-hook 'php-mode-hook 'linum-mode)
-  (add-hook 'php-mode-hook 'my-semantic-init-hook)
+  (add-hook 'php-mode-hook 'php-semantic-init-hook)  
   (add-hook 'php-mode-hook 'c-toggle-auto-newline)
   (add-hook 'php-mode-hook 'c-toggle-hungry-state)
   (add-hook 'php-mode-hook 'auto-complete-mode)
   (add-hook 'php-mode-hook 'setup-php-mode-ac-sources)
-  (add-hook 'php-mode-hook 'setup-php-eldoc-mode)
+  ;; (add-hook 'php-mode-hook 'setup-php-eldoc-mode)
   (add-hook 'php-mode-hook 'php-refactor-mode)
   (add-hook 'php-mode-hook 'yas-minor-mode)
-  (add-hook 'php-mode-hook 'history-mode))
+  (add-hook 'php-mode-hook 'history-mode)
+
+  ;;phpunit
+  (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
+  (define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
+  (define-key php-mode-map (kbd "C-x p") 'phpunit-current-project))
 
 (use-package puppet-mode
   :ensure t
@@ -520,35 +579,33 @@
   :defer t)
 
 (use-package semantic
-  :commands (php-mode js2-mode emacs-lisp-mode c-mode c++-mode)
+  :demand t
   :config
-  (require 'semantic)
-  (require 'semantic/ia)
-  (require 'semantic/db-ebrowse)
-  (require 'wisent-php)
+  (use-package semantic/ia         :demand t)
+  (use-package semantic/db-ebrowse :demand t)
 
-  (defun my-semantic-init-hook ()
-    "Basic semantic init method to be added to language mode hooks."
+  (custom-set-variables
+   '(global-semantic-highlight-edits-mode t)
+   '(global-semantic-idle-completions-mode t nil (semantic/idle))
+   '(global-semantic-stickyfunc-mode t))
+  
+  ;; Enabe idle semenatic modes
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode)
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
 
-    ;; Enabe idle semenatic modes
-    (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-    (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode)
-    (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
-    (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
+  ;; Enable semanticdb modes
+  (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 
-    ;; Enable semanticdb modes
-    (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+  ;; Enable semenatic highlighting/bookmarking modes
+  (add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode-hook)
+  (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+  (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+  (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
 
-    ;; Enable semenatic highlighting/bookmarking modes
-    (add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode-hook)
-    (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
-    (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-    (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
-
-    ;; Enable semantic status modes
-    (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
-
-    (semantic-mode 1)))
+  ;; Enable semantic status modes
+  (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode))
 
 (use-package smart-mode-line
   :ensure t

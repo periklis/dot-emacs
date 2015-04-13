@@ -12,10 +12,6 @@
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
 
-;; auto-complete
-(define-key ac-menu-map "\C-n" 'ac-next)
-(define-key ac-menu-map "\C-p" 'ac-previous)
-
 ;; auto-indent newline
 (global-set-key (kbd "RET") 'newline-and-indent)
 
@@ -66,15 +62,12 @@
 (global-set-key (kbd "C-c p b") 'projectile-switch-to-buffer)
 (global-set-key (kbd "C-c f e") 'helm-flycheck)
 (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)
+(global-set-key (kbd "s-n") 'persp-next)
+(global-set-key (kbd "s-p") 'persp-prev)
 
 ;; history-mode
 (global-set-key (kbd "M-]") 'history-next-history)
 (global-set-key (kbd "M-[") 'history-prev-history)
-
-;;phpunit
-(define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
-(define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
-(define-key php-mode-map (kbd "C-x p") 'phpunit-current-project)
 
 (provide 'key-bindings)
 ;;; key-bindings.el ends here
