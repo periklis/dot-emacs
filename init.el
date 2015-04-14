@@ -206,6 +206,7 @@
 
   (auto-fill-mode 1)
   (paredit-mode 1)
+  (eldoc-mode 1)
 
   (local-set-key (kbd "<return>") 'paredit-newline)
   (add-hook 'after-save-hook 'check-parens nil t))
