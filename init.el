@@ -114,6 +114,7 @@
 (use-package auto-complete
   :ensure t
   :demand t
+  :diminish auto-complete-mode
   :init
   (use-package auto-complete-exuberant-ctags :ensure t :commands auto-complete)
   (use-package ac-etags                      :ensure t :commands auto-complete)
@@ -350,6 +351,7 @@
 (use-package history
   :ensure t
   :commands (php-mode js2-mode emacs-lisp-mode haskell-mode)
+  :diminish history-mode
   :config
   (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
   (add-to-list 'history-advised-before-functions 'find-file-noselect t))
@@ -726,7 +728,8 @@
 
 (use-package yasnippet
   :ensure t
-  :commands yas-minor-mode)
+  :commands yas-minor-mode
+  :diminish  yas-minor-mode)
 
 ;; Add global key bindings
 (use-package key-bindings
