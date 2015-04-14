@@ -202,7 +202,13 @@
   (add-hook 'emacs-lisp-mode-hook 'electric-layout-mode)
   (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
   (add-hook 'emacs-lisp-mode-hook 'subword-mode)
-  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode))
+  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode)
+
+  (auto-fill-mode 1)
+  (paredit-mode 1)
+
+  (local-set-key (kbd "<return>") 'paredit-newline)
+  (add-hook 'after-save-hook 'check-parens nil t))
 
 (use-package expand-region
   :ensure t
@@ -439,6 +445,10 @@
   :ensure t
   :commands karma-mode)
 
+(use-package macrostep
+  :ensure t
+  :bind ("C-c e m" . macrostep-expand))
+
 (use-package magit
   :ensure t
   :init
@@ -467,6 +477,28 @@
    '(nxml-bind-meta-tab-to-complete-flag   t)
    '(nxml-slash-auto-complete-flag         t)
    '(nxml-sexp-element-flag                t)))
+
+(use-package paredit
+  :ensure t
+  :commands paredit-mode
+  :diminish paredit-mode
+  :config
+  ;;(use-package paredit-ext)
+  (bind-key "C-M-l" 'paredit-recentre-on-sexp paredit-mode-map)
+  (bind-key ")" 'paredit-close-round-and-newline paredit-mode-map)
+  (bind-key "M-)" 'paredit-close-round paredit-mode-map)
+  (bind-key "M-k" 'paredit-raise-sexp paredit-mode-map)
+  (bind-key "M-I" 'paredit-splice-sexp paredit-mode-map)
+  (unbind-key "M-r" paredit-mode-map)
+  (unbind-key "M-s" paredit-mode-map)
+  (bind-key "C-. D" 'paredit-forward-down paredit-mode-map)
+  (bind-key "C-. B" 'paredit-splice-sexp-killing-backward paredit-mode-map)
+  (bind-key "C-. C" 'paredit-convolute-sexp paredit-mode-map)
+  (bind-key "C-. F" 'paredit-splice-sexp-killing-forward paredit-mode-map)
+  (bind-key "C-. a" 'paredit-add-to-next-list paredit-mode-map)
+  (bind-key "C-. A" 'paredit-add-to-previous-list paredit-mode-map)
+  (bind-key "C-. j" 'paredit-join-with-next-list paredit-mode-map)
+  (bind-key "C-. J" 'paredit-join-with-previous-list paredit-mode-map))
 
 (use-package pdf-tools
   :ensure t
@@ -678,6 +710,7 @@
 (use-package whitespace-cleanup-mode
   :ensure t
   :demand t
+  :diminish whitespace-cleanup-mode
   :config
   (add-hook 'before-save-hook 'whitespace-cleanup))
 

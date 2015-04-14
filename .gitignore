@@ -13,3 +13,4 @@ url/*
 .#.*
 .emacs.desktop*
 recentf
+*.elc
