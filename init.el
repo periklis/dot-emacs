@@ -460,15 +460,13 @@
 (use-package magit
   :ensure t
   :init
-  ;;(use-package magit-filenotify :ensure t)
   (use-package gitconfig-mode   :ensure t)
   (use-package gitignore-mode   :ensure t)
   (use-package git-timemachine  :ensure t)
   :bind (("C-c m g" . magit-status))
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
-  (setq magit-diff-options '("-b")))
-  ;;(add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
+  (setq magit-diff-options '("-b"))))
 
 (use-package nxml-mode
   :defer t
@@ -489,7 +487,7 @@
 (use-package paradox
   :ensure t
   :commands paradox-list-packages
-  :init
+  :config
   (custom-set-variables
    '(paradox-github-token t))
   (paradox-enable))
