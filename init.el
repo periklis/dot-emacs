@@ -540,7 +540,7 @@
   :init
   (use-package inf-php             :ensure t :commands inf-php)
   (use-package phpcbf              :ensure t :commands php-mode)
-  ;; (use-package php-eldoc           :ensure t :commands php-mode)
+  (use-package php-eldoc           :ensure t :commands php-mode)
   (use-package php-extras          :ensure t :commands php-mode)
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
@@ -548,7 +548,7 @@
   :config
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
-   '(php-mode-coding-style (quote symfony2))
+   '(php-mode-coding-style 'symfony2)
    '(php-mode-speedbar-open nil)
    '(php-refactor-command "refactor")
    '(phpcbf-executable "/usr/local/bin/phpcbf")
@@ -557,16 +557,27 @@
    '(phpunit-program "phpunit --colors --disallow-test-output")
    '(phpunit-stop-on-error t)
    '(phpunit-stop-on-failure t))
-   ;; '(php-eldoc-probe-executable 'concat(php-executable " /usr/local/bin/probe.php")))
 
   (defun setup-php-mode-ac-sources ()
     "Set the ac-sources for php-mode."
     (setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
 
-  ;; (defun setup-php-eldoc-mode ()
-  ;;   "Setup php eldoc content."
-  ;;   (php-eldoc-enable)
-  ;;   (php-eldoc-probe-load 'php-eldoc-probe-executable))
+  (c-add-style
+   "mo4"
+   '("symfony2"))
+
+  (defun mo4/php-enable-mo4-coding-style ()
+    "Makes MO4 preferable coding style on extending Symfony2."
+    (interactive)
+    (setq indent-tabs-mode nil
+          fill-column 120
+          c-indent-comments-syntactically-p t
+          require-final-newline t)
+    (c-set-style "mo4"))
+
+  (defun setup-php-eldoc-mode ()
+    "Setup php eldoc content."
+    (php-eldoc-enable))
 
   (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook '(lambda () (linum-mode t)))
@@ -579,10 +590,14 @@
   (add-hook 'php-mode-hook 'c-toggle-hungry-state)
   (add-hook 'php-mode-hook 'auto-complete-mode)
   (add-hook 'php-mode-hook 'setup-php-mode-ac-sources)
-  ;; (add-hook 'php-mode-hook 'setup-php-eldoc-mode)
+  (add-hook 'php-mode-hook 'setup-php-eldoc-mode)
   (add-hook 'php-mode-hook 'php-refactor-mode)
   (add-hook 'php-mode-hook 'yas-minor-mode)
   (add-hook 'php-mode-hook 'history-mode)
+
+  ;; coding styles
+  (remove-hook 'php-mode-symfony2-hook 'php-enable-symfony2-coding-style t)
+  (add-hook    'php-mode-symfony2-hook 'mo4/php-enable-mo4-coding-style  nil t)
 
   ;;phpunit
   (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
