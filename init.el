@@ -466,7 +466,7 @@
   :bind (("C-c m g" . magit-status))
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
-  (setq magit-diff-options '("-b"))))
+  (setq magit-diff-options '("-b")))
 
 (use-package nxml-mode
   :defer t
