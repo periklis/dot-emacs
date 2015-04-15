@@ -234,9 +234,14 @@
    '(flycheck-display-errors-function nil))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
+(use-package google-maps
+  :ensure t
+  :commands google-maps)
+
 (use-package google-translate
   :ensure t
-  :defer t)
+  :defer t
+  :commands google-translate-at-point)
 
 (use-package hackernews
   :ensure t
@@ -481,6 +486,14 @@
    '(nxml-slash-auto-complete-flag         t)
    '(nxml-sexp-element-flag                t)))
 
+(use-package paradox
+  :ensure t
+  :commands paradox-list-packages
+  :init
+  (custom-set-variables
+   '(paradox-github-token t))
+  (paradox-enable))
+
 (use-package paredit
   :ensure t
   :commands paredit-mode
@@ -712,6 +725,10 @@
 (use-package sudo-ext
   :ensure t
   :defer t)
+
+(use-package sx
+  :ensure t
+  :commands (sx-ask sx-inbox sx-search))
 
 (use-package twig-mode
   :ensure t
