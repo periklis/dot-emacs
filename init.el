@@ -194,6 +194,16 @@
   (setq ediff-split-window-function 'split-window-vertically)
   (setq ediff-ignore-similar-regions t))
 
+(use-package elfeed
+  :ensure t
+  :commands elfeed
+  :bind ("C-x w" . elfeed)
+  :config
+  (setq-default elfeed-search-filter "@1-week-ago +unread ")
+  (add-hook 'elfeed-new-entry-hook
+            (elfeed-make-tagger :before "1 weeks ago"
+                                :remove 'unread)))
+
 (use-package emacs-lisp-mode
   :demand t
   :init
