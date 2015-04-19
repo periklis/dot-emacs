@@ -22,6 +22,8 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
+
+
 ;; Add external projects to load path
 (dolist (project (directory-files site-lisp-dir t "\\w+"))
   (when (file-directory-p project)
@@ -763,5 +765,10 @@
 
 ;; Add global key bindings
 (use-package key-bindings
-  :demand t)
+	     :demand t)
+
+;; Load local machine specific stuff
+(defvar local-file (expand-file-name "local.el" user-emacs-directory))
+(when (file-exists-p local-file)
+  (load local-file))
 ;;; init.el ends here
