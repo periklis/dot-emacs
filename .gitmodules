@@ -7,3 +7,6 @@
 [submodule "site-lisp/geben"]
 	path = site-lisp/geben
 	url = git@github.com:periklis/geben.git
+[submodule "site-lisp/edep"]
+	path = site-lisp/edep
+	url = https://github.com/jorissteyn/edep/

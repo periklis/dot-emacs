@@ -85,6 +85,7 @@
  '(global-visual-line-mode t)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(magit-last-seen-setup-instructions "1.4.0")
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace nil)
@@ -554,10 +555,6 @@
 
 (use-package php-mode
   :ensure t
-  :preface
-  (defun php-semantic-init-hook ()
-    (use-package wisent-php :demand t)
-    (semantic-mode t))
   :init
   (use-package inf-php             :ensure t :commands inf-php)
   (use-package phpcbf              :ensure t :commands php-mode)
@@ -566,9 +563,19 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
+  (use-package cl-generic          :ensure t :demand t )
+  (use-package edep
+    :defer t
+    :commands edep-mode
+    :load-path "site-lisp/edep"
+    :config (load "~/.emacs.d/site-lisp/edep/loaddefs.el"))
+  (use-package edep/semantic-php        :demand t :load-path "site-lisp/edep/edep")
+  (use-package edep/semantic-php-db     :demand t :load-path "site-lisp/edep/edep")
+  (use-package edep/semantic-php-symref :demand t :load-path "site-lisp/edep/edep")
   :config
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
+   '(edep-phptags-executable "/usr/local/bin/phptags")
    '(php-mode-coding-style 'symfony2)
    '(php-mode-speedbar-open nil)
    '(php-refactor-command "refactor")
@@ -578,6 +585,11 @@
    '(phpunit-program "phpunit --colors --disallow-test-output")
    '(phpunit-stop-on-error t)
    '(phpunit-stop-on-failure t))
+
+  (defun php-semantic-init-hook ()
+    ;; (use-package wisent-php :demand t)
+    (semantic-php-default-setup)
+    (semantic-mode t))
 
   (defun setup-php-mode-ac-sources ()
     "Set the ac-sources for php-mode."
