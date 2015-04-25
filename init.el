@@ -602,7 +602,7 @@
   :config
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
-   '(edep-phptags-executable "/usr/local/bin/phptags")
+   '(edep-phptags-executable "~/.composer/vendor/bin/phptags")
    '(php-mode-coding-style 'symfony2)
    '(php-mode-speedbar-open nil)
    '(php-refactor-command "refactor")
