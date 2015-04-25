@@ -8,6 +8,7 @@
 
 (setq inhibit-startup-message t)
 (fset 'yes-or-no-p 'y-or-n-p)
+(prefer-coding-system 'utf-8)
 
 ;; Set path to dependencies
 (defvar site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
@@ -76,6 +77,7 @@
  '(column-number-mode t)
  '(confirm-kill-emacs (quote yes-or-no-p))
  '(display-battery-mode t)
+ '(display-time-default-load-average 1)
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-mode t)
@@ -86,6 +88,7 @@
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(magit-last-seen-setup-instructions "1.4.0")
+ '(load-prefer-newer t)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace nil)
@@ -112,6 +115,15 @@
 (use-package xml-rpc    :ensure t :defer t)
 
 ;; Load packages
+(use-package auto-compile
+  :ensure t
+  :demand t
+  :config
+  (setq auto-compile-display-buffer nil)
+  (setq auto-compile-mode-line-counter t)
+  (auto-compile-on-load-mode 1)
+  (auto-compile-on-save-mode 1))
+
 (use-package auto-complete
   :ensure t
   :demand t
@@ -253,6 +265,21 @@
   :ensure t
   :defer t
   :commands google-translate-at-point)
+
+(use-package guide-key
+  :ensure t
+  :commands guide-key-mode
+  :diminish guide-key-mode
+  :init
+  (setq guide-key/popup-window-position 'bottom)
+  (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h"))
+  (setq guide-key/recursive-key-sequence-flag t)
+  (setq guide-key/highlight-command-regexp
+      '("rectangle"
+        ("register" . font-lock-type-face)
+        ("bookmark" . "hot pink")))
+  
+  (guide-key-mode 1))
 
 (use-package hackernews
   :ensure t
@@ -579,7 +606,7 @@
    '(php-mode-coding-style 'symfony2)
    '(php-mode-speedbar-open nil)
    '(php-refactor-command "refactor")
-   '(phpcbf-executable "/usr/local/bin/phpcbf")
+   '(phpcbf-executable "~/.composer/vendor/bin/phpcbf")
    '(phpcbf-standard "MO4")
    '(phpunit-arg "")
    '(phpunit-program "phpunit --colors --disallow-test-output")
