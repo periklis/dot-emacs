@@ -71,6 +71,8 @@
   (require 'cl)
   (require 'use-package))
 
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 ;; Custom variables definitions
 (custom-set-variables
  '(blink-cursor-mode nil)
@@ -87,7 +89,6 @@
  '(global-visual-line-mode t)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(magit-last-seen-setup-instructions "1.4.0")
  '(load-prefer-newer t)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
@@ -174,7 +175,7 @@
   :ensure t
   :defer t
   :init
-  (add-hook 'after-init-hook (lambda () (load-theme 'solarized-light t))))
+  (add-hook 'after-init-hook (lambda () (load-theme 'solarized t))))
 
 (use-package ecb
   :ensure t
@@ -345,6 +346,7 @@
   :demand t
   :diminish helm-mode
   :init
+  (use-package helm-config     :demand t)
   (use-package helm-ack        :ensure t :demand t)
   (use-package helm-descbinds  :ensure t :demand t)
   (use-package helm-flycheck   :ensure t :demand t)
