@@ -177,6 +177,13 @@
   :init
   (add-hook 'after-init-hook (lambda () (load-theme 'solarized t))))
 
+(use-package dash-at-point
+  :ensure t
+  :demand t
+  :config
+  (global-set-key "\C-xd" 'dash-at-point)
+  (global-set-key "\C-xe" 'dash-at-point-with-docset))
+
 (use-package ecb
   :ensure t
   :defer t
@@ -488,6 +495,10 @@
   (add-hook 'js2-mode-hook 'electric-pair-mode)
   (add-hook 'js2-mode-hook 'ac-js2-mode)
   (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
+
+(use-package jss
+  :ensure t
+  :commands (jss-console-mode jss-debugger-mode jss-io-mode jss-browser-mode))
 
 (use-package karma
   :ensure t
