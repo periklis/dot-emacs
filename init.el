@@ -442,7 +442,9 @@
    '(jabber-roster-sort-functions
      (quote
       (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group))))
-  (add-hook 'jabber-chat-mode-hook 'goto-address))
+  (add-hook 'jabber-chat-mode-hook 'goto-address)
+  (add-hook 'jabber-chat-mode-hook 'unicode-emoticons-mode)
+  (add-hook 'jabber-chat-mode-hook 'abbrev-mode))
 
 (use-package jasminejs-mode
   :ensure t
@@ -595,6 +597,7 @@
 
 (use-package php-mode
   :ensure t
+  :commands (php-mode)
   :init
   (use-package inf-php             :ensure t :commands inf-php)
   (use-package phpcbf              :ensure t :commands php-mode)
@@ -603,15 +606,6 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
-  (use-package cl-generic          :ensure t :demand t )
-  (use-package edep
-    :defer t
-    :commands edep-mode
-    :load-path "site-lisp/edep"
-    :config (load "~/.emacs.d/site-lisp/edep/loaddefs.el"))
-  (use-package edep/semantic-php        :demand t :load-path "site-lisp/edep/edep")
-  (use-package edep/semantic-php-db     :demand t :load-path "site-lisp/edep/edep")
-  (use-package edep/semantic-php-symref :demand t :load-path "site-lisp/edep/edep")
   :config
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
@@ -628,8 +622,20 @@
 
   (defun php-semantic-init-hook ()
     ;; (use-package wisent-php :demand t)
+    (use-package edep
+      :demand t
+      :load-path "site-lisp/edep"
+      :init
+      (use-package cl-generic :ensure t :demand t)
+      :config
+      (load "~/.emacs.d/site-lisp/edep/loaddefs.el")
+      (use-package edep/semantic-php        :demand t :load-path "site-lisp/edep/edep")
+      (use-package edep/semantic-php-db     :demand t :load-path "site-lisp/edep/edep")
+      (use-package edep/semantic-php-symref :demand t :load-path "site-lisp/edep/edep"))
+      
     (semantic-php-default-setup)
-    (semantic-mode t))
+    (semantic-mode t)
+    (edep-mode))
 
   (defun setup-php-mode-ac-sources ()
     "Set the ac-sources for php-mode."
@@ -703,7 +709,7 @@
   :defer t)
 
 (use-package semantic
-  :demand t
+  :commands (semantic-mode)
   :config
   (use-package semantic/ia         :demand t)
   (use-package semantic/db-ebrowse :demand t)
@@ -793,6 +799,10 @@
 (use-package twig-mode
   :ensure t
   :commands twig-mode)
+
+(use-package unicode-emoticons
+  :ensure t
+  :demand t)
 
 (use-package vagrant
   :ensure t
