@@ -12,10 +12,6 @@
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
 
-;; auto-complete
-(define-key ac-menu-map "\C-n" 'ac-next)
-(define-key ac-menu-map "\C-p" 'ac-previous)
-
 ;; auto-indent newline
 (global-set-key (kbd "RET") 'newline-and-indent)
 
@@ -27,7 +23,8 @@
 
 ;; helm
 (global-unset-key (kbd "C-x c"))
-(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(custom-set-variables
+ '(helm-command-prefix-key "C-c h"))
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
@@ -66,23 +63,12 @@
 (global-set-key (kbd "C-c p b") 'projectile-switch-to-buffer)
 (global-set-key (kbd "C-c f e") 'helm-flycheck)
 (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)
+(global-set-key (kbd "s-n") 'persp-next)
+(global-set-key (kbd "s-p") 'persp-prev)
 
 ;; history-mode
 (global-set-key (kbd "M-]") 'history-next-history)
 (global-set-key (kbd "M-[") 'history-prev-history)
-
-;; magit
-(global-set-key (kbd "C-c m g") 'magit-status)
-
-;;phpunit
-(define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
-(define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
-(define-key php-mode-map (kbd "C-x p") 'phpunit-current-project)
-
-(setq too-hardcore-backspace t)
-(setq too-hardcore-return t)
-(require 'hardcore-mode)
-(global-hardcore-mode)
 
 (provide 'key-bindings)
 ;;; key-bindings.el ends here
