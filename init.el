@@ -84,7 +84,7 @@
  '(display-time-day-and-date t)
  '(display-time-mode t)
  '(enable-local-eval t)
- '(enable-local-variables t)
+ '(enable-local-variables :all)
  '(fringe-mode '(4 . 0))
  '(global-linum-mode nil)
  '(global-hl-line-mode t)
@@ -413,9 +413,6 @@
 (use-package geben
   :commands php-mode
   :config
-  (custom-set-variables
-   '(geben-dbgp-default-proxy '("10.0.2.2" 9000 "EMACS" nil t)))
-
   (defun my-geben-release ()
     (interactive)
     (geben-stop)
@@ -587,7 +584,6 @@
   :config
   (custom-set-variables
    '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
-   '(projectile-tags-command "/usr/local/bin/ctags --languages=php --options=ctags.conf -e -R .")
    '(projectile-mode-line-lighter "")
    '(projectile-enable-caching t)
    '(projectile-completion-system 'helm))
@@ -612,11 +608,9 @@
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
    '(edep-phptags-executable "~/.composer/vendor/bin/phptags")
-   '(php-mode-coding-style 'symfony2)
    '(php-mode-speedbar-open nil)
    '(php-refactor-command "refactor")
    '(phpcbf-executable "~/.composer/vendor/bin/phpcbf")
-   '(phpcbf-standard "MO4")
    '(phpunit-arg "")
    '(phpunit-program "phpunit --colors --disallow-test-output")
    '(phpunit-stop-on-error t)
