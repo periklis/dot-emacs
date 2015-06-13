@@ -624,6 +624,7 @@
     ;; (use-package wisent-php :demand t)
     (use-package edep
       :demand t
+      :diminish edep-mode
       :load-path "site-lisp/edep"
       :init
       (use-package cl-generic :ensure t :demand t)
