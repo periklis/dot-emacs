@@ -17,3 +17,4 @@ recentf
 *.elc
 .sx/*
 local.el
+flycheck_init.el

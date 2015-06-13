@@ -83,6 +83,8 @@
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-mode t)
+ '(enable-local-eval t)
+ '(enable-local-variables t)
  '(fringe-mode '(4 . 0))
  '(global-linum-mode nil)
  '(global-hl-line-mode t)
