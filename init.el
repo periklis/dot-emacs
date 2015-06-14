@@ -222,6 +222,7 @@
   :commands elfeed
   :bind ("C-x w" . elfeed)
   :config
+  (setq url-queue-timeout 30)
   (setq-default elfeed-search-filter "@1-week-ago +unread ")
   (add-hook 'elfeed-new-entry-hook
             (elfeed-make-tagger :before "1 weeks ago"
