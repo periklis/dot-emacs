@@ -456,10 +456,13 @@
   (defun java-semantic-init-hook ()
     (semantic-mode t))
   :init
+  ;; (use-package eclimd      :ensure t :commands java-mode)
+  (use-package emacs-eclim :ensure t :commands java-mode)
   (add-hook 'java-mode-hook 'java-semantic-init-hook)
   (add-hook 'java-mode-hook 'linum-mode)
   :config
   (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
+  (add-hook 'java-mode-hook 'eclim-mode)
   (add-hook 'java-mode-hook 'electric-indent-mode)
   (add-hook 'java-mode-hook 'electric-layout-mode)
   (add-hook 'java-mode-hook 'electric-pair-mode)
