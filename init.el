@@ -49,7 +49,7 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  ;; (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
     (package-refresh-contents))
@@ -60,8 +60,8 @@
   (unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
     (package-refresh-contents))
 
-  ;; (unless (file-exists-p (expand-file-name "elpa/archives/melpa-stable" user-emacs-directory))
-  ;;   (package-refresh-contents))
+  (unless (file-exists-p (expand-file-name "elpa/archives/melpa-stable" user-emacs-directory))
+     (package-refresh-contents))
 
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
@@ -456,13 +456,18 @@
   (defun java-semantic-init-hook ()
     (semantic-mode t))
   :init
-  ;; (use-package eclimd      :ensure t :commands java-mode)
   (use-package emacs-eclim :ensure t :commands java-mode)
   (add-hook 'java-mode-hook 'java-semantic-init-hook)
   (add-hook 'java-mode-hook 'linum-mode)
   :config
+  (defun java-load-eclim-hook ()
+    (require 'eclimd)
+    (require 'ac-emacs-eclim-source)
+    (ac-emacs-eclim-config)
+    (eclim-mode))
+  
   (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'java-mode-hook 'eclim-mode)
+  (add-hook 'java-mode-hook 'java-load-eclim-hook)
   (add-hook 'java-mode-hook 'electric-indent-mode)
   (add-hook 'java-mode-hook 'electric-layout-mode)
   (add-hook 'java-mode-hook 'electric-pair-mode)
@@ -576,6 +581,7 @@
 
 (use-package projectile
   :ensure t
+  :pin melpa-stable
   :demand t
   :init
   (use-package perspective
