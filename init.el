@@ -645,12 +645,33 @@
           require-final-newline t)
     (c-set-style "mo4"))
 
+  (defun ofc/tags-find-at-point ()
+    "Finds the definitions of the symbol at point using a tag file."
+    (interactive)
+    (xref-find-definitions (thing-at-point 'sexp)))
+
+  (defun ofc/visit-class-file-at-point ()
+    "Maps a FQN into a file name using PHP autoload resolution."
+    (interactive)
+    (let* ((class-name (replace-regexp-in-string "^\\\\" "" (thing-at-point 'sexp)))
+           (class-file (ede-php-autoload-find-class-def-file (ede-current-project) class-name)))
+      (when class-file
+        (xref-push-marker-stack)
+        (find-file class-file))))
+
+  (defun ofc/php-tags-find-at-point ()
+    "When called on a FQN, it resolves its name and jumps to the file where it's defined.
+     When called on anything else it forwards the call to a tag search function."
+    (interactive)
+    (unless (ofc/visit-class-file-at-point)
+      (ofc/tags-find-at-point)))
+
   (defun php-mode-init-minor-modes-hook ()
     "Enable extra modes"
     (php-eldoc-enable)
     (semantic-php-default-setup)
     (semantic-mode t)
-    (global-ede-mode)
+    (global-ede-mode t)
     (setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
 
   (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
@@ -671,6 +692,8 @@
   ;; coding styles
   (remove-hook 'php-mode-symfony2-hook 'php-enable-symfony2-coding-style t)
   (add-hook    'php-mode-symfony2-hook 'mo4/php-enable-mo4-coding-style  nil t)
+
+  (define-key php-mode-map (kbd "M-.") 'ofc/php-tags-find-at-point)
 
   ;;phpunit
   (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)

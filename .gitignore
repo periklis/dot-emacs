@@ -18,3 +18,4 @@ recentf
 .sx/*
 local.el
 flycheck_init.el
+ede-projects.el
