@@ -628,17 +628,18 @@
 
   (defun php-semantic-init-hook ()
     ;; (use-package wisent-php :demand t)
-    (use-package edep
-      :demand t
-      :diminish edep-mode
-      :load-path "site-lisp/edep"
-      :init
-      (use-package cl-generic :ensure t :demand t)
-      :config
-      (load "~/.emacs.d/site-lisp/edep/loaddefs.el")
-      (use-package edep/semantic-php        :demand t :load-path "site-lisp/edep/edep")
-      (use-package edep/semantic-php-db     :demand t :load-path "site-lisp/edep/edep")
-      (use-package edep/semantic-php-symref :demand t :load-path "site-lisp/edep/edep"))
+    (load "~/.emacs.d/site-lisp/edep/loaddefs.el")
+    ;; (use-package edep
+    ;;   :demand t
+    ;;   :diminish edep-mode
+    ;;   :load-path "site-lisp/edep"
+    ;;   :init
+    ;;   (use-package cl-generic :ensure t :demand t)
+    ;;   :config
+    ;;   (load "~/.emacs.d/site-lisp/edep/loaddefs.el")
+    ;;   (use-package edep/semantic-php        :demand t :load-path "site-lisp/edep/edep")
+    ;;   (use-package edep/semantic-php-db     :demand t :load-path "site-lisp/edep/edep")
+    ;;   (use-package edep/semantic-php-symref :demand t :load-path "site-lisp/edep/edep"))
       
     (semantic-php-default-setup)
     (semantic-mode t)
