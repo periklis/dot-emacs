@@ -10,3 +10,6 @@
 [submodule "site-lisp/edep"]
 	path = site-lisp/edep
 	url = https://github.com/jorissteyn/edep/
+[submodule "site-lisp/ede-php-autoload"]
+	path = site-lisp/ede-php-autoload
+	url = git@github.com:stevenremot/ede-php-autoload.git
