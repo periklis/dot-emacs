@@ -614,6 +614,13 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
+  (load (expand-file-name "edep/loaddefs.el" site-lisp-dir))
+  (load (expand-file-name "edep/edep/wisent-php.el" site-lisp-dir))
+  (load (expand-file-name "edep/edep/semantic-php.el" site-lisp-dir))
+  (load (expand-file-name "ede-php-autoload/ede-php-autoload-composer.el" site-lisp-dir))
+  (load (expand-file-name "ede-php-autoload/ede-php-autoload-semanticdb.el" site-lisp-dir))
+  (load (expand-file-name "ede-php-autoload/ede-php-autoload-mode.el" site-lisp-dir))
+  (load (expand-file-name "ede-php-autoload/ede-php-autoload.el" site-lisp-dir))
   :config
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
@@ -626,45 +633,25 @@
    '(phpunit-stop-on-error t)
    '(phpunit-stop-on-failure t))
 
-  (defun php-semantic-init-hook ()
-    ;; (use-package wisent-php :demand t)
-    (load "~/.emacs.d/site-lisp/edep/loaddefs.el")
-    ;; (use-package edep
-    ;;   :demand t
-    ;;   :diminish edep-mode
-    ;;   :load-path "site-lisp/edep"
-    ;;   :init
-    ;;   (use-package cl-generic :ensure t :demand t)
-    ;;   :config
-    ;;   (load "~/.emacs.d/site-lisp/edep/loaddefs.el")
-    ;;   (use-package edep/semantic-php        :demand t :load-path "site-lisp/edep/edep")
-    ;;   (use-package edep/semantic-php-db     :demand t :load-path "site-lisp/edep/edep")
-    ;;   (use-package edep/semantic-php-symref :demand t :load-path "site-lisp/edep/edep"))
-      
-    (semantic-php-default-setup)
-    (semantic-mode t)
-    (edep-mode))
-
-  (defun setup-php-mode-ac-sources ()
-    "Set the ac-sources for php-mode."
-    (setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
-
   (c-add-style
    "mo4"
    '("symfony2"))
 
   (defun mo4/php-enable-mo4-coding-style ()
     "Makes MO4 preferable coding style on extending Symfony2."
-    (interactive)
     (setq indent-tabs-mode nil
           fill-column 120
           c-indent-comments-syntactically-p t
           require-final-newline t)
     (c-set-style "mo4"))
 
-  (defun setup-php-eldoc-mode ()
-    "Setup php eldoc content."
-    (php-eldoc-enable))
+  (defun php-mode-init-minor-modes-hook ()
+    "Enable extra modes"
+    (php-eldoc-enable)
+    (semantic-php-default-setup)
+    (semantic-mode t)
+    (global-ede-mode)
+    (setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
 
   (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook '(lambda () (linum-mode t)))
@@ -672,12 +659,11 @@
   (add-hook 'php-mode-hook 'electric-layout-mode)
   (add-hook 'php-mode-hook 'electric-pair-mode)
   (add-hook 'php-mode-hook 'subword-mode)
-  (add-hook 'php-mode-hook 'php-semantic-init-hook)
+  (add-hook 'php-mode-hook 'php-mode-init-minor-modes-hook)
+  (add-hook 'php-mode-hook #'ede-php-autoload-mode)
   (add-hook 'php-mode-hook 'c-toggle-auto-newline)
   (add-hook 'php-mode-hook 'c-toggle-hungry-state)
   (add-hook 'php-mode-hook 'auto-complete-mode)
-  (add-hook 'php-mode-hook 'setup-php-mode-ac-sources)
-  (add-hook 'php-mode-hook 'setup-php-eldoc-mode)
   (add-hook 'php-mode-hook 'php-refactor-mode)
   (add-hook 'php-mode-hook 'yas-minor-mode)
   (add-hook 'php-mode-hook 'history-mode)
