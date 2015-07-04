@@ -145,6 +145,13 @@
   (setq ac-use-menu-map t)
   (setq ac-use-quick-help nil)
   (setq ac-ignore-case t)
+  (custom-set-variables
+   '(ac-etags-requires 1))
+
+  (eval-after-load "etags"
+    '(progn
+       (ac-etags-setup)))
+
   (global-auto-complete-mode)
 
   ;; auto-complete
@@ -671,8 +678,8 @@
     (php-eldoc-enable)
     (semantic-php-default-setup)
     (semantic-mode t)
-    (global-ede-mode t)
-    (setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
+    (global-ede-mode t))
+    ;;(setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
 
   (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook '(lambda () (linum-mode t)))
