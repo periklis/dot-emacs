@@ -110,7 +110,7 @@
 ;; Load Libraries
 (use-package async      :ensure t :defer t)
 (use-package bind-key   :ensure t :defer t)
-(use-package dash       :defer t :load-path "site-lisp/dash" :config (eval-after-load "dash" '(dash-enable-font-lock)))
+(use-package dash       :ensure t :defer t :config (eval-after-load "dash" '(dash-enable-font-lock)))
 (use-package diminish   :ensure t :defer t)
 (use-package f          :ensure t :defer t)
 (use-package let-alist  :ensure t :defer t)
