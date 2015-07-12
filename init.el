@@ -365,6 +365,7 @@
   :init
   (use-package helm-config     :demand t)
   (use-package helm-ack        :ensure t :demand t)
+  (use-package helm-ag         :ensure t :demand t)
   (use-package helm-descbinds  :ensure t :demand t)
   (use-package helm-flycheck   :ensure t :demand t)
   (use-package helm-hoogle     :ensure t :commands helm-hoogle)
@@ -600,6 +601,10 @@
    '(projectile-mode-line-lighter "")
    '(projectile-enable-caching t)
    '(projectile-completion-system 'helm))
+
+  (defun projectile-helm-ag ()
+    (interactive)
+    (helm-ag (projectile-project-root)))
 
   ;; Load projectile globaly
   (projectile-global-mode)
