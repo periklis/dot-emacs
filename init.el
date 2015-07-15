@@ -670,6 +670,13 @@
   :ensure t
   :defer t)
 
+(use-package rake
+  :ensure t
+  :demand t
+  :config
+  (custom-set-variables
+   '(rake-completion-system 'helm)))
+
 (use-package restclient
   :ensure t
   :defer t
