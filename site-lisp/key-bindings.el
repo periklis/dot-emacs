@@ -1,4 +1,4 @@
-;;; setup-auto-complete.el --- Global key configuration
+;;; key-bindings.el --- Global key configuration
 
 ;;; Commentary:
 
@@ -14,6 +14,9 @@
 
 ;; auto-indent newline
 (global-set-key (kbd "RET") 'newline-and-indent)
+
+;; company-complete-common-or-cycle
+(global-set-key (kbd "C-;") 'company-complete-common-or-cycle)
 
 ;; duplicate line command
 (global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y")
@@ -51,11 +54,8 @@
 (define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
 
 ;; helm-etags-plus
-(global-set-key "\M-." 'helm-etags+-select)
+(global-set-key "\M-." 'helm-etags-select)
 (substitute-key-definition 'find-tag 'helm-etags-select global-map)
-
-;; helm auto-complete
-(global-set-key (kbd "C-;") 'ac-complete-with-helm)
 
 ;; helm-projectile and projectile
 (global-set-key (kbd "C-c h p") 'helm-projectile)

@@ -127,35 +127,6 @@
   (auto-compile-on-load-mode 1)
   (auto-compile-on-save-mode 1))
 
-(use-package auto-complete
-  :ensure t
-  :demand t
-  :diminish auto-complete-mode
-  :init
-  (use-package auto-complete-exuberant-ctags :ensure t :commands auto-complete)
-  (use-package ac-etags                      :ensure t :commands auto-complete)
-  (use-package ac-haskell-process            :ensure t :commands haskell-mode)
-  (use-package ac-helm                       :ensure t :commands helm-M-x)
-  (use-package ac-js2                        :ensure t :commands (js2-mode jasminejs-mode))
-  :config
-  (require 'auto-complete-config)
-  (require 'ac-helm)
-  (custom-set-variables
-   '(ac-etags-requires 1)
-   '(ac-auto-start t)
-   '(ac-auto-show-menu 0.2)
-   '(ac-use-menu-map t)
-   '(ac-use-quick-help nil)
-   '(ac-ignore-case t))
-
-  (eval-after-load "etags"
-    '(progn
-       (ac-etags-setup)))
-
-  ;; auto-complete
-  (define-key ac-menu-map "\C-n" 'ac-next)
-  (define-key ac-menu-map "\C-p" 'ac-previous))
-
 (use-package bash-completion
   :ensure t
   :defer t)
@@ -183,6 +154,20 @@
   :defer t
   :init
   (add-hook 'after-init-hook (lambda () (load-theme 'solarized t))))
+
+(use-package company
+  :ensure t
+  :demand t
+  :config
+  (custom-set-variables
+   '(company-idle-delay 0.2)
+   '(company-auto-complete 'company-explicit-action-p)
+   '(company-show-numbers t))
+
+  (add-to-list 'company-etags-modes 'php-mode)
+  (add-to-list 'company-semantic-modes 'php-mode)
+
+  (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package dash-at-point
   :ensure t
@@ -242,7 +227,6 @@
   (add-hook 'emacs-lisp-mode-hook 'electric-layout-mode)
   (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
   (add-hook 'emacs-lisp-mode-hook 'subword-mode)
-  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode)
 
   (auto-fill-mode 1)
   (paredit-mode 1)
@@ -468,8 +452,8 @@
   :config
   (defun java-load-eclim-hook ()
     (require 'eclimd)
-    (require 'ac-emacs-eclim-source)
-    (ac-emacs-eclim-config)
+    ;;(require 'ac-emacs-eclim-source)
+    ;;(ac-emacs-eclim-config)
     (eclim-mode))
   
   (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
@@ -478,7 +462,6 @@
   (add-hook 'java-mode-hook 'electric-layout-mode)
   (add-hook 'java-mode-hook 'electric-pair-mode)
   (add-hook 'java-mode-hook 'subword-mode)
-  (add-hook 'java-mode-hook 'auto-complete-mode)
   (add-hook 'java-mode-hook 'c-toggle-auto-newline)
   (add-hook 'java-mode-hook 'c-toggle-hungry-state))
 
@@ -502,14 +485,12 @@
   (use-package js2-refactor :ensure t :defer t)
   (add-hook 'js2-mode-hook 'linum-mode)
   :config
-  (setq ac-js2-evaluate-calls t)
 
   (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
   (add-hook 'js2-mode-hook 'subword-mode)
   (add-hook 'js2-mode-hook 'electric-indent-mode)
   (add-hook 'js2-mode-hook 'electric-layout-mode)
   (add-hook 'js2-mode-hook 'electric-pair-mode)
-  (add-hook 'js2-mode-hook 'ac-js2-mode)
   (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
 (use-package karma
@@ -620,6 +601,7 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
+  (load (expand-file-name "edep/loaddefs.el" site-lisp-dir))
   (load (expand-file-name "edep/edep/wisent-php.el" site-lisp-dir))
   (load (expand-file-name "edep/edep/semantic-php.el" site-lisp-dir))
   (load (expand-file-name "ede-php-autoload/ede-php-autoload-composer.el" site-lisp-dir))
@@ -650,57 +632,30 @@
           require-final-newline t)
     (c-set-style "mo4"))
 
-  (defun ofc/tags-find-at-point ()
-    "Finds the definitions of the symbol at point using a tag file."
-    (interactive)
-    (xref-find-definitions (thing-at-point 'sexp)))
-
-  (defun ofc/visit-class-file-at-point ()
-    "Maps a FQN into a file name using PHP autoload resolution."
-    (interactive)
-    (let* ((class-name (replace-regexp-in-string "^\\\\" "" (thing-at-point 'sexp)))
-           (class-file (ede-php-autoload-find-class-def-file (ede-current-project) class-name)))
-      (when class-file
-        (xref-push-marker-stack)
-        (find-file class-file))))
-
-  (defun ofc/php-tags-find-at-point ()
-    "When called on a FQN, it resolves its name and jumps to the file where it's defined.
-     When called on anything else it forwards the call to a tag search function."
-    (interactive)
-    (unless (ofc/visit-class-file-at-point)
-      (ofc/tags-find-at-point)))
-
   (defun php-mode-init-minor-modes-hook ()
     "Enable extra modes"
     (php-eldoc-enable)
     (semantic-php-default-setup)
-    (semantic-mode t)
-    (setq ac-sources
-          '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
+    (semantic-mode t))
 
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook #'(lambda () (linum-mode t)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
   (add-hook 'php-mode-hook #'electric-layout-mode)
   (add-hook 'php-mode-hook #'electric-pair-mode)
+  (add-hook 'php-mode-hook #'c-toggle-auto-newline)
+  (add-hook 'php-mode-hook #'c-toggle-hungry-state)
   (add-hook 'php-mode-hook #'subword-mode)
   (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
   (add-hook 'php-mode-hook #'ede-php-autoload-mode)
-  (add-hook 'php-mode-hook #'c-toggle-auto-newline)
-  (add-hook 'php-mode-hook #'c-toggle-hungry-state)
-  (add-hook 'php-mode-hook #'auto-complete-mode)
   (add-hook 'php-mode-hook #'php-refactor-mode)
-  (add-hook 'php-mode-hook #'yas-minor-mode)
   (add-hook 'php-mode-hook #'history-mode)
 
   ;; coding styles
   (remove-hook 'php-mode-symfony2-hook 'php-enable-symfony2-coding-style t)
   (add-hook    'php-mode-symfony2-hook 'mo4/php-enable-mo4-coding-style  nil t)
 
-  (define-key php-mode-map (kbd "M-.") 'ofc/php-tags-find-at-point)
-
-  ;;phpunit
+  ;; key bindings
   (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
   (define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
   (define-key php-mode-map (kbd "C-x p") 'phpunit-current-project))
