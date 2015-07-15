@@ -94,6 +94,7 @@
  '(load-prefer-newer t)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
+ '(show-paren-mode t)
  '(show-trailing-whitespace nil)
  '(tab-always-indent (quote complete))
  '(tab-width 4)
