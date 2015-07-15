@@ -165,9 +165,6 @@
    '(company-auto-complete 'company-explicit-action-p)
    '(company-show-numbers t))
 
-  (add-to-list 'company-etags-modes 'php-mode)
-  (add-to-list 'company-semantic-modes 'php-mode)
-
   (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package dash-at-point
@@ -620,6 +617,9 @@
    '(phpunit-program "phpunit --colors --disallow-test-output")
    '(phpunit-stop-on-error t)
    '(phpunit-stop-on-failure t))
+
+  (add-to-list 'company-etags-modes 'php-mode)
+  (add-to-list 'company-semantic-modes 'php-mode)
 
   (c-add-style
    "mo4"
