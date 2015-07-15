@@ -140,19 +140,17 @@
   :config
   (require 'auto-complete-config)
   (require 'ac-helm)
-  (setq ac-auto-start t)
-  (setq ac-auto-show-menu 0.2)
-  (setq ac-use-menu-map t)
-  (setq ac-use-quick-help nil)
-  (setq ac-ignore-case t)
   (custom-set-variables
-   '(ac-etags-requires 1))
+   '(ac-etags-requires 1)
+   '(ac-auto-start t)
+   '(ac-auto-show-menu 0.2)
+   '(ac-use-menu-map t)
+   '(ac-use-quick-help nil)
+   '(ac-ignore-case t))
 
   (eval-after-load "etags"
     '(progn
        (ac-etags-setup)))
-
-  (global-auto-complete-mode)
 
   ;; auto-complete
   (define-key ac-menu-map "\C-n" 'ac-next)
@@ -622,7 +620,6 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
-  (load (expand-file-name "edep/loaddefs.el" site-lisp-dir))
   (load (expand-file-name "edep/edep/wisent-php.el" site-lisp-dir))
   (load (expand-file-name "edep/edep/semantic-php.el" site-lisp-dir))
   (load (expand-file-name "ede-php-autoload/ede-php-autoload-composer.el" site-lisp-dir))
@@ -679,23 +676,23 @@
     (php-eldoc-enable)
     (semantic-php-default-setup)
     (semantic-mode t)
-    (global-ede-mode t))
-    ;;(setq ac-sources '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
+    (setq ac-sources
+          '(ac-source-semantic ac-source-filename ac-source-dictionary ac-source-yasnippet)))
 
-  (add-hook 'php-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'php-mode-hook '(lambda () (linum-mode t)))
-  (add-hook 'php-mode-hook 'electric-indent-mode)
-  (add-hook 'php-mode-hook 'electric-layout-mode)
-  (add-hook 'php-mode-hook 'electric-pair-mode)
-  (add-hook 'php-mode-hook 'subword-mode)
-  (add-hook 'php-mode-hook 'php-mode-init-minor-modes-hook)
+  (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
+  (add-hook 'php-mode-hook #'(lambda () (linum-mode t)))
+  (add-hook 'php-mode-hook #'electric-indent-mode)
+  (add-hook 'php-mode-hook #'electric-layout-mode)
+  (add-hook 'php-mode-hook #'electric-pair-mode)
+  (add-hook 'php-mode-hook #'subword-mode)
+  (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
   (add-hook 'php-mode-hook #'ede-php-autoload-mode)
-  (add-hook 'php-mode-hook 'c-toggle-auto-newline)
-  (add-hook 'php-mode-hook 'c-toggle-hungry-state)
-  (add-hook 'php-mode-hook 'auto-complete-mode)
-  (add-hook 'php-mode-hook 'php-refactor-mode)
-  (add-hook 'php-mode-hook 'yas-minor-mode)
-  (add-hook 'php-mode-hook 'history-mode)
+  (add-hook 'php-mode-hook #'c-toggle-auto-newline)
+  (add-hook 'php-mode-hook #'c-toggle-hungry-state)
+  (add-hook 'php-mode-hook #'auto-complete-mode)
+  (add-hook 'php-mode-hook #'php-refactor-mode)
+  (add-hook 'php-mode-hook #'yas-minor-mode)
+  (add-hook 'php-mode-hook #'history-mode)
 
   ;; coding styles
   (remove-hook 'php-mode-symfony2-hook 'php-enable-symfony2-coding-style t)
