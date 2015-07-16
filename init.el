@@ -162,7 +162,7 @@
   :config
   (custom-set-variables
    '(company-idle-delay 0.2)
-   '(company-auto-complete 'company-explicit-action-p)
+   '(company-auto-complete nil)
    '(company-show-numbers t))
 
   (add-hook 'after-init-hook 'global-company-mode))
@@ -250,8 +250,6 @@
   :demand t
   :config
   (custom-set-variables
-   '(flycheck-php-phpcs-executable "/usr/local/bin/phpcs")
-   '(flycheck-phpcs-standard "MO4")
    '(flycheck-display-errors-function nil))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
@@ -599,9 +597,7 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
-  (load (expand-file-name "edep/loaddefs.el" site-lisp-dir))
-  (load (expand-file-name "edep/edep/wisent-php.el" site-lisp-dir))
-  (load (expand-file-name "edep/edep/semantic-php.el" site-lisp-dir))
+  (load (expand-file-name "wisent-php/wisent-php.el" site-lisp-dir))
   (load (expand-file-name "ede-php-autoload/ede-php-autoload-composer.el" site-lisp-dir))
   (load (expand-file-name "ede-php-autoload/ede-php-autoload-semanticdb.el" site-lisp-dir))
   (load (expand-file-name "ede-php-autoload/ede-php-autoload-mode.el" site-lisp-dir))
@@ -618,9 +614,6 @@
    '(phpunit-stop-on-error t)
    '(phpunit-stop-on-failure t))
 
-  (add-to-list 'company-etags-modes 'php-mode)
-  (add-to-list 'company-semantic-modes 'php-mode)
-
   (c-add-style
    "mo4"
    '("symfony2"))
@@ -636,7 +629,6 @@
   (defun php-mode-init-minor-modes-hook ()
     "Enable extra modes"
     (php-eldoc-enable)
-    (semantic-php-default-setup)
     (semantic-mode t))
 
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
@@ -657,6 +649,7 @@
   (add-hook    'php-mode-symfony2-hook 'mo4/php-enable-mo4-coding-style  nil t)
 
   ;; key bindings
+  (define-key php-mode-map (kbd "C-x s") 'company-semantic)
   (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
   (define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
   (define-key php-mode-map (kbd "C-x p") 'phpunit-current-project))
@@ -696,8 +689,14 @@
 (use-package semantic
   :commands (semantic-mode)
   :config
-  (use-package semantic/ia         :demand t)
+  (use-package semantic/chart      :demand t)
+  (use-package semantic/complete   :demand t)
   (use-package semantic/db-ebrowse :demand t)
+  (use-package semantic/db-find    :demand t)
+  (use-package semantic/find       :demand t)
+  (use-package semantic/ia         :demand t)
+  (use-package semantic/senator    :demand t)
+  (use-package semantic/symref     :demand t)
 
   (custom-set-variables
    '(global-semantic-highlight-edits-mode t)
