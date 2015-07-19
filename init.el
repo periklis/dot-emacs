@@ -159,6 +159,7 @@
 (use-package company
   :ensure t
   :demand t
+  :diminish company-mode
   :config
   (custom-set-variables
    '(company-idle-delay 0.2)
@@ -629,10 +630,16 @@
   (defun php-mode-init-minor-modes-hook ()
     "Enable extra modes"
     (php-eldoc-enable)
-    (semantic-mode t))
+    (semantic-mode t)
+    (defvar company-backends)
+    (defvar company-semantic-modes)
+    ;; We narrow company to only semantic and GNU Global
+    (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
+    (add-to-list 'company-semantic-modes 'php-mode))
 
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook #'(lambda () (linum-mode t)))
+  (add-hook 'php-mode-hook #'(lambda () (add-hook 'before-save-hook 'delete-trailing-whitespace)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
   (add-hook 'php-mode-hook #'electric-layout-mode)
   (add-hook 'php-mode-hook #'electric-pair-mode)
@@ -701,11 +708,12 @@
   (custom-set-variables
    '(global-semantic-highlight-edits-mode t)
    '(global-semantic-idle-completions-mode t nil (semantic/idle))
-   '(global-semantic-stickyfunc-mode t))
-  
+   '(global-semantic-idle-completions-mode -1)
+   '(global-semantic-stickyfunc-mode t)
+   '(global-semanticdb-minor-mode t))
+
   ;; Enabe idle semenatic modes
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-  (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode)
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
 
