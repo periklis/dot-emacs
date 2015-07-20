@@ -671,7 +671,6 @@
   (add-hook 'php-mode-hook #'electric-pair-mode)
   (add-hook 'php-mode-hook #'c-toggle-auto-newline)
   (add-hook 'php-mode-hook #'c-toggle-hungry-state)
-  (add-hook 'php-mode-hook #'ggtags-mode)
   (add-hook 'php-mode-hook #'helm-gtags-mode)
   (add-hook 'php-mode-hook #'subword-mode)
   (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
