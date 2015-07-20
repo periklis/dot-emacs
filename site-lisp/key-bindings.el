@@ -8,7 +8,6 @@
 
 ;; register mac specific keys for remote emacs session over ssh
 (when (equal system-type 'darwin)
-  ;;(setq mac-option-modifier 'super)
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
 
@@ -24,10 +23,15 @@
 ;; expand region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+;; Hippie expand
+(global-set-key (kbd "M-/") 'hippie-expand)
+
 ;; helm
 (global-unset-key (kbd "C-x c"))
+
 (custom-set-variables
  '(helm-command-prefix-key "C-c h"))
+
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
@@ -53,15 +57,13 @@
 (define-key minibuffer-local-map (kbd "C-c C-l") 'helm-minibuffer-history)
 (define-key shell-mode-map (kbd "C-c C-l") 'helm-comint-input-ring)
 
-;; helm-etags-plus
-(global-set-key "\M-." 'helm-etags-select)
-(substitute-key-definition 'find-tag 'helm-etags-select global-map)
-
 ;; helm-projectile and projectile
 (global-set-key (kbd "C-c h p") 'helm-projectile)
 (global-set-key (kbd "C-c p s") 'projectile-switch-project)
 (global-set-key (kbd "C-c p b") 'projectile-switch-to-buffer)
 (global-set-key (kbd "C-c f e") 'helm-flycheck)
+
+;; perspective mode
 (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)
 (global-set-key (kbd "s-n") 'persp-next)
 (global-set-key (kbd "s-p") 'persp-prev)
@@ -69,6 +71,9 @@
 ;; history-mode
 (global-set-key (kbd "M-]") 'history-next-history)
 (global-set-key (kbd "M-[") 'history-prev-history)
+
+;; semantic
+(global-set-key (kbd "M-RET") 'semantic-ia-fast-jump)
 
 (provide 'key-bindings)
 ;;; key-bindings.el ends here

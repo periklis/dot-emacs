@@ -45,7 +45,7 @@
 ;; Add package manager configuration
 (eval-and-compile
   (package-initialize nil)
-  
+
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -67,11 +67,9 @@
     (package-install 'use-package))
 
   (defvar use-package-verbose t)
-  
+
   (require 'cl)
   (require 'use-package))
-
-(setq magit-last-seen-setup-instructions "1.4.0")
 
 ;; Custom variables definitions
 (custom-set-variables
@@ -163,7 +161,7 @@
   :config
   (custom-set-variables
    '(company-idle-delay 0.2)
-   '(company-auto-complete nil)
+   '(company-auto-complete 'company-explicit-action-p)
    '(company-show-numbers t))
 
   (add-hook 'after-init-hook 'global-company-mode))
@@ -254,6 +252,21 @@
    '(flycheck-display-errors-function nil))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
+(use-package ggtags
+  :ensure t
+  :commands ggtags-mode
+  :config
+  (custom-set-variables
+   '(ggtags-sort-by-nearness t)
+   '(ggtags-global-window-height 20)
+   '(ggtags-split-window-function 'split-window-below)
+   '(ggtags-global-output-format 'cscope))
+
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+                (ggtags-mode 1)))))
+
 (use-package google-maps
   :ensure t
   :commands google-maps)
@@ -275,7 +288,7 @@
       '("rectangle"
         ("register" . font-lock-type-face)
         ("bookmark" . "hot pink")))
-  
+
   (guide-key-mode 1))
 
 (use-package hackernews
@@ -352,10 +365,17 @@
   (use-package helm-google     :ensure t :demand t)
   (use-package helm-projectile :ensure t :demand t)
   (use-package helm-swoop      :ensure t :demand t)
+  (use-package helm-gtags
+    :ensure t
+    :commands helm-gtags-mode
+    :init
+    (custom-set-variables
+     '(helm-gtags-prefix-key "\C-cg")
+     '(helm-gtags-suggested-key-mapping t)))
   :config
   (when (executable-find "curl")
     (setq helm-google-suggest-use-curl-p t))
-  
+
   (custom-set-variables
    '(helm-grep-default-command             "grep -a -d recurse %e -n%cH -e %p %f")
    '(helm-ack-base-command                 "ack -H --nogroup")
@@ -376,7 +396,9 @@
    '(helm-apropos-fuzzy-match              t)
    '(helm-swoop-move-to-line-cycle         t)
    '(helm-swoop-use-line-number-face       t)
-   '(helm-swoop-split-direction            'split-window-horizontally))
+   '(helm-swoop-split-direction            'split-window-horizontally)
+   '(helm-gtags-path-style                 'root)
+   '(helm-gtags-auto-update                t))
 
   (custom-set-faces
    '(helm-buffer-directory ((t (:foreground "#657b83"))))
@@ -384,7 +406,7 @@
    '(helm-selection ((t (:background "gainsboro" :underline t))))
    '(helm-source-header ((t (:background "#eee8d5" :foreground "#839496" :weight bold :height 1.3 :family "Sans Serif"))))
    '(helm-visible-mark ((t (:background "gainsboro")))))
-  
+
   ;; Load helm globaly
   (helm-mode 1)
   (helm-descbinds-mode)
@@ -407,6 +429,8 @@
     (dolist (session geben-sessions)
       (ignore-errors
         (geben-session-release session)))))
+
+
 
 (use-package itail
   :ensure t
@@ -452,7 +476,7 @@
     ;;(require 'ac-emacs-eclim-source)
     ;;(ac-emacs-eclim-config)
     (eclim-mode))
-  
+
   (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
   (add-hook 'java-mode-hook 'java-load-eclim-hook)
   (add-hook 'java-mode-hook 'electric-indent-mode)
@@ -606,7 +630,6 @@
   :config
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
-   '(edep-phptags-executable "~/.composer/vendor/bin/phptags")
    '(php-mode-speedbar-open nil)
    '(php-refactor-command "refactor")
    '(phpcbf-executable "~/.composer/vendor/bin/phpcbf")
@@ -631,9 +654,12 @@
     "Enable extra modes"
     (php-eldoc-enable)
     (semantic-mode t)
+
+    (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
+
     (defvar company-backends)
     (defvar company-semantic-modes)
-    ;; We narrow company to only semantic and GNU Global
+
     (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
     (add-to-list 'company-semantic-modes 'php-mode))
 
@@ -645,6 +671,8 @@
   (add-hook 'php-mode-hook #'electric-pair-mode)
   (add-hook 'php-mode-hook #'c-toggle-auto-newline)
   (add-hook 'php-mode-hook #'c-toggle-hungry-state)
+  (add-hook 'php-mode-hook #'ggtags-mode)
+  (add-hook 'php-mode-hook #'helm-gtags-mode)
   (add-hook 'php-mode-hook #'subword-mode)
   (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
   (add-hook 'php-mode-hook #'ede-php-autoload-mode)

@@ -1,6 +1,3 @@
-[submodule "site-lisp/helm-etags-plus"]
-	path = site-lisp/helm-etags-plus
-	url = https://github.com/jixiuf/helm-etags-plus.git
 [submodule "site-lisp/geben"]
 	path = site-lisp/geben
 	url = git@github.com:periklis/geben.git
