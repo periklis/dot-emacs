@@ -480,6 +480,10 @@
 (use-package jdee
   :ensure t)
 
+(use-package jenkins
+  :ensure t
+  :commands jenkins)
+
 (use-package jira
   :ensure t
   :defer t)
