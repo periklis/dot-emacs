@@ -119,7 +119,6 @@
 ;; Load packages
 (use-package auto-compile
   :ensure t
-  :demand t
   :config
   (setq auto-compile-display-buffer nil)
   (setq auto-compile-mode-line-counter t)
@@ -467,24 +466,19 @@
   (defun java-semantic-init-hook ()
     (semantic-mode t))
   :init
-  (use-package emacs-eclim :ensure t :commands java-mode)
   (add-hook 'java-mode-hook 'java-semantic-init-hook)
   (add-hook 'java-mode-hook 'linum-mode)
   :config
-  (defun java-load-eclim-hook ()
-    (require 'eclimd)
-    ;;(require 'ac-emacs-eclim-source)
-    ;;(ac-emacs-eclim-config)
-    (eclim-mode))
-
   (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'java-mode-hook 'java-load-eclim-hook)
   (add-hook 'java-mode-hook 'electric-indent-mode)
   (add-hook 'java-mode-hook 'electric-layout-mode)
   (add-hook 'java-mode-hook 'electric-pair-mode)
   (add-hook 'java-mode-hook 'subword-mode)
   (add-hook 'java-mode-hook 'c-toggle-auto-newline)
   (add-hook 'java-mode-hook 'c-toggle-hungry-state))
+
+(use-package jdee
+  :ensure t)
 
 (use-package jira
   :ensure t
