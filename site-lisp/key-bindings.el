@@ -17,9 +17,6 @@
 ;; company-complete-common-or-cycle
 (global-set-key (kbd "C-;") 'company-complete-common-or-cycle)
 
-;; duplicate line command
-(global-set-key "\C-c\C-d" "\C-a\C- \C-n\M-w\C-y")
-
 ;; expand region
 (global-set-key (kbd "C-=") 'er/expand-region)
 

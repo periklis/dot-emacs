@@ -8,6 +8,9 @@
 
 (setq inhibit-startup-message t)
 (fset 'yes-or-no-p 'y-or-n-p)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
 
 ;; Set path to dependencies
@@ -92,12 +95,17 @@
  '(load-prefer-newer t)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
+ '(scroll-margin 0)
+ '(scroll-conservatively 100000)
+ '(scroll-preserve-screen-position t)
  '(show-paren-mode t)
  '(show-trailing-whitespace nil)
+ '(size-indication-mode t)
  '(tab-always-indent (quote complete))
  '(tab-width 4)
  '(tool-bar-mode nil)
  '(visible-bell nil)
+ '(winner-mode t)
  '(whitespace-style
    (quote
     (tabs spaces lines space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))))
@@ -106,15 +114,22 @@
 (custom-set-faces
  '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil)))))
 
+;; Custom general hooks
+(add-hook 'prog-mode-hook 'highlight-numbers-mode)
+(add-hook 'prog-mode-hook 'goto-address-mode)
+(add-hook 'text-mode-hook 'goto-address-mode)
+
 ;; Load Libraries
-(use-package async      :ensure t :defer t)
-(use-package bind-key   :ensure t :defer t)
-(use-package dash       :ensure t :defer t :config (eval-after-load "dash" '(dash-enable-font-lock)))
-(use-package diminish   :ensure t :defer t)
-(use-package f          :ensure t :defer t)
-(use-package let-alist  :ensure t :defer t)
-(use-package s          :ensure t :defer t)
-(use-package xml-rpc    :ensure t :defer t)
+(use-package async           :ensure t :defer t)
+(use-package bind-key        :ensure t :defer t)
+(use-package dash            :ensure t :defer t :config (eval-after-load "dash" '(dash-enable-font-lock)))
+(use-package diminish        :ensure t :defer t)
+(use-package duplicate-thing :ensure t :demand t :config (global-set-key (kbd "C-c C-d") 'duplicate-thing))
+(use-package f               :ensure t :defer t)
+(use-package info+           :ensure t :commands (info))
+(use-package let-alist       :ensure t :defer t)
+(use-package s               :ensure t :defer t)
+(use-package xml-rpc         :ensure t :defer t)
 
 ;; Load packages
 (use-package auto-compile
@@ -200,6 +215,7 @@
   (add-hook 'ediff-load-hook 'ecb-deactivate)
   (add-hook 'ediff-quit-hook 'ecb-activate)
 
+  (setq ediff-diff-options "-w")
   (setq ediff-split-window-function 'split-window-vertically)
   (setq ediff-ignore-similar-regions t))
 
@@ -414,6 +430,21 @@
   (helm-mode 1)
   (helm-descbinds-mode)
   (helm-autoresize-mode 1))
+
+(use-package highlight-symbol
+  :ensure t
+  :demand t
+  :config
+  (highlight-symbol-nav-mode)
+
+  (add-hook 'prog-mode-hook (lambda () (highlight-symbol-mode)))
+  (add-hook 'org-mode-hook (lambda () (highlight-symbol-mode)))
+
+  (setq highlight-symbol-idle-delay 0.2
+        highlight-symbol-on-navigation-p t)
+
+  (global-set-key (kbd "M-n") 'highlight-symbol-next)
+  (global-set-key (kbd "M-p") 'highlight-symbol-prev))
 
 (use-package history
   :ensure t
@@ -808,6 +839,12 @@
 (use-package twig-mode
   :ensure t
   :commands twig-mode)
+
+(use-package undo-tree
+  :ensure t
+  :demand t
+  :config
+  (global-undo-tree-mode))
 
 (use-package vagrant
   :ensure t
