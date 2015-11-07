@@ -194,6 +194,11 @@
    '(ecb-windows-width 45)
    '(ecb-major-modes-show-or-hide '((php-mode js2-mode haskell-mode)))))
 
+(use-package emacs-eclim
+  :ensure t
+  :config
+  (global-eclim-mode))
+
 (use-package ediff
   :defer t
   :config
@@ -429,8 +434,6 @@
       (ignore-errors
         (geben-session-release session)))))
 
-
-
 (use-package itail
   :ensure t
   :defer t)
@@ -476,9 +479,6 @@
   (add-hook 'java-mode-hook 'subword-mode)
   (add-hook 'java-mode-hook 'c-toggle-auto-newline)
   (add-hook 'java-mode-hook 'c-toggle-hungry-state))
-
-(use-package jdee
-  :ensure t)
 
 (use-package jenkins
   :ensure t
