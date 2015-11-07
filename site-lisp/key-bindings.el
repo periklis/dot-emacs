@@ -11,6 +11,9 @@
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
 
+;; ibuffer
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 ;; auto-indent newline
 (global-set-key (kbd "RET") 'newline-and-indent)
 
