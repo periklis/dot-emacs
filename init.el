@@ -194,11 +194,6 @@
    '(ecb-windows-width 45)
    '(ecb-major-modes-show-or-hide '((php-mode js2-mode haskell-mode)))))
 
-(use-package emacs-eclim
-  :ensure t
-  :config
-  (global-eclim-mode))
-
 (use-package ediff
   :defer t
   :config
@@ -218,6 +213,10 @@
   (add-hook 'elfeed-new-entry-hook
             (elfeed-make-tagger :before "1 weeks ago"
                                 :remove 'unread)))
+
+(use-package emacs-eclim
+  :ensure t
+  :commands (global-eclim-mode))
 
 (use-package emacs-lisp-mode
   :demand t
@@ -695,13 +694,6 @@
   :ensure t
   :defer t)
 
-(use-package rake
-  :ensure t
-  :demand t
-  :config
-  (custom-set-variables
-   '(rake-completion-system 'helm)))
-
 (use-package restclient
   :ensure t
   :defer t
@@ -816,10 +808,6 @@
 (use-package twig-mode
   :ensure t
   :commands twig-mode)
-
-(use-package unicode-emoticons
-  :ensure t
-  :demand t)
 
 (use-package vagrant
   :ensure t
