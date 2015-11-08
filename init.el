@@ -549,6 +549,7 @@
   (add-hook 'js2-mode-hook #'electric-layout-mode)
   (add-hook 'js2-mode-hook #'electric-pair-mode)
   (add-hook 'js2-mode-hook #'history-mode)
+  (add-hook 'js2-mode-hook #'linum-relative-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
 
 (use-package karma
@@ -557,7 +558,8 @@
 
 (use-package linum-relative
   :ensure t
-  :demand t)
+  :commands (linum-relative-mode)
+  :diminish linum-relative-mode)
 
 (use-package macrostep
   :ensure t
@@ -705,7 +707,6 @@
     (add-to-list 'company-semantic-modes 'php-mode))
 
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
-  (add-hook 'php-mode-hook #'(lambda () (linum-mode t)))
   (add-hook 'php-mode-hook #'(lambda () (add-hook 'before-save-hook 'delete-trailing-whitespace)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
   (add-hook 'php-mode-hook #'electric-layout-mode)
