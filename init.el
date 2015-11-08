@@ -115,8 +115,8 @@
  '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil)))))
 
 ;; Custom general hooks
-(add-hook 'prog-mode-hook 'goto-address-mode)
-(add-hook 'text-mode-hook 'goto-address-mode)
+(add-hook 'prog-mode-hook #'goto-address-mode)
+(add-hook 'text-mode-hook #'goto-address-mode)
 
 ;; Load Libraries
 (use-package async           :ensure t :defer t)
@@ -334,7 +334,7 @@
   :init
   (use-package flycheck-haskell :ensure t :commands haskell-mode)
   (use-package ghc              :ensure t :commands haskell-mode)
-  (add-hook 'haskell-mode-hook 'linum-relative-mode)
+  (add-hook 'haskell-mode-hook #'linum-relative-mode)
   :bind (("C-c C-l" . haskell-process-load-or-reload)
          ("C-`"     . haskell-interactive-bring)
          ("C-c C-t" . haskell-process-do-type)
@@ -459,7 +459,7 @@
   :ensure t
   :diminish highlight-numbers-mode
   :config
-  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+  (add-hook 'prog-mode-hook #'highlight-numbers-mode))
 
 (use-package geben
   :commands php-mode
@@ -492,9 +492,8 @@
    '(jabber-roster-sort-functions
      (quote
       (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group))))
-  (add-hook 'jabber-chat-mode-hook 'goto-address)
-  (add-hook 'jabber-chat-mode-hook 'unicode-emoticons-mode)
-  (add-hook 'jabber-chat-mode-hook 'abbrev-mode))
+  (add-hook 'jabber-chat-mode-hook #'goto-address)
+  (add-hook 'jabber-chat-mode-hook #'abbrev-mode))
 
 (use-package jasminejs-mode
   :ensure t
@@ -540,7 +539,7 @@
          ("\\.spec\\'" . js2-mode))
   :init
   (use-package js2-refactor :ensure t :defer t)
-  (add-hook 'js2-mode-hook 'linum-relative-mode)
+  (add-hook 'js2-mode-hook #'linum-relative-mode)
   :config
 
   (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
