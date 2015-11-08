@@ -506,6 +506,11 @@
   (defun java-semantic-init-hook ()
     (semantic-mode t))
   :init
+  (use-package javadoc-lookup
+    :ensure t
+    :commands (javadoc-lookup)
+    :config
+    (global-set-key (kbd "C-h j") 'javadoc-lookup))
   (add-hook 'java-mode-hook #'java-semantic-init-hook)
   (add-hook 'java-mode-hook #'linum-relative-mode)
   :config
