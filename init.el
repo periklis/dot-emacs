@@ -115,7 +115,7 @@
  '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil)))))
 
 ;; Custom general hooks
-(add-hook 'prog-mode-hook 'highlight-numbers-mode)
+;; (add-hook 'prog-mode-hook 'highlight-numbers-mode)
 (add-hook 'prog-mode-hook 'goto-address-mode)
 (add-hook 'text-mode-hook 'goto-address-mode)
 
@@ -237,12 +237,13 @@
 (use-package emacs-lisp-mode
   :demand t
   :init
-  (add-hook 'emacs-lisp-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'emacs-lisp-mode-hook 'linum-mode)
-  (add-hook 'emacs-lisp-mode-hook 'electric-indent-mode)
-  (add-hook 'emacs-lisp-mode-hook 'electric-layout-mode)
-  (add-hook 'emacs-lisp-mode-hook 'electric-pair-mode)
-  (add-hook 'emacs-lisp-mode-hook 'subword-mode)
+  (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq truncate-lines 0)))
+  (add-hook 'emacs-lisp-mode-hook #'linum-relative-mode)
+  (add-hook 'emacs-lisp-mode-hook #'electric-indent-mode)
+  (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
+  (add-hook 'emacs-lisp-mode-hook #'electric-pair-mode)
+  (add-hook 'emacs-lisp-mode-hook #'history-mode)
+  (add-hook 'emacs-lisp-mode-hook #'subword-mode)
 
   (auto-fill-mode 1)
   (paredit-mode 1)
@@ -334,7 +335,7 @@
   :init
   (use-package flycheck-haskell :ensure t :commands haskell-mode)
   (use-package ghc              :ensure t :commands haskell-mode)
-  (add-hook 'haskell-mode-hook 'linum-mode)
+  (add-hook 'haskell-mode-hook 'linum-relative-mode)
   :bind (("C-c C-l" . haskell-process-load-or-reload)
          ("C-`"     . haskell-interactive-bring)
          ("C-c C-t" . haskell-process-do-type)
@@ -361,13 +362,14 @@
    '(haskell-stylish-on-save                     t)
    '(haskell-tags-on-save                        t))
 
-  (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-  (add-hook 'haskell-mode-hook 'subword-mode)
-  (add-hook 'haskell-mode-hook 'electric-indent-mode)
-  (add-hook 'haskell-mode-hook 'electric-layout-mode)
-  (add-hook 'haskell-mode-hook 'electric-pair-mode)
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
+  (add-hook 'haskell-mode-hook #'(lambda () (ghc-init)))
+  (add-hook 'haskell-mode-hook #'subword-mode)
+  (add-hook 'haskell-mode-hook #'electric-indent-mode)
+  (add-hook 'haskell-mode-hook #'electric-layout-mode)
+  (add-hook 'haskell-mode-hook #'electric-pair-mode)
+  (add-hook 'haskell-mode-hook #'history-mode)
+  (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation)
+  (add-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
 (use-package helm
   :ensure t
@@ -448,7 +450,7 @@
 
 (use-package history
   :ensure t
-  :commands (php-mode js2-mode emacs-lisp-mode haskell-mode)
+  :defer t
   :diminish history-mode
   :config
   (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
@@ -499,16 +501,17 @@
   (defun java-semantic-init-hook ()
     (semantic-mode t))
   :init
-  (add-hook 'java-mode-hook 'java-semantic-init-hook)
-  (add-hook 'java-mode-hook 'linum-mode)
+  (add-hook 'java-mode-hook #'java-semantic-init-hook)
+  (add-hook 'java-mode-hook #'linum-relative-mode)
   :config
-  (add-hook 'java-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'java-mode-hook 'electric-indent-mode)
-  (add-hook 'java-mode-hook 'electric-layout-mode)
-  (add-hook 'java-mode-hook 'electric-pair-mode)
-  (add-hook 'java-mode-hook 'subword-mode)
-  (add-hook 'java-mode-hook 'c-toggle-auto-newline)
-  (add-hook 'java-mode-hook 'c-toggle-hungry-state))
+  (add-hook 'java-mode-hook #'(lambda () (setq truncate-lines 0)))
+  (add-hook 'java-mode-hook #'electric-indent-mode)
+  (add-hook 'java-mode-hook #'electric-layout-mode)
+  (add-hook 'java-mode-hook #'electric-pair-mode)
+  (add-hook 'java-mode-hook #'history-mode)
+  (add-hook 'java-mode-hook #'subword-mode)
+  (add-hook 'java-mode-hook #'c-toggle-auto-newline)
+  (add-hook 'java-mode-hook #'c-toggle-hungry-state))
 
 (use-package jenkins
   :ensure t
@@ -532,19 +535,24 @@
          ("\\.spec\\'" . js2-mode))
   :init
   (use-package js2-refactor :ensure t :defer t)
-  (add-hook 'js2-mode-hook 'linum-mode)
+  (add-hook 'js2-mode-hook 'linum-relative-mode)
   :config
 
-  (add-hook 'js2-mode-hook '(lambda () (setq truncate-lines 0)))
-  (add-hook 'js2-mode-hook 'subword-mode)
-  (add-hook 'js2-mode-hook 'electric-indent-mode)
-  (add-hook 'js2-mode-hook 'electric-layout-mode)
-  (add-hook 'js2-mode-hook 'electric-pair-mode)
-  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
+  (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
+  (add-hook 'js2-mode-hook #'subword-mode)
+  (add-hook 'js2-mode-hook #'electric-indent-mode)
+  (add-hook 'js2-mode-hook #'electric-layout-mode)
+  (add-hook 'js2-mode-hook #'electric-pair-mode)
+  (add-hook 'js2-mode-hook #'history-mode)
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
 
 (use-package karma
   :ensure t
   :commands karma-mode)
+
+(use-package linum-relative
+  :ensure t
+  :demand t)
 
 (use-package macrostep
   :ensure t
@@ -700,6 +708,7 @@
   (add-hook 'php-mode-hook #'c-toggle-auto-newline)
   (add-hook 'php-mode-hook #'c-toggle-hungry-state)
   (add-hook 'php-mode-hook #'helm-gtags-mode)
+  (add-hook 'php-mode-hook #'history-mode)
   (add-hook 'php-mode-hook #'subword-mode)
   (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
   (add-hook 'php-mode-hook #'ede-php-autoload-mode)
