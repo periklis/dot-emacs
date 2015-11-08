@@ -435,6 +435,7 @@
 (use-package highlight-symbol
   :ensure t
   :demand t
+  :diminish highlight-symbol-mode
   :config
   (highlight-symbol-nav-mode)
 
@@ -856,6 +857,7 @@
 (use-package undo-tree
   :ensure t
   :demand t
+  :diminish undo-tree-mode
   :config
   (global-undo-tree-mode))
 
