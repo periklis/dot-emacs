@@ -115,7 +115,6 @@
  '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil)))))
 
 ;; Custom general hooks
-;; (add-hook 'prog-mode-hook 'highlight-numbers-mode)
 (add-hook 'prog-mode-hook 'goto-address-mode)
 (add-hook 'text-mode-hook 'goto-address-mode)
 
@@ -455,6 +454,12 @@
   :config
   (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
   (add-to-list 'history-advised-before-functions 'find-file-noselect t))
+
+(use-package highlight-numbers
+  :ensure t
+  :diminish highlight-numbers-mode
+  :config
+  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
 (use-package geben
   :commands php-mode
