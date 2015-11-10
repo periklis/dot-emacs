@@ -510,7 +510,9 @@
     :ensure t
     :commands (javadoc-lookup)
     :config
-    (global-set-key (kbd "C-h j") 'javadoc-lookup))
+    (custom-set-variables
+     '(javadoc-lookup-completing-read-function #'completing-read))
+    (global-set-key (kbd "C-c C-e j") 'javadoc-lookup))
   (add-hook 'java-mode-hook #'java-semantic-init-hook)
   (add-hook 'java-mode-hook #'linum-relative-mode)
   :config
