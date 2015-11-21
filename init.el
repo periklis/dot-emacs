@@ -547,9 +547,7 @@
          ("\\.spec\\'" . js2-mode))
   :init
   (use-package js2-refactor :ensure t :defer t)
-  (add-hook 'js2-mode-hook #'linum-relative-mode)
   :config
-
   (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'js2-mode-hook #'subword-mode)
   (add-hook 'js2-mode-hook #'electric-indent-mode)
