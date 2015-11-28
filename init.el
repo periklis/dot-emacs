@@ -237,7 +237,7 @@
   :demand t
   :init
   (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq truncate-lines 0)))
-  (add-hook 'emacs-lisp-mode-hook #'linum-relative-mode)
+  (add-hook 'emacs-lisp-mode-hook #'linum-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-indent-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-pair-mode)
@@ -295,20 +295,7 @@
   :defer t
   :commands google-translate-at-point)
 
-(use-package guide-key
-  :ensure t
-  :commands guide-key-mode
-  :diminish guide-key-mode
-  :init
-  (setq guide-key/popup-window-position 'bottom)
-  (setq guide-key/guide-key-sequence '("C-x" "C-c" "C-h"))
-  (setq guide-key/recursive-key-sequence-flag t)
-  (setq guide-key/highlight-command-regexp
-      '("rectangle"
-        ("register" . font-lock-type-face)
-        ("bookmark" . "hot pink")))
 
-  (guide-key-mode 1))
 
 (use-package hackernews
   :ensure t
@@ -329,21 +316,12 @@
 
 (use-package haskell-mode
   :ensure t
-  :defer t
+  :commands haskell-mode
   :mode ("\\.l?hs\\'" . haskell-mode)
   :init
   (use-package flycheck-haskell :ensure t :commands haskell-mode)
   (use-package ghc              :ensure t :commands haskell-mode)
-  (add-hook 'haskell-mode-hook #'linum-relative-mode)
-  :bind (("C-c C-l" . haskell-process-load-or-reload)
-         ("C-`"     . haskell-interactive-bring)
-         ("C-c C-t" . haskell-process-do-type)
-         ("C-c C-i" . haskell-process-do-info)
-         ("C-c C-c" . haskell-process-cabal-build)
-         ("C-c C-k" . haskell-interactive-mode-clear)
-         ("C-c c"   . haskell-process-cabal)
-         ("SPC"     . haskell-mode-contextual-space)
-         ("M-."     . haskell-mode-jump-to-def-or-tag))
+  (add-hook 'haskell-mode-hook #'linum-mode)
   :config
   (defvar cabal-lib-dir "~/.cabal/lib/")
   (add-to-list 'load-path cabal-lib-dir)
@@ -514,7 +492,7 @@
      '(javadoc-lookup-completing-read-function #'completing-read))
     (global-set-key (kbd "C-c C-e j") 'javadoc-lookup))
   (add-hook 'java-mode-hook #'java-semantic-init-hook)
-  (add-hook 'java-mode-hook #'linum-relative-mode)
+  (add-hook 'java-mode-hook #'linum-mode)
   :config
   (add-hook 'java-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'java-mode-hook #'electric-indent-mode)
@@ -554,17 +532,12 @@
   (add-hook 'js2-mode-hook #'electric-layout-mode)
   (add-hook 'js2-mode-hook #'electric-pair-mode)
   (add-hook 'js2-mode-hook #'history-mode)
-  (add-hook 'js2-mode-hook #'linum-relative-mode)
+  (add-hook 'js2-mode-hook #'linum-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
 
 (use-package karma
   :ensure t
   :commands karma-mode)
-
-(use-package linum-relative
-  :ensure t
-  :commands (linum-relative-mode)
-  :diminish linum-relative-mode)
 
 (use-package macrostep
   :ensure t
@@ -874,6 +847,17 @@
   (use-package vagrant-tramp
     :ensure t
     :defer t))
+
+(use-package which-key
+  :ensure t
+  :demand t
+  :diminish which-key-mode
+  :init
+  (which-key-mode)
+  (which-key-setup-minibuffer)
+  (setq which-key-sort-order 'which-key-key-order-alpha
+        which-key-use-C-h-for-paging t
+        which-key-prevent-C-h-from-cycling nil))
 
 (use-package whitespace-cleanup-mode
   :ensure t
