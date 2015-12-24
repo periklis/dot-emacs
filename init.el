@@ -599,6 +599,24 @@
    '(nxml-slash-auto-complete-flag         t)
    '(nxml-sexp-element-flag                t)))
 
+(use-package org
+  :ensure t
+  :commands org-mode
+  :init
+  (use-package orgit :ensure t :demand t)
+  (use-package org-projectile
+    :ensure t
+    :bind (("C-c n p" . org-projectile:project-todo-completing-read)
+           ("C-c c" . org-capture))
+    :config
+    (progn
+      (setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
+      (add-to-list
+       'org-capture-templates (org-projectile:project-todo-entry "p"))
+      (add-to-list
+       'org-capture-templates 
+       (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO")))))
+
 (use-package paradox
   :ensure t
   :commands paradox-list-packages

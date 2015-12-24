@@ -21,3 +21,4 @@ semanticdb/*
 tmp/*
 tramp
 url/*
+/bookmarks
