@@ -344,12 +344,13 @@
   (global-hardcore-mode))
 
 (use-package haskell-mode
+  :disabled
   :ensure t
   :commands haskell-mode
   :mode ("\\.l?hs\\'" . haskell-mode)
   :init
-  (use-package flycheck-haskell :ensure t :commands haskell-mode)
-  (use-package ghc              :ensure t :commands haskell-mode)
+  (use-package flycheck-haskell :ensure t :commands haskell-mode :disabled)
+  (use-package ghc              :ensure t :commands haskell-mode :disabled)
   (add-hook 'haskell-mode-hook #'linum-mode)
   :config
   (defvar cabal-lib-dir "~/.cabal/lib/")
