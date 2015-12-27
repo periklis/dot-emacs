@@ -315,6 +315,148 @@
               (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
                 (ggtags-mode 1)))))
 
+(use-package gnus
+  :init
+  (require 'nnir)
+  (setq gnus-select-method '(nnnil ""))
+
+  (setq gnus-gcc-mark-as-read t)
+  (setq gnus-use-cache t)
+
+  (setq gnus-auto-select-next nil)
+  (setq gnus-auto-select-same nil)
+  (setq gnus-auto-center-summary t)
+  (setq gnus-thread-hide-subtree t)
+  (setq gnus-thread-ignore-subject t)
+  (setq gnus-treat-hide-citation t)
+  (setq gnus-group-line-format "%M%S%5y:%B%(%G%)\n")
+  (setq gnus-summary-line-format ":%U%R%B%O %s %-50= | %4L | %-21,21f │ %&user-date;\n")
+  (setq gnus-extract-address-components 'mail-extract-address-components)
+
+  (setq gnus-thread-sort-functions
+        '(gnus-thread-sort-by-most-recent-date
+          gnus-thread-sort-by-score))
+
+  (setq gnus-subthread-sort-functions
+        '(gnus-thread-sort-by-number
+          gnus-thread-sort-by-date))
+
+  (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+
+  (setq
+   gnus-buffer-configuration
+   '((group
+      (vertical 1.0
+                (group 1.0 point)))
+     (summary
+      (horizontal 1.0
+                  (vertical 0.25
+                            (group 1.0))
+                  (vertical 1.0
+                            (summary 1.0 point))))
+     (article
+      (cond
+       (gnus-use-trees
+        '(vertical 1.0
+                   (summary 0.25 point)
+                   (tree 0.25)
+                   (article 1.0)))
+       (t
+        '(horizontal 1.0
+                     (vertical 0.4
+                               (summary 1.0 point))
+                     (vertical 1.0
+                               (article 1.0))))))
+     (server
+      (vertical 1.0
+                (server 1.0 point)))
+     (browse
+      (vertical 1.0
+                (browse 1.0 point)))
+     (message
+      (vertical 1.0
+                (message 1.0 point)))
+     (pick
+      (vertical 1.0
+                (article 1.0 point)))
+     (info
+      (vertical 1.0
+                (info 1.0 point)))
+     (summary-faq
+      (vertical 1.0
+                (summary 0.25)
+                (faq 1.0 point)))
+     (only-article
+      (vertical 1.0
+                (article 1.0 point)))
+     (edit-article
+      (vertical 1.0
+                (article 1.0 point)))
+     (edit-form
+      (vertical 1.0
+                (group 0.5)
+                (edit-form 1.0 point)))
+     (edit-score
+      (vertical 1.0
+                (summary 0.25)
+                (edit-score 1.0 point)))
+     (edit-server
+      (vertical 1.0
+                (server 0.5)
+                (edit-form 1.0 point)))
+     (post
+      (vertical 1.0
+                (post 1.0 point)))
+     (reply
+      (vertical 1.0
+                (article 0.5)
+                (message 1.0 point)))
+     (forward
+      (vertical 1.0
+                (message 1.0 point)))
+     (reply-yank
+      (vertical 1.0
+                (message 1.0 point)))
+     (mail-bounce
+      (vertical 1.0
+                (article 0.5)
+                (message 1.0 point)))
+     (pipe
+      (vertical 1.0
+                (summary 0.25 point)
+                ("*Shell Command Output*" 1.0)))
+     (bug
+      (vertical 1.0
+                (if gnus-bug-create-help-buffer
+                    '("*Gnus Help Bug*" 0.5))
+                ("*Gnus Bug*" 1.0 point)))
+     (score-trace
+      (vertical 1.0
+                (summary 0.5 point)
+                ("*Score Trace*" 1.0)))
+     (score-words
+      (vertical 1.0
+                (summary 0.5 point)
+                ("*Score Words*" 1.0)))
+     (split-trace
+      (vertical 1.0
+                (summary 0.5 point)
+                ("*Split Trace*" 1.0)))
+     (category
+      (vertical 1.0
+                (category 1.0)))
+     (compose-bounce
+      (vertical 1.0
+                (article 0.5)
+                (message 1.0 point)))
+     (display-term
+      (vertical 1.0
+                ("*display*" 1.0)))
+     (mml-preview
+      (vertical 1.0
+                (message 0.5)
+                (mml-preview 1.0 point))))))
+
 (use-package google-maps
   :ensure t
   :commands google-maps)
@@ -323,8 +465,6 @@
   :ensure t
   :defer t
   :commands google-translate-at-point)
-
-
 
 (use-package hackernews
   :ensure t
@@ -936,4 +1076,5 @@
 (defvar local-file (expand-file-name "local.el" user-emacs-directory))
 (when (file-exists-p local-file)
   (load local-file))
+
 ;;; init.el ends here
