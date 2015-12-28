@@ -338,6 +338,20 @@
   (setq gnus-sum-thread-tree-vertical "|")
   (setq gnus-sum-thread-tree-single-leaf "`-> ")
   (setq gnus-extract-address-components 'mail-extract-address-components)
+  (setq gnus-use-adaptive-scoring t)
+  (setq gnus-decay-scores t)
+  (setq gnus-default-adaptive-score-alist
+        '((gnus-unread-mark)
+          (gnus-ticked-mark (from 4))
+          (gnus-dormant-mark (from 5))
+          (gnus-del-mark (from -4) (subject -1))
+          (gnus-read-mark (from 4) (subject 2))
+          (gnus-expirable-mark (from -1) (subject -1))
+          (gnus-killed-mark (from -1) (subject -3))
+          (gnus-kill-file-mark)
+          (gnus-ancient-mark)
+          (gnus-low-score-mark)
+          (gnus-catchup-mark (from -1) (subject -1))))
 
   (setq gnus-thread-sort-functions
         '(gnus-thread-sort-by-most-recent-date
