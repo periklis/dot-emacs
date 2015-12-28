@@ -330,7 +330,13 @@
   (setq gnus-thread-ignore-subject t)
   (setq gnus-treat-hide-citation t)
   (setq gnus-group-line-format "%M%S%5y:%B%(%G%)\n")
-  (setq gnus-summary-line-format ":%U%R%B%O %s %-50= | %4L | %-21,21f │ %&user-date;\n")
+  (setq gnus-summary-line-format "%O%U%R%z%d %B%(%[%4L: %-22,22f%]%) %s\n")
+  (setq gnus-summary-same-subject "")
+  (setq gnus-sum-thread-tree-root "")
+  (setq gnus-sum-thread-tree-single-indent "")
+  (setq gnus-sum-thread-tree-leaf-with-other "+-> ")
+  (setq gnus-sum-thread-tree-vertical "|")
+  (setq gnus-sum-thread-tree-single-leaf "`-> ")
   (setq gnus-extract-address-components 'mail-extract-address-components)
 
   (setq gnus-thread-sort-functions
@@ -1058,6 +1064,10 @@
   :ensure t
   :defer t
   :commands wget)
+
+(use-package w3m
+  :ensure t
+  :defer t)
 
 (use-package yaml-mode
   :ensure t
