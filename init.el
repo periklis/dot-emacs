@@ -318,6 +318,8 @@
 (use-package gnus
   :init
   (require 'nnir)
+  (require 'gnus-async)
+  (setq gnus-asynchronous t)
   (setq gnus-select-method '(nnnil ""))
 
   (setq gnus-gcc-mark-as-read t)
@@ -1081,7 +1083,10 @@
 
 (use-package w3m
   :ensure t
-  :defer t)
+  :demand t
+  :config
+  (setq mm-text-html-renderer 'w3m)
+  (define-key w3m-minor-mode-map "\C-m" 'w3m-view-url-with-external-browser))
 
 (use-package yaml-mode
   :ensure t
