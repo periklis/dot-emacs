@@ -772,13 +772,12 @@
     :bind (("C-c n p" . org-projectile:project-todo-completing-read)
            ("C-c c" . org-capture))
     :config
-    (progn
-      (setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
-      (add-to-list
-       'org-capture-templates (org-projectile:project-todo-entry "p"))
-      (add-to-list
-       'org-capture-templates 
-       (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO")))))
+    (setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
+    (add-to-list
+     'org-capture-templates (org-projectile:project-todo-entry "p"))
+    (add-to-list
+     'org-capture-templates 
+     (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO"))))
 
 (use-package paradox
   :ensure t
@@ -1083,9 +1082,11 @@
 
 (use-package w3m
   :ensure t
-  :demand t
+  :commands (w3m-mode w3m-minor-mode)
   :config
   (setq mm-text-html-renderer 'w3m)
+  (setq w3m-goto-article-function 'w3m-goto-url-new-session)
+  (define-key w3m-minor-mode-map "RET" 'w3m-goto-url-new-session)
   (define-key w3m-minor-mode-map "\C-m" 'w3m-view-url-with-external-browser))
 
 (use-package yaml-mode
