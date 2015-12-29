@@ -364,6 +364,7 @@
           gnus-thread-sort-by-date))
 
   (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+  (add-hook 'gnus-article-mode-hook 'w3m-minor-mode)
 
   (setq
    gnus-buffer-configuration
@@ -1085,9 +1086,10 @@
   :commands (w3m-mode w3m-minor-mode)
   :config
   (setq mm-text-html-renderer 'w3m)
-  (setq w3m-goto-article-function 'w3m-goto-url-new-session)
-  (define-key w3m-minor-mode-map "RET" 'w3m-goto-url-new-session)
-  (define-key w3m-minor-mode-map "\C-m" 'w3m-view-url-with-external-browser))
+  (setq w3m-add-referer nil)
+  (setq w3m-goto-article-function 'w3m-goto-url)
+  (define-key w3m-minor-mode-map (kbd "RET") 'w3m-goto-url)
+  (define-key w3m-minor-mode-map (kbd "C-c w e") 'w3m-view-url-with-external-browser))
 
 (use-package yaml-mode
   :ensure t
