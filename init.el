@@ -651,6 +651,10 @@
 
 (use-package jabber
   :ensure t
+  :preface
+  (define-prefix-command 'jabber-global-keymap)
+  (global-set-key (kbd "C-x C-j") 'jabber-global-keymap)
+  :bind (("C-x C-j C-c" . jabber-connect-all))
   :commands (jabber-connect jabber-connect-all)
   :config
   (custom-set-variables
@@ -742,6 +746,9 @@
   :ensure t
   :bind (("C-c m g" . magit-status))
   :commands projectile-vc
+  :preface
+  (defvar magit-last-seen-setup-instructions "1.4.0")
+  (defvar magit-diff-options '("-b"))
   :init
   (use-package gitconfig-mode   :ensure t)
   (use-package gitignore-mode   :ensure t)
