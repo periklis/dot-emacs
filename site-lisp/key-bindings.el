@@ -72,6 +72,11 @@
 (global-set-key (kbd "M-]") 'history-next-history)
 (global-set-key (kbd "M-[") 'history-prev-history)
 
+;; org-mode
+(define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cl" 'org-store-link)
+
 ;; semantic
 (global-set-key (kbd "M-RET") 'semantic-ia-fast-jump)
 

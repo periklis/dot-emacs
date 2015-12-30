@@ -778,7 +778,17 @@
      'org-capture-templates (org-projectile:project-todo-entry "p"))
     (add-to-list
      'org-capture-templates 
-     (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO"))))
+     (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO")))
+  :config
+  (defun my-org-open-at-point (&optional arg)
+    "Open link in external browser if ARG given."
+    (interactive "P")
+    (if (not arg)
+        (org-open-at-point)
+      (let ((browse-url-browser-function #'browse-url-default-macosx-browser))
+        (org-open-at-point))))
+
+  (define-key org-mode-map (kbd "C-c C-o") #'my-org-open-at-point))
 
 (use-package paradox
   :ensure t
