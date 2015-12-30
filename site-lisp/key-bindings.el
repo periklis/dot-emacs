@@ -40,15 +40,10 @@
 (global-set-key (kbd "C-c h SPC") 'helm-all-mark-rings)
 (global-set-key (kbd "C-c h g") 'helm-google-suggest)
 (global-set-key (kbd "C-c h b") 'helm-descbinds)
-(global-set-key (kbd "C-c h a") 'helm-ack)
 (global-set-key (kbd "C-c h f") 'helm-apropos)
 (global-set-key (kbd "C-c h d") 'helm-info-emacs)
 (global-set-key (kbd "C-c h l") 'helm-locate-library)
 (global-set-key (kbd "C-c h i") 'helm-semantic-or-imenu)
-(global-set-key (kbd "M-i") 'helm-swoop)
-(global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
-(global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
-(global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
@@ -61,7 +56,6 @@
 (global-set-key (kbd "C-c h p") 'helm-projectile)
 (global-set-key (kbd "C-c p s") 'projectile-switch-project)
 (global-set-key (kbd "C-c p b") 'projectile-switch-to-buffer)
-(global-set-key (kbd "C-c f e") 'helm-flycheck)
 
 ;; perspective mode
 (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)

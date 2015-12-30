@@ -123,7 +123,7 @@
 (use-package bind-key        :ensure t :defer t)
 (use-package dash            :ensure t :defer t :config (eval-after-load "dash" '(dash-enable-font-lock)))
 (use-package diminish        :ensure t :defer t)
-(use-package duplicate-thing :ensure t :demand t :config (global-set-key (kbd "C-c C-d") 'duplicate-thing))
+(use-package duplicate-thing :ensure t :bind ("C-c C-d" . duplicate-thing))
 (use-package f               :ensure t :defer t)
 (use-package info+           :ensure t :commands (info))
 (use-package let-alist       :ensure t :defer t)
@@ -145,7 +145,7 @@
 
 (use-package ctags
   :ensure t
-  :demand t
+  :commands (create-tags create-project-tags)
   :config
   (defvar ctags-executable "/usr/local/bin/ctags")
 
@@ -181,14 +181,11 @@
 
 (use-package dash-at-point
   :ensure t
-  :demand t
-  :config
-  (global-set-key "\C-xd" 'dash-at-point)
-  (global-set-key "\C-xe" 'dash-at-point-with-docset))
+  :bind (("C-x d" . dash-at-point)
+         ("C-x e" . dash-at-point-with-docset)))
 
 (use-package ecb
   :ensure t
-  :defer t
   :commands (ecb-activate ecb-deactivate)
   :config
   (custom-set-variables
@@ -263,7 +260,7 @@
   :commands (global-eclim-mode))
 
 (use-package emacs-lisp-mode
-  :demand t
+  :mode ("\\.el\\'" . emacs-lisp-mode)
   :init
   (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'emacs-lisp-mode-hook #'linum-mode)
@@ -547,15 +544,20 @@
   :diminish helm-mode
   :init
   (use-package helm-config     :demand t)
-  (use-package helm-ack        :ensure t :demand t)
-  (use-package helm-ag         :ensure t :demand t)
-  (use-package helm-descbinds  :ensure t :demand t)
-  (use-package helm-flycheck   :ensure t :demand t)
-  (use-package helm-hoogle     :ensure t :commands helm-hoogle)
-  (use-package helm-git-grep   :ensure t :demand t)
-  (use-package helm-google     :ensure t :demand t)
   (use-package helm-projectile :ensure t :demand t)
-  (use-package helm-swoop      :ensure t :demand t)
+  (use-package helm-ack        :ensure t :bind ("C-c h a" . helm-ack))
+  (use-package helm-ag         :ensure t :commands helm-ag)
+  (use-package helm-descbinds  :ensure t :bind ("C-c h b" . helm-descbinds))
+  (use-package helm-flycheck   :ensure t :bind ("C-c f e" . helm-flycheck))
+  (use-package helm-hoogle     :ensure t :commands helm-hoogle)
+  (use-package helm-git-grep   :ensure t :commands helm-git-grep)
+  (use-package helm-google     :ensure t :commands helm-google)
+  (use-package helm-swoop
+    :ensure t
+    :bind (("M-i" . helm-swoop)
+           ("M-I" . helm-swoop-back-to-last-point)
+           ("C-c M-i" . helm-multi-swoop)
+           ("C-x M-i" . helm-multi-swoop-all)))
   (use-package helm-gtags
     :ensure t
     :commands helm-gtags-mode
@@ -565,7 +567,7 @@
      '(helm-gtags-suggested-key-mapping t)))
   :config
   (when (executable-find "curl")
-    (setq helm-google-suggest-use-curl-p t))
+    (setq helm-net-prefer-curl t))
 
   (custom-set-variables
    '(helm-grep-default-command             "grep -a -d recurse %e -n%cH -e %p %f")
@@ -649,7 +651,7 @@
 
 (use-package jabber
   :ensure t
-  :demand t
+  :commands (jabber-connect jabber-connect-all)
   :config
   (custom-set-variables
    '(jabber-auto-reconnect t)
@@ -738,11 +740,12 @@
 
 (use-package magit
   :ensure t
+  :bind (("C-c m g" . magit-status))
+  :commands projectile-vc
   :init
   (use-package gitconfig-mode   :ensure t)
   (use-package gitignore-mode   :ensure t)
   (use-package git-timemachine  :ensure t)
-  :bind (("C-c m g" . magit-status))
   :config
   (setq magit-last-seen-setup-instructions "1.4.0")
   (setq magit-diff-options '("-b")))
@@ -767,7 +770,7 @@
   :ensure t
   :commands org-mode
   :init
-  (use-package orgit :ensure t :demand t)
+  (use-package orgit :ensure t :commands projectile-vc)
   (use-package org-projectile
     :ensure t
     :bind (("C-c n p" . org-projectile:project-todo-completing-read)
@@ -863,11 +866,23 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
-  (load (expand-file-name "wisent-php/wisent-php.el" site-lisp-dir))
-  (load (expand-file-name "ede-php-autoload/ede-php-autoload-composer.el" site-lisp-dir))
-  (load (expand-file-name "ede-php-autoload/ede-php-autoload-semanticdb.el" site-lisp-dir))
-  (load (expand-file-name "ede-php-autoload/ede-php-autoload-mode.el" site-lisp-dir))
-  (load (expand-file-name "ede-php-autoload/ede-php-autoload.el" site-lisp-dir))
+  (use-package wisent-php
+    :commands (ede-php-autoload-mode semantic-mode php-mode)
+    :load-path "wisent-php/wisent-php.el"
+    :config
+    (semantic-mode t))
+  (use-package ede-php-autoload-composer
+    :commands (ede-php-autoload-mode php-mode)
+    :load-path "ede-php-autoload/ede-php-autoload-composer.el")
+  (use-package ede-php-autoload-semanticdb
+    :commands (ede-php-autoload-mode php-mode)
+    :load-path "ede-php-autoload/ede-php-autoload-semanticdb.el")
+  (use-package ede-php-autoload-mode
+    :commands (ede-php-autoload-mode php-mode)
+    :load-path "ede-php-autoload/ede-php-autoload-mode.el")
+  (use-package ede-php-autoload
+    :commands (ede-php-autoload-mode php-mode)
+    :load-path "ede-php-autoload/ede-php-autoload.el")
   :config
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
@@ -894,7 +909,8 @@
   (defun php-mode-init-minor-modes-hook ()
     "Enable extra modes"
     (php-eldoc-enable)
-    (semantic-mode t)
+    
+    ;;(semantic-mode t)
 
     (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
 
@@ -955,16 +971,16 @@
   :defer t)
 
 (use-package semantic
-  :commands (semantic-mode)
+  :commands (semantic-mode php-mode emacs-lisp-mode)
   :config
-  (use-package semantic/chart      :demand t)
-  (use-package semantic/complete   :demand t)
-  (use-package semantic/db-ebrowse :demand t)
-  (use-package semantic/db-find    :demand t)
-  (use-package semantic/find       :demand t)
-  (use-package semantic/ia         :demand t)
-  (use-package semantic/senator    :demand t)
-  (use-package semantic/symref     :demand t)
+  (use-package semantic/chart      :commands (semantic-mode php-mode emacs-lisp-mode))
+  (use-package semantic/complete   :commands (semantic-mode php-mode emacs-lisp-mode))
+  (use-package semantic/db-ebrowse :commands (semantic-mode php-mode emacs-lisp-mode))
+  (use-package semantic/db-find    :commands (semantic-mode php-mode emacs-lisp-mode))
+  (use-package semantic/find       :commands (semantic-mode php-mode emacs-lisp-mode))
+  (use-package semantic/ia         :commands (semantic-mode php-mode emacs-lisp-mode))
+  (use-package semantic/senator    :commands (semantic-mode php-mode emacs-lisp-mode))
+  (use-package semantic/symref     :commands (semantic-mode php-mode emacs-lisp-mode))
 
   (custom-set-variables
    '(global-semantic-highlight-edits-mode t)
@@ -1019,14 +1035,12 @@
 
   (tramp-get-completion-function "ssh")
 
-  (eval-after-load 'tramp
-    '(vagrant-tramp-enable))
+  (eval-after-load 'tramp '(vagrant-tramp-add-method))
 
   (defun colorize-compilation-buffer ()
     "Turns ascii colors in compilation buffer."
     (read-only-mode)
-    (ansi-color-apply-on-region (point-min) (point-max))
-    (toggle-read-only))
+    (ansi-color-apply-on-region (point-min) (point-max)))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
 
 (use-package sos
@@ -1076,8 +1090,7 @@
   (which-key-mode)
   (which-key-setup-minibuffer)
   (setq which-key-sort-order 'which-key-key-order-alpha
-        which-key-use-C-h-for-paging t
-        which-key-prevent-C-h-from-cycling nil))
+        which-key-use-C-h-commands t))
 
 (use-package whitespace-cleanup-mode
   :ensure t
