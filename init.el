@@ -654,7 +654,10 @@
   :preface
   (define-prefix-command 'jabber-global-keymap)
   (global-set-key (kbd "C-x C-j") 'jabber-global-keymap)
-  :bind (("C-x C-j C-c" . jabber-connect-all))
+  :bind (("C-x C-j C-c" . jabber-connect-all)
+         ("C-x C-j C-d" . jabber-disconnect)
+         ("C-x C-j C-r" . jabber-display-roster)
+         ("C-x C-j C-m" . jabber-muc-join))
   :commands (jabber-connect jabber-connect-all)
   :config
   (custom-set-variables
