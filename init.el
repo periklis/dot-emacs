@@ -323,10 +323,11 @@
   (setq gnus-use-cache t)
 
   (setq gnus-auto-select-next nil)
-  (setq gnus-auto-select-same nil)
+  (setq gnus-auto-select-same t)
   (setq gnus-auto-center-summary t)
   (setq gnus-thread-hide-subtree t)
   (setq gnus-thread-ignore-subject t)
+  (setq gnus-thread-indent-level 2)
   (setq gnus-treat-hide-citation t)
   (setq gnus-group-line-format "%M%S%5y:%B%(%G%)\n")
   (setq gnus-summary-line-format "%O%U%R%z%d %B%(%[%4L: %-22,22f%]%) %s\n")
