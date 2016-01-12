@@ -175,6 +175,7 @@
   (custom-set-variables
    '(company-idle-delay 0.2)
    '(company-auto-complete 'company-explicit-action-p)
+   '(company-tooltip-align-annotations t)
    '(company-show-numbers t))
 
   (add-hook 'after-init-hook 'global-company-mode))
@@ -294,7 +295,8 @@
   :demand t
   :config
   (custom-set-variables
-   '(flycheck-display-errors-function nil))
+   '(flycheck-display-errors-function nil)
+   '(flycheck-check-syntax-automatically '(save mode-enabled)))
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package ggtags
@@ -1072,6 +1074,15 @@
 (use-package sx
   :ensure t
   :commands (sx-ask sx-inbox sx-search))
+
+(use-package tide
+  :ensure t
+  :mode ("\\.ts\\'" . typescript-mode)
+  :init
+  (add-hook 'typescript-mode-hook
+            (lambda ()
+              (tide-setup)
+              (eldoc-mode +1))))
 
 (use-package twig-mode
   :ensure t
