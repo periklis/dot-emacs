@@ -1079,6 +1079,10 @@
   :ensure t
   :mode ("\\.js\\" . term-mode)
   :init
+  (use-package company-tern
+    :ensure t
+    :init
+    (add-to-list 'company-backends 'company-tern))
   (add-hook 'js-mode-hook (lambda () (tern-mode t))))
 
 (use-package tide
