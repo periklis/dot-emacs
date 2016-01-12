@@ -1075,6 +1075,12 @@
   :ensure t
   :commands (sx-ask sx-inbox sx-search))
 
+(use-package tern
+  :ensure t
+  :mode ("\\.js\\" . term-mode)
+  :init
+  (add-hook 'js-mode-hook (lambda () (tern-mode t))))
+
 (use-package tide
   :ensure t
   :mode ("\\.ts\\'" . typescript-mode)
