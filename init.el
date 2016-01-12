@@ -1077,7 +1077,8 @@
 
 (use-package tern
   :ensure t
-  :mode ("\\.js\\" . term-mode)
+  :mode (("\\.js'\\" . term-mode)
+         ("\\.spec'\\" . tern-mode))
   :init
   (use-package company-tern
     :ensure t
@@ -1087,7 +1088,8 @@
 
 (use-package tide
   :ensure t
-  :mode ("\\.ts\\'" . typescript-mode)
+  :mode (("\\.ts\\'" . typescript-mode)
+         ("\\.spec.ts'\\". typescript-mode))
   :init
   (add-hook 'typescript-mode-hook
             (lambda ()
