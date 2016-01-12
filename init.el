@@ -216,46 +216,6 @@
   (setq ediff-split-window-function 'split-window-vertically)
   (setq ediff-ignore-similar-regions t))
 
-(use-package elfeed
-  :ensure t
-  :commands elfeed
-  :bind ("C-x w" . elfeed)
-  :config
-  (setq url-queue-timeout 30)
-  (setq-default elfeed-search-filter "@1-week-ago +unread ")
-  (add-hook 'elfeed-new-entry-hook
-            (elfeed-make-tagger :before "1 weeks ago"
-                                :remove 'unread))
-
-  (defun elfeed-link-title (entry)
-    "Copy the entry title and URL as org link to the clipboard."
-    (interactive)
-    (let* ((link (elfeed-entry-link entry))
-           (title (elfeed-entry-title entry))
-           (titlelink (concat "[[" link "][" title "]]")))
-      (when titlelink
-        (kill-new titlelink)
-        (x-set-selection 'PRIMARY titlelink)
-        (message "Yanked: %s" titlelink))))
-
-  (defun elfeed-search-link-title ()
-    "Copy the current entry title and URL as org link to the clipboard."
-    (interactive)
-    (let ((entries (elfeed-search-selected)))
-      (cl-loop for entry in entries
-               when (elfeed-entry-link entry)
-               do (elfeed-link-title entry))))
-
-  (defun elfeed-show-link-title ()
-    "Copy the current entry title and URL as org link to the clipboard."
-    (interactive)
-    (elfeed-link-title elfeed-show-entry))
-
-  (bind-keys :map elfeed-show-mode-map
-             ("l" . elfeed-show-link-title))
-  (bind-keys :map elfeed-search-mode-map
-             ("l" . elfeed-search-link-title)))
-
 (use-package emacs-eclim
   :ensure t
   :commands (global-eclim-mode))
@@ -489,13 +449,6 @@
   :defer t
   :commands google-translate-at-point)
 
-(use-package hackernews
-  :ensure t
-  :defer t
-  :config
-  (custom-set-faces
-   '(hackernews-link-face ((t (:foreground "cadet blue"))))))
-
 (use-package hardcore-mode
   :ensure t
   :demand t
@@ -711,10 +664,6 @@
 (use-package jenkins
   :ensure t
   :commands jenkins)
-
-(use-package jira
-  :ensure t
-  :defer t)
 
 (use-package json-mode
   :ensure t
@@ -1054,10 +1003,6 @@
     (read-only-mode)
     (ansi-color-apply-on-region (point-min) (point-max)))
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
-
-(use-package sos
-  :ensure t
-  :defer t)
 
 (use-package ssh
   :ensure t
