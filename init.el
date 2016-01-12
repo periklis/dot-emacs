@@ -1071,14 +1071,10 @@
   :ensure t
   :defer t)
 
-(use-package sx
-  :ensure t
-  :commands (sx-ask sx-inbox sx-search))
-
 (use-package tern
   :ensure t
-  :mode (("\\.js'\\" . term-mode)
-         ("\\.spec'\\" . tern-mode))
+  :mode (("\\.js\\'" . term-mode)
+         ("\\.spec\\'" . tern-mode))
   :init
   (use-package company-tern
     :ensure t
@@ -1089,7 +1085,7 @@
 (use-package tide
   :ensure t
   :mode (("\\.ts\\'" . typescript-mode)
-         ("\\.spec.ts'\\". typescript-mode))
+         ("\\.spec.ts\\'". typescript-mode))
   :init
   (add-hook 'typescript-mode-hook
             (lambda ()
