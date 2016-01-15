@@ -22,3 +22,4 @@ tmp/*
 tramp
 url/*
 /bookmarks
+/snippets/message-mode/sickcall
