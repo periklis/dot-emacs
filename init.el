@@ -741,7 +741,7 @@
     (add-to-list
      'org-capture-templates (org-projectile:project-todo-entry "p"))
     (add-to-list
-     'org-capture-templates 
+     'org-capture-templates
      (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO")))
   :config
   (defun my-org-open-at-point (&optional arg)
@@ -819,32 +819,16 @@
 (use-package php-mode
   :ensure t
   :commands (php-mode)
-  :init
-  (use-package inf-php             :ensure t :commands inf-php)
-  (use-package phpcbf              :ensure t :commands php-mode)
-  (use-package php-eldoc           :ensure t :commands php-mode)
-  (use-package php-extras          :ensure t :commands php-mode)
-  (use-package php-refactor-mode   :ensure t :commands php-mode)
-  (use-package php-auto-yasnippets :ensure t :commands php-mode)
-  (use-package phpunit             :ensure t :commands php-mode)
-  (use-package wisent-php
-    :commands (ede-php-autoload-mode semantic-mode php-mode)
-    :load-path "wisent-php/wisent-php.el"
-    :config
-    (semantic-mode t))
-  (use-package ede-php-autoload-composer
-    :commands (ede-php-autoload-mode php-mode)
-    :load-path "ede-php-autoload/ede-php-autoload-composer.el")
-  (use-package ede-php-autoload-semanticdb
-    :commands (ede-php-autoload-mode php-mode)
-    :load-path "ede-php-autoload/ede-php-autoload-semanticdb.el")
-  (use-package ede-php-autoload-mode
-    :commands (ede-php-autoload-mode php-mode)
-    :load-path "ede-php-autoload/ede-php-autoload-mode.el")
-  (use-package ede-php-autoload
-    :commands (ede-php-autoload-mode php-mode)
-    :load-path "ede-php-autoload/ede-php-autoload.el")
   :config
+  (use-package inf-php                     :ensure t :commands inf-php)
+  (use-package phpcbf                      :ensure t :commands php-mode)
+  (use-package php-eldoc                   :ensure t :commands php-mode)
+  (use-package php-extras                  :ensure t :commands php-mode)
+  (use-package php-refactor-mode           :ensure t :commands php-mode)
+  (use-package php-auto-yasnippets         :ensure t :commands php-mode)
+  (use-package phpunit                     :ensure t :commands php-mode)
+  (use-package semantic-php                :load-path "semantic-php/semantic-php.el")
+
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
    '(php-mode-speedbar-open nil)
@@ -870,9 +854,7 @@
   (defun php-mode-init-minor-modes-hook ()
     "Enable extra modes"
     (php-eldoc-enable)
-    
-    ;;(semantic-mode t)
-
+    (semantic-mode t)
     (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
 
     (defvar company-backends)
@@ -881,6 +863,7 @@
     (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
     (add-to-list 'company-semantic-modes 'php-mode))
 
+  (add-hook 'php-mode-hook #'semantic-php-default-setup)
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook #'(lambda () (add-hook 'before-save-hook 'delete-trailing-whitespace)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
@@ -892,7 +875,6 @@
   (add-hook 'php-mode-hook #'history-mode)
   (add-hook 'php-mode-hook #'subword-mode)
   (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
-  (add-hook 'php-mode-hook #'ede-php-autoload-mode)
   (add-hook 'php-mode-hook #'php-refactor-mode)
   (add-hook 'php-mode-hook #'history-mode)
 
