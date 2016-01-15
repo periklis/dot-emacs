@@ -69,8 +69,6 @@
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
 
-  (defvar use-package-verbose t)
-
   (require 'cl)
   (require 'use-package))
 
@@ -105,10 +103,7 @@
  '(tab-width 4)
  '(tool-bar-mode nil)
  '(visible-bell nil)
- '(winner-mode t)
- '(whitespace-style
-   (quote
-    (tabs spaces lines space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))))
+ '(winner-mode t))
 
 ;; Custom face definitions
 (custom-set-faces
@@ -225,16 +220,14 @@
   :init
   (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'emacs-lisp-mode-hook #'linum-mode)
+  (add-hook 'emacs-lisp-mode-hook #'auto-fill-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-indent-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-pair-mode)
+  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
   (add-hook 'emacs-lisp-mode-hook #'history-mode)
+  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook #'subword-mode)
-
-  (auto-fill-mode 1)
-  (paredit-mode 1)
-  (eldoc-mode 1)
-
   (local-set-key (kbd "<return>") 'paredit-newline)
   (add-hook 'after-save-hook 'check-parens nil t))
 
@@ -258,21 +251,6 @@
    '(flycheck-display-errors-function nil)
    '(flycheck-check-syntax-automatically '(save mode-enabled)))
   (add-hook 'after-init-hook #'global-flycheck-mode))
-
-(use-package ggtags
-  :ensure t
-  :commands ggtags-mode
-  :config
-  (custom-set-variables
-   '(ggtags-sort-by-nearness t)
-   '(ggtags-global-window-height 20)
-   '(ggtags-split-window-function 'split-window-below)
-   '(ggtags-global-output-format 'cscope))
-
-  (add-hook 'c-mode-common-hook
-            (lambda ()
-              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-                (ggtags-mode 1)))))
 
 (use-package gnus
   :init
@@ -561,6 +539,12 @@
   (helm-descbinds-mode)
   (helm-autoresize-mode 1))
 
+(use-package highlight-numbers
+  :ensure t
+  :diminish highlight-numbers-mode
+  :config
+  (add-hook 'prog-mode-hook #'highlight-numbers-mode))
+
 (use-package highlight-symbol
   :ensure t
   :demand t
@@ -585,14 +569,10 @@
   (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
   (add-to-list 'history-advised-before-functions 'find-file-noselect t))
 
-(use-package highlight-numbers
-  :ensure t
-  :diminish highlight-numbers-mode
-  :config
-  (add-hook 'prog-mode-hook #'highlight-numbers-mode))
-
 (use-package geben
   :commands php-mode
+  :preface
+  (defvar geben-sessions)
   :config
   (defun my-geben-release ()
     (interactive)
@@ -638,10 +618,7 @@
 
 (use-package java
   :commands java-mode
-  :preface
-  (defun java-semantic-init-hook ()
-    (semantic-mode t))
-  :init
+  :config
   (use-package javadoc-lookup
     :ensure t
     :commands (javadoc-lookup)
@@ -649,9 +626,8 @@
     (custom-set-variables
      '(javadoc-lookup-completing-read-function #'completing-read))
     (global-set-key (kbd "C-c C-e j") 'javadoc-lookup))
-  (add-hook 'java-mode-hook #'java-semantic-init-hook)
+
   (add-hook 'java-mode-hook #'linum-mode)
-  :config
   (add-hook 'java-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'java-mode-hook #'electric-indent-mode)
   (add-hook 'java-mode-hook #'electric-layout-mode)
@@ -677,9 +653,9 @@
   :commands (js2-mode jasminejs-mode)
   :mode (("\\.js\\'" . js2-mode)
          ("\\.spec\\'" . js2-mode))
-  :init
-  (use-package js2-refactor :ensure t :defer t)
   :config
+  (use-package js2-refactor :ensure t :commands js2-refactor-mode)
+
   (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'js2-mode-hook #'subword-mode)
   (add-hook 'js2-mode-hook #'electric-indent-mode)
@@ -701,16 +677,14 @@
   :ensure t
   :bind (("C-c m g" . magit-status))
   :commands projectile-vc
-  :preface
-  (defvar magit-last-seen-setup-instructions "1.4.0")
-  (defvar magit-diff-options '("-b"))
   :init
+  (custom-set-variables
+   '(magit-last-seen-setup-instructions "1.4.0")
+   '(magit-diff-options '("-b")))
+  :config
   (use-package gitconfig-mode   :ensure t)
   (use-package gitignore-mode   :ensure t)
-  (use-package git-timemachine  :ensure t)
-  :config
-  (setq magit-last-seen-setup-instructions "1.4.0")
-  (setq magit-diff-options '("-b")))
+  (use-package git-timemachine  :ensure t))
 
 (use-package nxml-mode
   :defer t
@@ -731,7 +705,7 @@
 (use-package org
   :ensure t
   :mode ("\\.org\\'" . org-mode)
-  :init
+  :config
   (use-package orgit :ensure t :commands projectile-vc)
   (use-package org-projectile
     :ensure t
@@ -743,7 +717,7 @@
     (add-to-list
      'org-capture-templates
      (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO")))
-  :config
+
   (defun my-org-open-at-point (&optional arg)
     "Open link in external browser if ARG given."
     (interactive "P")
@@ -767,7 +741,6 @@
   :commands paredit-mode
   :diminish paredit-mode
   :config
-  ;;(use-package paredit-ext)
   (bind-key "C-M-l" 'paredit-recentre-on-sexp paredit-mode-map)
   (bind-key ")" 'paredit-close-round-and-newline paredit-mode-map)
   (bind-key "M-)" 'paredit-close-round paredit-mode-map)
@@ -786,20 +759,18 @@
 
 (use-package pdf-tools
   :ensure t
-  :defer t)
+  :mode "\\.pdf\\'"
+  :config
+  (pdf-tools-install)
+  (pdf-tools-enable-minor-modes))
 
 (use-package projectile
   :ensure t
   :pin melpa-stable
   :demand t
   :init
-  (use-package perspective
-    :ensure t
-    :demand t
-    :init
-    (use-package persp-projectile
-      :ensure t
-      :demand t))
+  (use-package perspective      :ensure t :demand t)
+  (use-package persp-projectile :ensure t :demand t)
   :config
   (custom-set-variables
    '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
@@ -890,12 +861,7 @@
 
 (use-package puppet-mode
   :ensure t
-  :defer t
   :mode ("\\.pp\\'" . puppet-mode))
-
-(use-package puppetfile-mode
-  :ensure t
-  :defer t)
 
 (use-package restclient
   :ensure t
@@ -906,12 +872,9 @@
    '(restclient-inhibit-cookies t)
    '(restclient-log-request nil)))
 
-(use-package rich-minority
-  :ensure t)
-
 (use-package sass-mode
   :ensure t
-  :defer t)
+  :mode ("\\.scss\\'" . sass-mode))
 
 (use-package semantic
   :commands (semantic-mode php-mode emacs-lisp-mode)
@@ -971,43 +934,26 @@
           (tramp-set-completion-function method my-tramp-ssh-completions))
         '("fcp" "rsync" "scp" "scpc" "scpx" "sftp" "ssh"))
 
-
-  ;; (add-hook 'ssh-mode-hook (lambda ()
-  ;;                            (shell-dirtrack-mode nil)
-  ;;                            (setq dirtrackp nil)))
-
-  (tramp-get-completion-function "ssh")
-
-  (eval-after-load 'tramp '(vagrant-tramp-add-method))
-
   (defun colorize-compilation-buffer ()
     "Turns ascii colors in compilation buffer."
     (read-only-mode)
     (ansi-color-apply-on-region (point-min) (point-max)))
+
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
 
 (use-package ssh
   :ensure t
-  :demand t)
+  :commands ssh
+  :config
+  (add-hook 'ssh-mode-hook
+              (lambda ()
+                (setq ssh-directory-tracking-mode t)
+                (shell-dirtrack-mode t)
+                (setq dirtrackp nil))))
 
 (use-package ssh-config-mode
   :ensure t
   :commands ssh-config-mode)
-
-(use-package sudo-ext
-  :ensure t
-  :defer t)
-
-(use-package tern
-  :ensure t
-  :mode (("\\.js\\'" . term-mode)
-         ("\\.spec\\'" . tern-mode))
-  :init
-  (use-package company-tern
-    :ensure t
-    :init
-    (add-to-list 'company-backends 'company-tern))
-  (add-hook 'js-mode-hook (lambda () (tern-mode t))))
 
 (use-package tide
   :ensure t
@@ -1021,6 +967,7 @@
 
 (use-package twig-mode
   :ensure t
+  :mode ("\\.twig\\'". twig-mode)
   :commands twig-mode)
 
 (use-package undo-tree
@@ -1036,7 +983,7 @@
   :init
   (use-package vagrant-tramp
     :ensure t
-    :defer t))
+    :commands vagrant-ssh))
 
 (use-package which-key
   :ensure t
@@ -1057,7 +1004,6 @@
 
 (use-package wget
   :ensure t
-  :defer t
   :commands wget)
 
 (use-package w3m
@@ -1072,7 +1018,7 @@
 
 (use-package yaml-mode
   :ensure t
-  :commands yaml-mode)
+  :mode ("\\.yml\\'" . yaml-mode))
 
 (use-package yasnippet
   :ensure t
