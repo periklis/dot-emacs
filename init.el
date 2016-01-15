@@ -257,167 +257,169 @@
   :init
   (require 'nnir)
   (require 'gnus-async)
-  (setq gnus-asynchronous t)
-  (setq gnus-select-method '(nnnil ""))
+  (custom-set-variables
+   '(gnus-asynchronous t)
+   '(gnus-select-method '(nnnil ""))
 
-  (setq gnus-gcc-mark-as-read t)
-  (setq gnus-use-cache t)
+   '(gnus-gcc-mark-as-read t)
+   '(gnus-use-cache t)
 
-  (setq gnus-auto-select-next nil)
-  (setq gnus-auto-select-same t)
-  (setq gnus-auto-center-summary t)
-  (setq gnus-thread-hide-subtree t)
-  (setq gnus-thread-ignore-subject t)
-  (setq gnus-thread-indent-level 2)
-  (setq gnus-treat-hide-citation t)
-  (setq gnus-group-line-format "%M%S%5y:%B%(%G%)\n")
-  (setq gnus-summary-line-format "%O%U%R%z%d %B%(%[%4L: %-22,22f%]%) %s\n")
-  (setq gnus-summary-same-subject "")
-  (setq gnus-sum-thread-tree-root "")
-  (setq gnus-sum-thread-tree-single-indent "")
-  (setq gnus-sum-thread-tree-leaf-with-other "+-> ")
-  (setq gnus-sum-thread-tree-vertical "|")
-  (setq gnus-sum-thread-tree-single-leaf "`-> ")
-  (setq gnus-extract-address-components 'mail-extract-address-components)
-  (setq gnus-use-adaptive-scoring t)
-  (setq gnus-decay-scores t)
-  (setq gnus-default-adaptive-score-alist
-        '((gnus-unread-mark)
-          (gnus-ticked-mark (from 4))
-          (gnus-dormant-mark (from 5))
-          (gnus-del-mark (from -4) (subject -1))
-          (gnus-read-mark (from 4) (subject 2))
-          (gnus-expirable-mark (from -1) (subject -1))
-          (gnus-killed-mark (from -1) (subject -3))
-          (gnus-kill-file-mark)
-          (gnus-ancient-mark)
-          (gnus-low-score-mark)
-          (gnus-catchup-mark (from -1) (subject -1))))
+   '(gnus-auto-select-next nil)
+   '(gnus-auto-select-same t)
+   '(gnus-auto-center-summary t)
+   '(gnus-thread-hide-subtree t)
+   '(gnus-thread-ignore-subject t)
+   '(gnus-thread-indent-level 2)
+   '(gnus-treat-hide-citation t)
+   '(gnus-group-line-format "%M%S%5y:%B%(%G%)\n")
+   '(gnus-summary-line-format "%O%U%R%z%d %B%(%[%4L: %-22,22f%]%) %s\n")
+   '(gnus-summary-same-subject "")
+   '(gnus-sum-thread-tree-root "")
+   '(gnus-sum-thread-tree-single-indent "")
+   '(gnus-sum-thread-tree-leaf-with-other "+-> ")
+   '(gnus-sum-thread-tree-vertical "|")
+   '(gnus-sum-thread-tree-single-leaf "`-> ")
+   '(gnus-extract-address-components 'mail-extract-address-components)
+   '(gnus-use-adaptive-scoring t)
+   '(gnus-decay-scores t)
+   '(gnus-default-adaptive-score-alist
+     '((gnus-unread-mark)
+       (gnus-ticked-mark (from 4))
+       (gnus-dormant-mark (from 5))
+       (gnus-del-mark (from -4) (subject -1))
+       (gnus-read-mark (from 4) (subject 2))
+       (gnus-expirable-mark (from -1) (subject -1))
+       (gnus-killed-mark (from -1) (subject -3))
+       (gnus-kill-file-mark)
+       (gnus-ancient-mark)
+       (gnus-low-score-mark)
+       (gnus-catchup-mark (from -1) (subject -1))))
 
-  (setq gnus-thread-sort-functions
-        '(gnus-thread-sort-by-most-recent-date
-          gnus-thread-sort-by-score))
+   '(gnus-thread-sort-functions
+     '(gnus-thread-sort-by-most-recent-date
+       gnus-thread-sort-by-score))
 
-  (setq gnus-subthread-sort-functions
-        '(gnus-thread-sort-by-number
-          gnus-thread-sort-by-date))
+   '(gnus-subthread-sort-functions
+     '(gnus-thread-sort-by-number
+       gnus-thread-sort-by-date)))
+
 
   (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
   (add-hook 'gnus-article-mode-hook 'w3m-minor-mode)
 
-  (setq
-   gnus-buffer-configuration
-   '((group
-      (vertical 1.0
-                (group 1.0 point)))
-     (summary
-      (horizontal 1.0
-                  (vertical 0.25
-                            (group 1.0))
-                  (vertical 1.0
-                            (summary 1.0 point))))
-     (article
-      (cond
-       (gnus-use-trees
-        '(vertical 1.0
-                   (summary 0.25 point)
-                   (tree 0.25)
-                   (article 1.0)))
-       (t
-        '(horizontal 1.0
-                     (vertical 0.4
-                               (summary 1.0 point))
-                     (vertical 1.0
-                               (article 1.0))))))
-     (server
-      (vertical 1.0
-                (server 1.0 point)))
-     (browse
-      (vertical 1.0
-                (browse 1.0 point)))
-     (message
-      (vertical 1.0
-                (message 1.0 point)))
-     (pick
-      (vertical 1.0
-                (article 1.0 point)))
-     (info
-      (vertical 1.0
-                (info 1.0 point)))
-     (summary-faq
-      (vertical 1.0
-                (summary 0.25)
-                (faq 1.0 point)))
-     (only-article
-      (vertical 1.0
-                (article 1.0 point)))
-     (edit-article
-      (vertical 1.0
-                (article 1.0 point)))
-     (edit-form
-      (vertical 1.0
-                (group 0.5)
-                (edit-form 1.0 point)))
-     (edit-score
-      (vertical 1.0
-                (summary 0.25)
-                (edit-score 1.0 point)))
-     (edit-server
-      (vertical 1.0
-                (server 0.5)
-                (edit-form 1.0 point)))
-     (post
-      (vertical 1.0
-                (post 1.0 point)))
-     (reply
-      (vertical 1.0
-                (article 0.5)
-                (message 1.0 point)))
-     (forward
-      (vertical 1.0
-                (message 1.0 point)))
-     (reply-yank
-      (vertical 1.0
-                (message 1.0 point)))
-     (mail-bounce
-      (vertical 1.0
-                (article 0.5)
-                (message 1.0 point)))
-     (pipe
-      (vertical 1.0
-                (summary 0.25 point)
-                ("*Shell Command Output*" 1.0)))
-     (bug
-      (vertical 1.0
-                (if gnus-bug-create-help-buffer
-                    '("*Gnus Help Bug*" 0.5))
-                ("*Gnus Bug*" 1.0 point)))
-     (score-trace
-      (vertical 1.0
-                (summary 0.5 point)
-                ("*Score Trace*" 1.0)))
-     (score-words
-      (vertical 1.0
-                (summary 0.5 point)
-                ("*Score Words*" 1.0)))
-     (split-trace
-      (vertical 1.0
-                (summary 0.5 point)
-                ("*Split Trace*" 1.0)))
-     (category
-      (vertical 1.0
-                (category 1.0)))
-     (compose-bounce
-      (vertical 1.0
-                (article 0.5)
-                (message 1.0 point)))
-     (display-term
-      (vertical 1.0
-                ("*display*" 1.0)))
-     (mml-preview
-      (vertical 1.0
-                (message 0.5)
-                (mml-preview 1.0 point))))))
+  (custom-set-variables
+   '(gnus-buffer-configuration
+     '((group
+        (vertical 1.0
+                  (group 1.0 point)))
+       (summary
+        (horizontal 1.0
+                    (vertical 0.25
+                              (group 1.0))
+                    (vertical 1.0
+                              (summary 1.0 point))))
+       (article
+        (cond
+         (gnus-use-trees
+          '(vertical 1.0
+                     (summary 0.25 point)
+                     (tree 0.25)
+                     (article 1.0)))
+         (t
+          '(horizontal 1.0
+                       (vertical 0.4
+                                 (summary 1.0 point))
+                       (vertical 1.0
+                                 (article 1.0))))))
+       (server
+        (vertical 1.0
+                  (server 1.0 point)))
+       (browse
+        (vertical 1.0
+                  (browse 1.0 point)))
+       (message
+        (vertical 1.0
+                  (message 1.0 point)))
+       (pick
+        (vertical 1.0
+                  (article 1.0 point)))
+       (info
+        (vertical 1.0
+                  (info 1.0 point)))
+       (summary-faq
+        (vertical 1.0
+                  (summary 0.25)
+                  (faq 1.0 point)))
+       (only-article
+        (vertical 1.0
+                  (article 1.0 point)))
+       (edit-article
+        (vertical 1.0
+                  (article 1.0 point)))
+       (edit-form
+        (vertical 1.0
+                  (group 0.5)
+                  (edit-form 1.0 point)))
+       (edit-score
+        (vertical 1.0
+                  (summary 0.25)
+                  (edit-score 1.0 point)))
+       (edit-server
+        (vertical 1.0
+                  (server 0.5)
+                  (edit-form 1.0 point)))
+       (post
+        (vertical 1.0
+                  (post 1.0 point)))
+       (reply
+        (vertical 1.0
+                  (article 0.5)
+                  (message 1.0 point)))
+       (forward
+        (vertical 1.0
+                  (message 1.0 point)))
+       (reply-yank
+        (vertical 1.0
+                  (message 1.0 point)))
+       (mail-bounce
+        (vertical 1.0
+                  (article 0.5)
+                  (message 1.0 point)))
+       (pipe
+        (vertical 1.0
+                  (summary 0.25 point)
+                  ("*Shell Command Output*" 1.0)))
+       (bug
+        (vertical 1.0
+                  (if gnus-bug-create-help-buffer
+                      '("*Gnus Help Bug*" 0.5))
+                  ("*Gnus Bug*" 1.0 point)))
+       (score-trace
+        (vertical 1.0
+                  (summary 0.5 point)
+                  ("*Score Trace*" 1.0)))
+       (score-words
+        (vertical 1.0
+                  (summary 0.5 point)
+                  ("*Score Words*" 1.0)))
+       (split-trace
+        (vertical 1.0
+                  (summary 0.5 point)
+                  ("*Split Trace*" 1.0)))
+       (category
+        (vertical 1.0
+                  (category 1.0)))
+       (compose-bounce
+        (vertical 1.0
+                  (article 0.5)
+                  (message 1.0 point)))
+       (display-term
+        (vertical 1.0
+                  ("*display*" 1.0)))
+       (mml-preview
+        (vertical 1.0
+                  (message 0.5)
+                  (mml-preview 1.0 point)))))))
 
 (use-package google-maps
   :ensure t
@@ -882,11 +884,9 @@
 
 (use-package restclient
   :ensure t
-  :defer t
-  :commands restclient-mode
+  :commands (restclient-mode)
   :config
   (custom-set-variables
-   '(restclient-inhibit-cookies t)
    '(restclient-log-request nil)))
 
 (use-package sass-mode
@@ -966,7 +966,7 @@
               (lambda ()
                 (setq ssh-directory-tracking-mode t)
                 (shell-dirtrack-mode t)
-                (setq dirtrackp nil))))
+                (setq shell-dirtrackp nil))))
 
 (use-package ssh-config-mode
   :ensure t
