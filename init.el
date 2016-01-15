@@ -168,7 +168,7 @@
   :diminish company-mode
   :config
   (custom-set-variables
-   '(company-idle-delay 0.2)
+   '(company-idle-delay 0.5)
    '(company-auto-complete 'company-explicit-action-p)
    '(company-tooltip-align-annotations t)
    '(company-show-numbers t))
@@ -228,6 +228,7 @@
   (add-hook 'emacs-lisp-mode-hook #'history-mode)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook #'subword-mode)
+  (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
   (local-set-key (kbd "<return>") 'paredit-newline)
   (add-hook 'after-save-hook 'check-parens nil t))
 
@@ -635,7 +636,8 @@
   (add-hook 'java-mode-hook #'history-mode)
   (add-hook 'java-mode-hook #'subword-mode)
   (add-hook 'java-mode-hook #'c-toggle-auto-newline)
-  (add-hook 'java-mode-hook #'c-toggle-hungry-state))
+  (add-hook 'java-mode-hook #'c-toggle-hungry-state)
+  (add-hook 'java-mode-hook #'yas-minor-mode))
 
 (use-package jenkins
   :ensure t
@@ -650,11 +652,12 @@
 
 (use-package js2-mode
   :ensure t
-  :commands (js2-mode jasminejs-mode)
   :mode (("\\.js\\'" . js2-mode)
          ("\\.spec\\'" . js2-mode))
   :config
   (use-package js2-refactor :ensure t :commands js2-refactor-mode)
+  (use-package tern         :ensure t)
+  (use-package company-tern :ensure t :commands tern-mode)
 
   (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'js2-mode-hook #'subword-mode)
@@ -663,7 +666,9 @@
   (add-hook 'js2-mode-hook #'electric-pair-mode)
   (add-hook 'js2-mode-hook #'history-mode)
   (add-hook 'js2-mode-hook #'linum-mode)
-  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+  (add-hook 'js2-mode-hook #'yas-minor-mode))
 
 (use-package karma
   :ensure t
@@ -685,6 +690,12 @@
   (use-package gitconfig-mode   :ensure t)
   (use-package gitignore-mode   :ensure t)
   (use-package git-timemachine  :ensure t))
+
+(use-package markdown-mode
+  :ensure t
+  :mode ("\\.md\\'" . markdown-mode)
+  :config
+  (add-hook 'markdown-mode-hook #'yas-minor-mode))
 
 (use-package nxml-mode
   :defer t
@@ -726,7 +737,9 @@
       (let ((browse-url-browser-function #'browse-url-default-macosx-browser))
         (org-open-at-point))))
 
-  (define-key org-mode-map (kbd "C-c C-o") #'my-org-open-at-point))
+  (define-key org-mode-map (kbd "C-c C-o") #'my-org-open-at-point)
+
+  (add-hook 'org-mode-hook #'yas-minor-mode))
 
 (use-package paradox
   :ensure t
@@ -791,14 +804,14 @@
   :ensure t
   :commands (php-mode)
   :config
-  (use-package inf-php                     :ensure t :commands inf-php)
-  (use-package phpcbf                      :ensure t :commands php-mode)
-  (use-package php-eldoc                   :ensure t :commands php-mode)
-  (use-package php-extras                  :ensure t :commands php-mode)
-  (use-package php-refactor-mode           :ensure t :commands php-mode)
-  (use-package php-auto-yasnippets         :ensure t :commands php-mode)
-  (use-package phpunit                     :ensure t :commands php-mode)
-  (use-package semantic-php                :load-path "semantic-php/semantic-php.el")
+  (use-package inf-php             :ensure t :commands inf-php)
+  (use-package phpcbf              :ensure t :commands php-mode)
+  (use-package php-eldoc           :ensure t :commands php-mode)
+  (use-package php-extras          :ensure t :commands php-mode)
+  (use-package php-refactor-mode   :ensure t :commands php-mode)
+  (use-package php-auto-yasnippets :ensure t :commands php-mode)
+  (use-package phpunit             :ensure t :commands php-mode)
+  (use-package semantic-php        :load-path "semantic-php/semantic-php.el")
 
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
@@ -808,7 +821,11 @@
    '(phpunit-arg "")
    '(phpunit-program "phpunit --colors --disallow-test-output")
    '(phpunit-stop-on-error t)
-   '(phpunit-stop-on-failure t))
+   '(phpunit-stop-on-failure t)
+   '(php-auto-yasnippet-php-program
+     (expand-file-name
+      "elpa/php-auto-yasnippets-20141128.1411/Create-PHP-YASnippet.php"
+      user-emacs-directory)))
 
   (c-add-style
    "mo4"
@@ -834,9 +851,7 @@
     (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
     (add-to-list 'company-semantic-modes 'php-mode))
 
-  (add-hook 'php-mode-hook #'semantic-php-default-setup)
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
-  (add-hook 'php-mode-hook #'(lambda () (add-hook 'before-save-hook 'delete-trailing-whitespace)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
   (add-hook 'php-mode-hook #'electric-layout-mode)
   (add-hook 'php-mode-hook #'electric-pair-mode)
@@ -844,16 +859,18 @@
   (add-hook 'php-mode-hook #'c-toggle-hungry-state)
   (add-hook 'php-mode-hook #'helm-gtags-mode)
   (add-hook 'php-mode-hook #'history-mode)
+  (add-hook 'php-mode-hook #'linum-mode)
+  (add-hook 'php-mode-hook #'semantic-php-default-setup)
   (add-hook 'php-mode-hook #'subword-mode)
   (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
   (add-hook 'php-mode-hook #'php-refactor-mode)
-  (add-hook 'php-mode-hook #'history-mode)
 
   ;; coding styles
   (remove-hook 'php-mode-symfony2-hook 'php-enable-symfony2-coding-style t)
   (add-hook    'php-mode-symfony2-hook 'mo4/php-enable-mo4-coding-style  nil t)
 
   ;; key bindings
+  (define-key php-mode-map (kbd "C-c C-y") 'yas/create-php-snippet)
   (define-key php-mode-map (kbd "C-x s") 'company-semantic)
   (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
   (define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
@@ -1018,12 +1035,18 @@
 
 (use-package yaml-mode
   :ensure t
-  :mode ("\\.yml\\'" . yaml-mode))
+  :mode ("\\.yml\\'" . yaml-mode)
+  :config
+  (add-hook 'yaml-mode-hook #'yas-minor-mode))
 
 (use-package yasnippet
   :ensure t
   :commands yas-minor-mode
-  :diminish  yas-minor-mode)
+  :diminish  yas-minor-mode
+  :config
+  (custom-set-variables
+   '(yas-prompt-functions
+     '(yas-completing-prompt))))
 
 ;; Add global key bindings
 (use-package key-bindings
