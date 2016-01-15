@@ -187,7 +187,7 @@
   (custom-set-variables
    '(ecb-auto-update-methods-after-save t)
    '(ecb-force-reparse-when-semantic-idle-scheduler-off t)
-   '(ecb-layout-name "left3")
+   '(ecb-layout-name "left9")
    '(ecb-methods-menu-sorter nil)
    '(ecb-non-semantic-exclude-modes (quote (sh-mode fundamental-mode text-mode)))
    '(ecb-options-version "2.40")
@@ -845,7 +845,6 @@
     "Enable extra modes"
     (php-eldoc-enable)
     (semantic-mode t)
-    (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
 
     (defvar company-backends)
     (defvar company-semantic-modes)
