@@ -26,6 +26,9 @@
 ;; Hippie expand
 (global-set-key (kbd "M-/") 'hippie-expand)
 
+;; Eval data expression
+(global-set-key "\M-:" 'data-debug-eval-expression)
+
 ;; helm
 (global-unset-key (kbd "C-x c"))
 
