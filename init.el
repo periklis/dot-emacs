@@ -91,6 +91,7 @@
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(load-prefer-newer t)
+ '(max-specpdl-size 1600)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(scroll-margin 0)
@@ -220,13 +221,15 @@
   :init
   (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'emacs-lisp-mode-hook #'linum-mode)
-  (add-hook 'emacs-lisp-mode-hook #'auto-fill-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-indent-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-pair-mode)
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook #'helm-gtags-mode)
   (add-hook 'emacs-lisp-mode-hook #'history-mode)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
+  (add-hook 'emacs-lisp-mode-hook #'semantic-default-elisp-setup)
+  (add-hook 'emacs-lisp-mode-hook #'semantic-mode)
   (add-hook 'emacs-lisp-mode-hook #'subword-mode)
   (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
   (local-set-key (kbd "<return>") 'paredit-newline)
@@ -632,13 +635,15 @@
 
   (add-hook 'java-mode-hook #'linum-mode)
   (add-hook 'java-mode-hook #'(lambda () (setq truncate-lines 0)))
+  (add-hook 'java-mode-hook #'c-toggle-auto-newline)
+  (add-hook 'java-mode-hook #'c-toggle-hungry-state)
   (add-hook 'java-mode-hook #'electric-indent-mode)
   (add-hook 'java-mode-hook #'electric-layout-mode)
   (add-hook 'java-mode-hook #'electric-pair-mode)
   (add-hook 'java-mode-hook #'history-mode)
   (add-hook 'java-mode-hook #'subword-mode)
-  (add-hook 'java-mode-hook #'c-toggle-auto-newline)
-  (add-hook 'java-mode-hook #'c-toggle-hungry-state)
+  (add-hook 'java-mode-hook #'wisent-java-default-setup)
+  (add-hook 'java-mode-hook #'semantic-mode)
   (add-hook 'java-mode-hook #'yas-minor-mode))
 
 (use-package jenkins
@@ -669,7 +674,7 @@
   (add-hook 'js2-mode-hook #'history-mode)
   (add-hook 'js2-mode-hook #'linum-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+  (add-hook 'js2-mode-hook #'(lambda () (tern-mode t)))
   (add-hook 'js2-mode-hook #'yas-minor-mode))
 
 (use-package karma
@@ -813,7 +818,7 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
-  (use-package semantic-php        :load-path "semantic-php/semantic-php.el")
+  (load "semantic-php/loaddefs.el")
 
   (custom-set-variables
    '(php-executable "/usr/local/bin/php")
@@ -844,7 +849,7 @@
   (defun php-mode-init-minor-modes-hook ()
     "Enable extra modes"
     (php-eldoc-enable)
-    (semantic-mode t)
+    ;;(semantic-mode t)
 
     (defvar company-backends)
     (defvar company-semantic-modes)
@@ -862,6 +867,7 @@
   (add-hook 'php-mode-hook #'history-mode)
   (add-hook 'php-mode-hook #'linum-mode)
   (add-hook 'php-mode-hook #'semantic-php-default-setup)
+  (add-hook 'php-mode-hook #'semantic-mode)
   (add-hook 'php-mode-hook #'subword-mode)
   (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
   (add-hook 'php-mode-hook #'php-refactor-mode)
@@ -893,23 +899,8 @@
   :mode ("\\.scss\\'" . sass-mode))
 
 (use-package semantic
-  :commands (semantic-mode php-mode emacs-lisp-mode)
+  :commands (semantic-mode)
   :config
-  (use-package semantic/chart      :commands (semantic-mode php-mode emacs-lisp-mode))
-  (use-package semantic/complete   :commands (semantic-mode php-mode emacs-lisp-mode))
-  (use-package semantic/db-ebrowse :commands (semantic-mode php-mode emacs-lisp-mode))
-  (use-package semantic/db-find    :commands (semantic-mode php-mode emacs-lisp-mode))
-  (use-package semantic/find       :commands (semantic-mode php-mode emacs-lisp-mode))
-  (use-package semantic/ia         :commands (semantic-mode php-mode emacs-lisp-mode))
-  (use-package semantic/senator    :commands (semantic-mode php-mode emacs-lisp-mode))
-  (use-package semantic/symref     :commands (semantic-mode php-mode emacs-lisp-mode))
-
-  (custom-set-variables
-   '(global-semantic-highlight-edits-mode t)
-   '(global-semantic-idle-completions-mode t nil (semantic/idle))
-   '(global-semantic-idle-completions-mode -1)
-   '(global-semanticdb-minor-mode t))
-
   ;; Enabe idle semenatic modes
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
