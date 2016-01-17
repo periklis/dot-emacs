@@ -908,7 +908,6 @@
    '(global-semantic-highlight-edits-mode t)
    '(global-semantic-idle-completions-mode t nil (semantic/idle))
    '(global-semantic-idle-completions-mode -1)
-   '(global-semantic-stickyfunc-mode t)
    '(global-semanticdb-minor-mode t))
 
   ;; Enabe idle semenatic modes
@@ -924,6 +923,7 @@
   (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
   (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
   (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-breadcrumbs-mode)
 
   ;; Enable semantic status modes
   (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode))
