@@ -24,3 +24,6 @@ url/*
 /bookmarks
 /snippets/message-mode/sickcall
 /snippets/message-mode/sickack
+/GPATH
+/GRTAGS
+/GTAGS
