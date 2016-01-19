@@ -114,6 +114,7 @@
 ;; Custom general hooks
 (add-hook 'prog-mode-hook #'goto-address-mode)
 (add-hook 'text-mode-hook #'goto-address-mode)
+(add-hook 'after-init-hook #'server-mode)
 
 ;; Load Libraries
 (use-package async           :ensure t :defer t)
