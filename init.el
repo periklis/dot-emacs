@@ -815,7 +815,6 @@
   :config
   (use-package inf-php             :ensure t :commands inf-php)
   (use-package phpcbf              :ensure t :commands php-mode)
-  (use-package php-eldoc           :ensure t :commands php-mode)
   (use-package php-extras          :ensure t :commands php-mode)
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
@@ -823,10 +822,8 @@
   (load "semantic-php/loaddefs.el")
 
   (custom-set-variables
-   '(php-executable "/usr/local/bin/php")
    '(php-mode-speedbar-open nil)
    '(php-refactor-command "refactor")
-   '(phpcbf-executable "~/.composer/vendor/bin/phpcbf")
    '(phpunit-arg "")
    '(phpunit-program "phpunit --colors --disallow-test-output")
    '(phpunit-stop-on-error t)
@@ -836,28 +833,11 @@
       "elpa/php-auto-yasnippets-20141128.1411/Create-PHP-YASnippet.php"
       user-emacs-directory)))
 
-  (c-add-style
-   "mo4"
-   '("symfony2"))
+  (defvar company-backends)
+  (defvar company-semantic-modes)
 
-  (defun mo4/php-enable-mo4-coding-style ()
-    "Makes MO4 preferable coding style on extending Symfony2."
-    (setq indent-tabs-mode nil
-          fill-column 120
-          c-indent-comments-syntactically-p t
-          require-final-newline t)
-    (c-set-style "mo4"))
-
-  (defun php-mode-init-minor-modes-hook ()
-    "Enable extra modes"
-    (php-eldoc-enable)
-    ;;(semantic-mode t)
-
-    (defvar company-backends)
-    (defvar company-semantic-modes)
-
-    (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
-    (add-to-list 'company-semantic-modes 'php-mode))
+  (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
+  (add-to-list 'company-semantic-modes 'php-mode)
 
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
@@ -868,15 +848,10 @@
   (add-hook 'php-mode-hook #'helm-gtags-mode)
   (add-hook 'php-mode-hook #'history-mode)
   (add-hook 'php-mode-hook #'linum-mode)
+  (add-hook 'php-mode-hook #'php-refactor-mode)
   (add-hook 'php-mode-hook #'semantic-php-default-setup)
   (add-hook 'php-mode-hook #'semantic-mode)
   (add-hook 'php-mode-hook #'subword-mode)
-  (add-hook 'php-mode-hook #'php-mode-init-minor-modes-hook)
-  (add-hook 'php-mode-hook #'php-refactor-mode)
-
-  ;; coding styles
-  (remove-hook 'php-mode-symfony2-hook 'php-enable-symfony2-coding-style t)
-  (add-hook    'php-mode-symfony2-hook 'mo4/php-enable-mo4-coding-style  nil t)
 
   ;; key bindings
   (define-key php-mode-map (kbd "C-c C-y") 'yas/create-php-snippet)
