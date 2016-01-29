@@ -596,8 +596,7 @@
 (use-package jabber
   :ensure t
   :preface
-  (define-prefix-command 'jabber-global-keymap)
-  (global-set-key (kbd "C-x C-j") 'jabber-global-keymap)
+  (define-key ctl-x-map "\C-j" jabber-global-keymap)
   :bind (("C-x C-j C-c" . jabber-connect-all)
          ("C-x C-j C-d" . jabber-disconnect)
          ("C-x C-j C-r" . jabber-display-roster)
@@ -606,17 +605,20 @@
   :config
   (custom-set-variables
    '(jabber-auto-reconnect t)
-   '(jabber-chat-buffer-format "%n-jabber")
+   '(jabber-chat-buffer-format "%n")
    '(jabber-chat-buffer-show-avatar nil)
    '(jabber-connection-ssl-program nil)
-   '(jabber-groupchat-buffer-format "%n-jabber")
+   '(jabber-groupchat-buffer-format "%n")
    '(jabber-mode-line-mode t)
-   '(jabber-muc-private-buffer-format "%g-%n-jabber")
+   '(jabber-muc-private-buffer-format "%g-%n")
    '(jabber-roster-buffer "roster")
    '(jabber-roster-line-format " %c %-25n %u %-8s  %S")
+   '(jabber-roster-show-title nil)
+   '(jabber-roster-show-bindings nil)
    '(jabber-roster-sort-functions
-     (quote
-      (jabber-roster-sort-by-status jabber-roster-sort-by-displayname jabber-roster-sort-by-group))))
+     '(jabber-roster-sort-by-status
+      jabber-roster-sort-by-displayname
+      jabber-roster-sort-by-group)))
   (add-hook 'jabber-chat-mode-hook #'goto-address)
   (add-hook 'jabber-chat-mode-hook #'abbrev-mode))
 
