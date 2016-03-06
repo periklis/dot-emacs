@@ -16,7 +16,7 @@
 ;; Set path to dependencies
 (defvar contrib-lisp-dir (expand-file-name "contrib" user-emacs-directory))
 (defvar site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
-(defvar styles-lisp-dir (expand-file-name "contrib" user-emacs-directory))
+(defvar styles-lisp-dir (expand-file-name "styles" user-emacs-directory))
 
 ;; Set path for temporary directory
 (setq temporary-file-directory (expand-file-name "tmp" user-emacs-directory))
