@@ -145,6 +145,18 @@
   :ensure t
   :defer t)
 
+(use-package cc-mode
+  :mode (("\\.c\\'" . c-mode)
+         ("\\.h\\'" . c-mode)
+         ("\\.hpp\\'" . c++-mode)
+         ("\\.cpp\\'" . c++-mode)
+         ("\\.tpp\\'" . c++-mode))
+  :config
+  (use-package eassist
+    :bind (:map c-mode-base-map
+                ("M-o" . eassist-switch-h-cpp)
+                ("M-m" . eassist-list-methods))))
+
 (use-package ctags
   :ensure t
   :commands (create-tags create-project-tags)
