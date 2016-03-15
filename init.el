@@ -68,7 +68,7 @@
     (package-refresh-contents))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/melpa-stable" user-emacs-directory))
-     (package-refresh-contents))
+    (package-refresh-contents))
 
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
@@ -141,10 +141,6 @@
   (auto-compile-on-load-mode 1)
   (auto-compile-on-save-mode 1))
 
-(use-package bash-completion
-  :ensure t
-  :defer t)
-
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
          ("\\.h\\'" . c-mode)
@@ -154,8 +150,7 @@
   :config
   (use-package eassist
     :bind (:map c-mode-base-map
-                ("M-o" . eassist-switch-h-cpp)
-                ("M-m" . eassist-list-methods))))
+                ("M-o" . eassist-switch-h-cpp))))
 
 (use-package ctags
   :ensure t
@@ -640,8 +635,8 @@
    '(jabber-roster-show-bindings nil)
    '(jabber-roster-sort-functions
      '(jabber-roster-sort-by-status
-      jabber-roster-sort-by-displayname
-      jabber-roster-sort-by-group)))
+       jabber-roster-sort-by-displayname
+       jabber-roster-sort-by-group)))
   (add-hook 'jabber-chat-mode-hook #'goto-address)
   (add-hook 'jabber-chat-mode-hook #'abbrev-mode))
 
@@ -937,7 +932,7 @@
   (setq explicit-bash-args '("--login" "--init-file" "~/.bash_profile" "-i"))
 
   (defvar my-tramp-ssh-completions '((tramp-parse-sconfig "/etc/ssh_config")
-                                   (tramp-parse-sconfig "~/.ssh/config")))
+                                     (tramp-parse-sconfig "~/.ssh/config")))
 
   (mapc (lambda (method)
           (tramp-set-completion-function method my-tramp-ssh-completions))
@@ -955,10 +950,10 @@
   :commands ssh
   :config
   (add-hook 'ssh-mode-hook
-              (lambda ()
-                (setq ssh-directory-tracking-mode t)
-                (shell-dirtrack-mode t)
-                (setq shell-dirtrackp nil))))
+            (lambda ()
+              (setq ssh-directory-tracking-mode t)
+              (shell-dirtrack-mode t)
+              (setq shell-dirtrackp nil))))
 
 (use-package ssh-config-mode
   :ensure t
