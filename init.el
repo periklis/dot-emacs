@@ -768,6 +768,16 @@
 
   (define-key org-mode-map (kbd "C-c C-o") #'my-org-open-at-point)
 
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (C . t)
+     (java . t)
+     (js . t)
+     (makefile . t)
+     (shell . t)
+     ))
+
   (add-hook 'org-mode-hook #'yas-minor-mode))
 
 (use-package paradox
