@@ -1,4 +1,4 @@
-;;; init.el --- Emacs initiliazation
+i;;; init.el --- Emacs initiliazation
 
 ;;; Commentary:
 
@@ -621,6 +621,7 @@
          ("C-x C-j C-m" . jabber-muc-join))
   :commands (jabber-connect jabber-connect-all)
   :config
+  (use-package jabber-otr :ensure t :commands jabber-otr-encrypt)
   (custom-set-variables
    '(jabber-auto-reconnect t)
    '(jabber-chat-buffer-format "%n")

@@ -1,6 +1,7 @@
 *.elc
 .#.*
 .emacs.desktop*
+.org-id-locations
 .sx/*
 abbrev_defs
 ac-*
@@ -12,6 +13,7 @@ flycheck_init.el
 geben/*
 jabber-avatar-cache/*
 jabber-history/*
+jabber-otr/*
 javadoc-cache/*
 local.el
 projectile*
