@@ -733,7 +733,15 @@
   :config
   (use-package helm-mt :ensure t :demand t)
   (setq multi-term-program "/usr/local/bin/zsh")
-  (add-to-list 'term-unbind-key-list "TAB"))
+  (defun term-send-tab ()
+        "Send tab in term mode."
+        (interactive)
+        (term-send-raw-string "\t"))
+  (add-to-list 'term-bind-key-alist '("<tab>" . term-send-tab))
+  (add-to-list 'term-bind-key-alist '("C-f" . forward-char))
+  (add-to-list 'term-bind-key-alist '("C-b" . backward-char))
+  (add-to-list 'term-bind-key-alist '("C-a" . move-beginning-of-line))
+  (add-to-list 'term-bind-key-alist '("C-e" . move-end-of-line)))
 
 (use-package nxml-mode
   :defer t
