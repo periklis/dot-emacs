@@ -1,5 +1,6 @@
 *.elc
 .#.*
+.#*
 .emacs.desktop*
 .org-id-locations
 .sx/*
@@ -7,6 +8,7 @@ abbrev_defs
 ac-*
 auto-save-list/*
 backups/*
+bbdb
 ede-projects.el
 elpa/*
 flycheck_init.el

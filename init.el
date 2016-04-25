@@ -141,6 +141,21 @@
   (auto-compile-on-load-mode 1)
   (auto-compile-on-save-mode 1))
 
+(use-package bbdb
+  :ensure t
+  :demand t
+  :config
+  (bbdb-initialize 'gnus 'message)
+  (bbdb-mua-auto-update-init 'gnus 'message)
+  (custom-set-variables
+   '(bbdb-mua-update-interactive-p '(query . create))
+   '(bbdb-mua-auto-update-init 'message)
+   '(bbdb-offer-to-create t)
+   '(bbdb-message-all-addresses t)
+   '(bbdb-north-american-phone-numbers-p nil)
+   '(bbdb-complete-name-allow-cycling t)
+   '(bbdb-use-pop-up nil)))
+
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
          ("\\.h\\'" . c-mode)
