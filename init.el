@@ -1,4 +1,4 @@
-i;;; init.el --- Emacs initiliazation
+;;; init.el --- Emacs initiliazation
 
 ;;; Commentary:
 
@@ -726,6 +726,14 @@ i;;; init.el --- Emacs initiliazation
   :mode ("\\.md\\'" . markdown-mode)
   :config
   (add-hook 'markdown-mode-hook #'yas-minor-mode))
+
+(use-package multi-term
+  :ensure t
+  :demand t
+  :config
+  (use-package helm-mt :ensure t :demand t)
+  (setq multi-term-program "/usr/local/bin/zsh")
+  (add-to-list 'term-unbind-key-list "TAB"))
 
 (use-package nxml-mode
   :defer t
