@@ -636,7 +636,13 @@
          ("C-x C-j C-m" . jabber-muc-join))
   :commands (jabber-connect jabber-connect-all)
   :config
-  (use-package jabber-otr :ensure t :commands jabber-otr-encrypt)
+  (use-package jabber-otr
+    :ensure t
+    :commands jabber-otr-encrypt
+    :config
+    (set-face-background 'jabber-otr-encrypted nil)
+    (set-face-background 'jabber-otr-encrypted-sent nil)
+    (set-face-background 'jabber-otr-encrypted-unverified nil))
   (custom-set-variables
    '(jabber-auto-reconnect t)
    '(jabber-chat-buffer-format "%n")
@@ -652,7 +658,16 @@
    '(jabber-roster-sort-functions
      '(jabber-roster-sort-by-status
        jabber-roster-sort-by-displayname
-       jabber-roster-sort-by-group)))
+       jabber-roster-sort-by-group))
+   '(jabber-alert-presence-message-function
+     (lambda (who oldstatus newstatus statustext) nil)))
+
+  (define-jabber-alert echo
+    "Show a message in the echo area"
+    (lambda (msg)
+      (unless (minibuffer-prompt)
+        (message "%s" msg))))
+
   (add-hook 'jabber-chat-mode-hook #'goto-address)
   (add-hook 'jabber-chat-mode-hook #'abbrev-mode))
 
