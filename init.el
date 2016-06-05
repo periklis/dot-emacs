@@ -185,6 +185,11 @@
     (create-tags languages options-file-name)
     (message "Created language tags (%s) for current project" languages)))
 
+(use-package cmake-mode
+  :ensure t
+  :mode (("\\.cmake\\'" . cmake-mode)
+         ("\\CMakeLists.txt\\'" . cmake-mode)))
+
 (use-package color-theme-solarized
   :ensure t
   :defer t
@@ -643,6 +648,7 @@
     (set-face-background 'jabber-otr-encrypted nil)
     (set-face-background 'jabber-otr-encrypted-sent nil)
     (set-face-background 'jabber-otr-encrypted-unverified nil))
+
   (custom-set-variables
    '(jabber-auto-reconnect t)
    '(jabber-chat-buffer-format "%n")
