@@ -1077,6 +1077,14 @@
   (define-key w3m-minor-mode-map (kbd "RET") 'w3m-goto-url)
   (define-key w3m-minor-mode-map (kbd "C-c w e") 'w3m-view-url-with-external-browser))
 
+(use-package xterm-color
+  :ensure t
+  :demand t
+  :config
+  (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+       (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
+       (setq font-lock-unfontify-region-function 'xterm-color-unfontify-region)))
+
 (use-package yaml-mode
   :ensure t
   :mode ("\\.yml\\'" . yaml-mode)
