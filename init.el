@@ -809,9 +809,9 @@
     "Open link in external browser if ARG given."
     (interactive "P")
     (if (not arg)
-        (org-open-at-point)
-      (let ((browse-url-browser-function #'browse-url-default-macosx-browser))
-        (org-open-at-point))))
+        (let ((browse-url-browser-function #'browse-url-default-macosx-browser))
+          (org-open-at-point))
+      (org-open-at-point)))
 
   (define-key org-mode-map (kbd "C-c C-o") #'my-org-open-at-point)
 
