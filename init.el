@@ -205,6 +205,7 @@
    '(company-idle-delay 0.5)
    '(company-auto-complete 'company-explicit-action-p)
    '(company-tooltip-align-annotations t)
+   '(company-transformers '(company-sort-by-backend-importance))
    '(company-show-numbers t))
 
   (add-hook 'after-init-hook 'global-company-mode))
