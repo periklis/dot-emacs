@@ -11,6 +11,9 @@
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
 
+;; compile-command
+(global-set-key (kbd "C-x C-m") 'compile)
+
 ;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
@@ -39,9 +42,10 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-c h a") 'helm-ag)
 (global-set-key (kbd "C-c h o") 'helm-occur)
 (global-set-key (kbd "C-c h SPC") 'helm-all-mark-rings)
-(global-set-key (kbd "C-c h g") 'helm-google-suggest)
+(global-set-key (kbd "C-c h g") 'helm-git-grep)
 (global-set-key (kbd "C-c h b") 'helm-descbinds)
 (global-set-key (kbd "C-c h f") 'helm-apropos)
 (global-set-key (kbd "C-c h d") 'helm-info-emacs)

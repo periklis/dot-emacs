@@ -4,6 +4,7 @@
 .emacs.desktop*
 .org-id-locations
 .sx/*
+\#bbdb\#
 abbrev_defs
 ac-*
 auto-save-list/*
@@ -22,6 +23,7 @@ projectile*
 rake.cache
 recentf
 semanticdb/*
+srecode-map.el
 tmp/*
 tramp
 url/*

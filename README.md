@@ -4,6 +4,11 @@ Emacs .emacs.d configuration & dependencies.
 
 External tool dependencies
 -------------------------
+### C/C++ Development
+1. [cedet](http://cedet.sourceforge.net/)
+2. [cmake](https://cmake.org/)
+3. [cppcheck](http://cppcheck.sourceforge.net/)
+
 ### PHP Development
 1. [php](https://secure.php.net/)
 2. [phpcs](https://github.com/squizlabs/PHP_CodeSniffer)
@@ -30,7 +35,6 @@ External tool dependencies
 ### Other
 1. [GNU Global](https://www.gnu.org/software/global/)
 2. [universal-ctags](https://github.com/universal-ctags/ctags)
-3. [Ack](https://github.com/petdance/ack2)
-4. [Ag](https://github.com/ggreer/the_silver_searcher)
+3. [Ag](https://github.com/ggreer/the_silver_searcher)
 5. [Vagrant](https://github.com/mitchellh/vagrant)
 6. [W3M](http://emacs-w3m.namazu.org/)

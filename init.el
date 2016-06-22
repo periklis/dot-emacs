@@ -80,6 +80,8 @@
 (custom-set-variables
  '(blink-cursor-mode nil)
  '(column-number-mode t)
+ '(compilation-read-command nil)
+ '(compilation-scroll-output 'first-error)
  '(confirm-kill-emacs (quote yes-or-no-p))
  '(display-battery-mode t)
  '(display-time-default-load-average 1)
@@ -165,7 +167,15 @@
   :config
   (use-package eassist
     :bind (:map c-mode-base-map
-                ("M-o" . eassist-switch-h-cpp))))
+                ("M-o" . eassist-switch-h-cpp)))
+
+  (defun my/cc-mode-company-setup ()
+    "Setup company backends for cc-mode."
+    (add-to-list 'company-backends 'company-c-headers)
+    (add-to-list 'company-backends 'company-clang)
+    (add-to-list 'company-backends 'company-gtags))
+
+  (add-hook 'c-mode-hook #'my/cc-mode-company-setup))
 
 (use-package ctags
   :ensure t
@@ -188,7 +198,14 @@
 (use-package cmake-mode
   :ensure t
   :mode (("\\.cmake\\'" . cmake-mode)
-         ("\\CMakeLists.txt\\'" . cmake-mode)))
+         ("\\CMakeLists.txt\\'" . cmake-mode))
+  :config
+  (defun my/cmake-mode-company-setup ()
+    "Setup company for cmake-mode."
+    (add-to-list 'company-backends 'company-cmake))
+
+  (add-hook 'cmake-mode-hook #'my/cmake-mode-company-setup))
+
 
 (use-package color-theme-solarized
   :ensure t
@@ -526,13 +543,10 @@
   :init
   (use-package helm-config     :demand t)
   (use-package helm-projectile :ensure t :demand t)
-  (use-package helm-ack        :ensure t :bind ("C-c h a" . helm-ack))
   (use-package helm-ag         :ensure t :commands helm-ag)
   (use-package helm-descbinds  :ensure t :bind ("C-c h b" . helm-descbinds))
   (use-package helm-flycheck   :ensure t :bind ("C-c f e" . helm-flycheck))
-  (use-package helm-hoogle     :ensure t :commands helm-hoogle)
   (use-package helm-git-grep   :ensure t :commands helm-git-grep)
-  (use-package helm-google     :ensure t :commands helm-google)
   (use-package helm-swoop
     :ensure t
     :bind (("M-i" . helm-swoop)
@@ -987,6 +1001,13 @@
   (sml/setup)
   (sml/apply-theme 'respectful))
 
+(use-package srefactor
+  :ensure t
+  :commands (srefactor-refactor-at-point)
+  :config
+  (define-key c-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
+  (define-key c++-mode-map (kbd "M-RET") 'srefactor-refactor-at-point))
+
 (use-package shell
   :ensure t
   :demand t
@@ -1073,6 +1094,16 @@
 (use-package wget
   :ensure t
   :commands wget)
+
+(use-package wgrep
+  :ensure t
+  :commands (grep rgrep)
+  :config
+  (custom-set-variables
+   '(wgrep-auto-save-buffer t))
+  (use-package wgrep-helm :ensure t :demand t)
+  (define-key grep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
+  (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
 (use-package w3m
   :ensure t
