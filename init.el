@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 
-;;; Emacs initialization
+>1;95;0c;;; Emacs initialization
 
 ;;; Code:
 
@@ -53,10 +53,10 @@
 (eval-and-compile
   (package-initialize nil)
 
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+  (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
     (package-refresh-contents))
