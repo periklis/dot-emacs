@@ -886,7 +886,6 @@
 
 (use-package projectile
   :ensure t
-  :pin melpa-stable
   :demand t
   :init
   (use-package perspective      :ensure t :demand t)
