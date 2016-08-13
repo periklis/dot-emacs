@@ -633,17 +633,8 @@
 (use-package geben
   :ensure t
   :commands php-mode
-  :preface
-  (defvar geben-sessions)
   :init
-  (use-package geben-helm-projectile :ensure t)
-  :config
-  (defun my-geben-release ()
-    (interactive)
-    (geben-stop)
-    (dolist (session geben-sessions)
-      (ignore-errors
-        (geben-session-release session)))))
+  (use-package geben-helm-projectile :ensure t))
 
 (use-package itail
   :ensure t
