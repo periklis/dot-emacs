@@ -1,6 +1,3 @@
-[submodule "site-lisp/geben"]
-	path = site-lisp/geben
-	url = git@github.com:periklis/geben.git
 [submodule "site-lisp/semantic-php"]
 	path = site-lisp/semantic-php
 	url = git@github.com:jorissteyn/semantic-php.git
