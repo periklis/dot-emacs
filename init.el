@@ -631,9 +631,12 @@
   (add-to-list 'history-advised-before-functions 'find-file-noselect t))
 
 (use-package geben
+  :ensure t
   :commands php-mode
   :preface
   (defvar geben-sessions)
+  :init
+  (use-package geben-helm-projectile :ensure t)
   :config
   (defun my-geben-release ()
     (interactive)
