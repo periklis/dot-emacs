@@ -181,7 +181,7 @@
   :ensure t
   :commands (create-tags create-project-tags)
   :config
-  (defvar ctags-executable "/usr/local/bin/ctags")
+  (defvar ctags-executable "~/.nix-profile/bin/ctags")
 
   (defun create-tags (languages options)
     "Create tags file."
@@ -777,7 +777,7 @@
   :demand t
   :config
   (use-package helm-mt :ensure t :demand t)
-  (setq multi-term-program "/usr/local/bin/zsh")
+  (setq multi-term-program "~/.nix-profile/bin/zsh")
   (defun term-send-tab ()
         "Send tab in term mode."
         (interactive)
