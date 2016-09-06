@@ -19,6 +19,7 @@ jabber-history/*
 jabber-otr/*
 javadoc-cache/*
 local.el
+network-security.data
 projectile*
 rake.cache
 recentf
