@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 
->1;95;0c;;; Emacs initialization
+;;; Emacs initialization
 
 ;;; Code:
 
@@ -173,9 +173,11 @@
     "Setup company backends for cc-mode."
     (add-to-list 'company-backends 'company-c-headers)
     (add-to-list 'company-backends 'company-clang)
-    (add-to-list 'company-backends 'company-gtags))
+    (add-to-list 'company-backends 'company-gtags)
+    (add-to-list 'company-backends 'company-semantic))
 
-  (add-hook 'c-mode-hook #'my/cc-mode-company-setup))
+  (add-hook 'c-mode-hook #'my/cc-mode-company-setup)
+  (add-hook 'c++-mode-hook #'my/cc-mode-company-setup))
 
 (use-package ctags
   :ensure t
