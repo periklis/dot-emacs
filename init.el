@@ -169,16 +169,31 @@
     :bind (:map c-mode-base-map
                 ("M-o" . eassist-switch-h-cpp)))
 
+  (use-package google-c-style :ensure t :defer t)
+
   (defun my/cc-mode-company-setup ()
     "Setup company backends for cc-mode."
     (set (make-local-variable 'company-backends)
-         '(company-clang company-semantic company-gtags company-c-headers)))
+         '((company-c-headers
+            company-semantic
+            company-clang
+            ;;company-gtags
+            ))))
 
-  (add-hook 'c-mode-hook #'my/cc-mode-company-setup)
+  (add-hook 'c-mode-common-hook 'google-set-c-style)
+  (add-hook 'c-mode-common-hook 'google-make-newline-indent)
+
+  ;;(add-hook 'c-mode-hook #'helm-gtags-mode)
   (add-hook 'c-mode-hook #'linum-mode)
-  (add-hook 'c++-mode-hook #'my/cc-mode-company-setup)
+  (add-hook 'c-mode-hook #'my/cc-mode-company-setup)
+  (add-hook 'c-mode-hook #'semantic-mode)
+
+  ;;(add-hook 'c++-mode-hook #'helm-gtags-mode)
   (add-hook 'c++-mode-hook #'linum-mode)
-  (add-hook 'c++-mode-hook #'semantic-mode))
+  (add-hook 'c++-mode-hook #'my/cc-mode-company-setup)
+  (add-hook 'c++-mode-hook #'semantic-mode)
+
+  (define-key c++-mode-map (kbd "C-x s") 'company-semantic))
 
 (use-package ctags
   :ensure t
@@ -220,6 +235,7 @@
   :demand t
   :diminish company-mode
   :config
+  (use-package company-c-headers :ensure t :defer t)
   (custom-set-variables
    '(company-idle-delay 0.5)
    '(company-auto-complete 'company-explicit-action-p)
