@@ -171,13 +171,14 @@
 
   (defun my/cc-mode-company-setup ()
     "Setup company backends for cc-mode."
-    (add-to-list 'company-backends 'company-c-headers)
-    (add-to-list 'company-backends 'company-clang)
-    (add-to-list 'company-backends 'company-gtags)
-    (add-to-list 'company-backends 'company-semantic))
+    (set (make-local-variable 'company-backends)
+         '(company-clang company-semantic company-gtags company-c-headers)))
 
   (add-hook 'c-mode-hook #'my/cc-mode-company-setup)
-  (add-hook 'c++-mode-hook #'my/cc-mode-company-setup))
+  (add-hook 'c-mode-hook #'linum-mode)
+  (add-hook 'c++-mode-hook #'my/cc-mode-company-setup)
+  (add-hook 'c++-mode-hook #'linum-mode)
+  (add-hook 'c++-mode-hook #'semantic-mode))
 
 (use-package ctags
   :ensure t
@@ -204,10 +205,9 @@
   :config
   (defun my/cmake-mode-company-setup ()
     "Setup company for cmake-mode."
-    (add-to-list 'company-backends 'company-cmake))
+    (set (make-local-variable 'company-backends) '(company-cmake)))
 
   (add-hook 'cmake-mode-hook #'my/cmake-mode-company-setup))
-
 
 (use-package color-theme-solarized
   :ensure t
@@ -926,12 +926,11 @@
       "elpa/php-auto-yasnippets-20141128.1411/Create-PHP-YASnippet.php"
       user-emacs-directory)))
 
-  (defvar company-backends)
-  (defvar company-semantic-modes)
-
-  (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
-  (add-to-list 'company-semantic-modes 'php-mode)
-
+  (add-hook
+   'php-mode-hook
+   #'(lamda ()
+            ((set (make-local-variable 'company-backends) '(company-semantic company-gtags))
+             (add-to-list 'company-semantic-modes 'php-mode))))
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
   (add-hook 'php-mode-hook #'electric-layout-mode)
