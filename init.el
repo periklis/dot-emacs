@@ -831,7 +831,6 @@
     :ensure t
     :bind ("C-c n p" . org-projectile:project-todo-completing-read)
     :config
-    (setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
     (add-to-list
      'org-capture-templates (org-projectile:project-todo-entry "p"))
     (add-to-list
