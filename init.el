@@ -857,7 +857,8 @@
      (shell . t)
      ))
 
-  (add-hook 'org-mode-hook #'yas-minor-mode))
+  (add-hook 'org-mode-hook #'yas-minor-mode)
+  (add-hook 'org-mode-hook #'auto-revert-mode))
 
 (use-package paradox
   :ensure t
