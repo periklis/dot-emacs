@@ -382,7 +382,6 @@
      '(gnus-thread-sort-by-number
        gnus-thread-sort-by-date)))
 
-
   (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
   (add-hook 'gnus-article-mode-hook 'w3m-minor-mode)
 
