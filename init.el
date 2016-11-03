@@ -565,11 +565,13 @@
   :diminish helm-mode
   :init
   (use-package helm-config     :demand t)
+  (use-package helm-fuzzier    :ensure t :demand t :init (helm-fuzzier-mode))
   (use-package helm-projectile :ensure t :demand t)
   (use-package helm-ag         :ensure t :commands helm-ag)
   (use-package helm-descbinds  :ensure t :bind ("C-c h b" . helm-descbinds))
   (use-package helm-flycheck   :ensure t :bind ("C-c f e" . helm-flycheck))
   (use-package helm-git-grep   :ensure t :commands helm-git-grep)
+  (use-package helm-sys        :commands helm-top)
   (use-package helm-swoop
     :ensure t
     :bind (("M-i" . helm-swoop)
@@ -591,6 +593,8 @@
    '(helm-grep-default-command             "grep -a -d recurse %e -n%cH -e %p %f")
    '(helm-ack-base-command                 "ack -H --nogroup")
    '(helm-time-zone-home-location          "Berlin")
+   '(helm-echo-input-in-header-line        t)
+   '(helm-net-prefer-curl                  t)
    '(helm-quick-update                     t)
    '(helm-split-window-in-side-p           t)
    '(helm-buffers-fuzzy-matching           t)
