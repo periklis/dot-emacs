@@ -301,12 +301,12 @@
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
   (add-hook 'emacs-lisp-mode-hook #'helm-gtags-mode)
   (add-hook 'emacs-lisp-mode-hook #'history-mode)
-  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
+  ;; (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook #'semantic-default-elisp-setup)
   (add-hook 'emacs-lisp-mode-hook #'semantic-mode)
   (add-hook 'emacs-lisp-mode-hook #'subword-mode)
   (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
-  (local-set-key (kbd "<return>") 'paredit-newline)
+  ;; (local-set-key (kbd "<return>") 'paredit-newline)
   (add-hook 'after-save-hook 'check-parens nil t))
 
 (use-package engine-mode
@@ -878,6 +878,7 @@
 
 (use-package paredit
   :ensure t
+  :disabled t
   :commands paredit-mode
   :diminish paredit-mode
   :config
@@ -1018,6 +1019,96 @@
   :config
   (sml/setup)
   (sml/apply-theme 'respectful))
+
+(use-package smartparens
+  :ensure t
+  :init
+  (electric-pair-mode -1)
+  (require 'smartparens-config)
+  ;; Turn on smartparens in the minibuffer
+  (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
+  (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
+
+  (define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-forward-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-sexp)
+
+  (define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
+  (define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp)
+  (define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp)
+
+  (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
+
+  (define-key smartparens-mode-map (kbd "C-M-n") 'sp-next-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-p") 'sp-previous-sexp)
+
+  (define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
+  (define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
+
+  (define-key smartparens-mode-map (kbd "M-r") 'sp-unwrap-sexp)
+
+  (define-key smartparens-mode-map (kbd "C-(") 'sp-forward-barf-sexp)
+  (define-key smartparens-mode-map (kbd "C-)") 'sp-forward-slurp-sexp)
+  (define-key smartparens-mode-map (kbd "M-(") 'sp-forward-barf-sexp)
+  (define-key smartparens-mode-map (kbd "M-)") 'sp-forward-slurp-sexp)
+
+  (define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
+  (define-key smartparens-mode-map (kbd "C-M-[") 'sp-select-previous-thing)
+  (define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
+
+  (define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
+
+  (define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
+  (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
+
+  (bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
+  (bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
+
+  ;; Handle backspace in c-like modes better for smartparens
+  (bind-key [remap c-electric-backspace]
+            'sp-backward-delete-char smartparens-strict-mode-map)
+
+  ;; ;; Bind ";" to sp-comment in elisp
+  (bind-key ";" 'sp-comment emacs-lisp-mode-map)
+
+  (defun sp--org-skip-asterisk (ms mb me)
+    (or (and (= (line-beginning-position) mb)
+             (eq 32 (char-after (1+ mb))))
+        (and (= (1+ (line-beginning-position)) me)
+             (eq 32 (char-after me)))))
+
+  ;; Org-mode
+  (sp-with-modes
+   'org-mode
+   (sp-local-pair "*" "*"
+                  :actions '(insert wrap)
+                  :unless '(sp-point-after-word-p sp-point-at-bol-p)
+                  :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
+   (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
+   (sp-local-pair "/" "/" :unless '(sp-point-after-word-p)
+                  :post-handlers '(("[d1]" "SPC")))
+   (sp-local-pair "~" "~" :unless '(sp-point-after-word-p)
+                  :post-handlers '(("[d1]" "SPC")))
+   (sp-local-pair "=" "=" :unless '(sp-point-after-word-p)
+                  :post-handlers '(("[d1]" "SPC")))
+   (sp-local-pair "«" "»"))
+
+  ;;; Prog-modes
+  (sp-with-modes
+   '(java-mode c++-mode php-mode js2-mode)
+   (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+   (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
+                                             ("* ||\n[i]" "RET"))))
+
+  (smartparens-global-strict-mode 1)
+  (show-smartparens-global-mode -1)
+  ;; :config
+  ;; (set-face-attribute 'sp-pair-overlay-face nil
+  ;;                     :background "#333333" :foreground "#bbc2cf")
+  )
 
 (use-package srefactor
   :ensure t
