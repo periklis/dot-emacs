@@ -11,11 +11,10 @@
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
 
+(global-set-key (kbd "<C-tab>") #'other-window)
+
 ;; compile-command
 (global-set-key (kbd "C-x C-m") 'compile)
-
-;; ibuffer
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; auto-indent newline
 (global-set-key (kbd "RET") 'newline-and-indent)
