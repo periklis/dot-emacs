@@ -1218,6 +1218,13 @@
   (define-key grep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
   (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
+(use-package with-editor
+  :ensure t
+  :init
+  (progn
+    (add-hook 'shell-mode-hook  'with-editor-export-editor)
+    (add-hook 'eshell-mode-hook 'with-editor-export-editor)))
+
 (use-package w3m
   :ensure t
   :commands (w3m-mode w3m-minor-mode)
