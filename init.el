@@ -179,14 +179,17 @@
   (defun my/cc-mode-company-setup ()
     "Setup company backends for cc-mode."
     (set (make-local-variable 'company-backends)
-         '((company-c-headers
-            company-semantic
-            company-clang
+         '((company-rtags
+            ;;company-c-headers
+            ;;company-semantic
+            ;;company-clang
             ;;company-gtags
             ))))
 
   (add-hook 'c-mode-common-hook 'google-set-c-style)
   (add-hook 'c-mode-common-hook 'google-make-newline-indent)
+  (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
+  (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
 
   ;;(add-hook 'c-mode-hook #'helm-gtags-mode)
   (add-hook 'c-mode-hook #'linum-mode)
@@ -218,6 +221,30 @@
     (create-tags languages options-file-name)
     (message "Created language tags (%s) for current project" languages)))
 
+(use-package cmake-ide
+  :ensure t
+  :config
+  (use-package rtags
+    :ensure t
+    :config
+    (custom-set-variables
+     '(rtags-autostart-diagnostics t)
+     '(rtags-completions-enabled nil))
+    (rtags-diagnostics)
+
+    (use-package rtags-helm
+      :config
+      (custom-set-variables
+       '(rtags-use-helm t)))
+
+    (use-package flycheck-rtags)
+
+    (use-package company-rtags
+      :config
+      (push 'company-rtags company-backends)))
+  (cmake-ide-setup))
+
+
 (use-package cmake-mode
   :ensure t
   :mode (("\\.cmake\\'" . cmake-mode)
@@ -241,6 +268,10 @@
   :diminish company-mode
   :config
   (use-package company-c-headers :ensure t :defer t)
+  (use-package company-quickhelp
+    :ensure t
+    :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
+    :config (setq company-quickhelp-delay 2))
   (custom-set-variables
    '(company-idle-delay 0.5)
    '(company-auto-complete 'company-explicit-action-p)
@@ -332,6 +363,13 @@
   :ensure t
   :demand t
   :config
+  (use-package flycheck-pos-tip
+      :ensure t
+      :init
+      (flycheck-pos-tip-mode)
+      (custom-set-variables
+       '(flycheck-pos-tip-timeout 10)
+       '(flycheck-display-errors-delay 0.5)))
   (custom-set-variables
    '(flycheck-display-errors-function nil)
    '(flycheck-check-syntax-automatically '(save mode-enabled)))
@@ -999,10 +1037,11 @@
 (use-package semantic
   :commands (semantic-mode)
   :config
-  ;; Enabe idle semenatic modes
+  ;; Enabe semenatic idle modes
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode-hook)
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
   (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
-  (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
 
   ;; Enable semanticdb modes
   (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
@@ -1067,9 +1106,6 @@
 
   (define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
   (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
-
-  (bind-key "C-c f" (lambda () (interactive) (sp-beginning-of-sexp 2)) smartparens-mode-map)
-  (bind-key "C-c b" (lambda () (interactive) (sp-beginning-of-sexp -2)) smartparens-mode-map)
 
   ;; Handle backspace in c-like modes better for smartparens
   (bind-key [remap c-electric-backspace]
