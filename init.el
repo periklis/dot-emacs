@@ -420,7 +420,7 @@
        gnus-thread-sort-by-date)))
 
   (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
-  (add-hook 'gnus-article-mode-hook #'w3m-minor-mode)
+  ;; (add-hook 'gnus-article-mode-hook #'w3m-minor-mode)
   (add-hook 'gnus-message-setup-hook #'flyspell-mode)
 
   (custom-set-variables
@@ -1264,6 +1264,7 @@
 
 (use-package w3m
   :ensure t
+  :disabled
   :commands (w3m-mode w3m-minor-mode)
   :config
   (setq mm-text-html-renderer 'w3m)
