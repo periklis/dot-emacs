@@ -278,6 +278,24 @@
 
   (add-hook 'after-init-hook 'global-company-mode))
 
+(use-package dired
+  :bind ("C-x C-j" . dired-jump)
+  :config
+  (use-package dired-x
+    :init
+    (setq-default dired-omit-files-p t)
+    :config
+    (add-to-list 'dired-omit-extensions ".DS_Store"))
+  (use-package dired+ :ensure t)
+  (use-package dired-aux
+    :init
+    (use-package dired-async :ensure async))
+  (put 'dired-find-alternate-file 'disabled nil)
+  (use-package dired-narrow
+    :ensure t
+    :bind (:map dired-mode-map
+                ("/" . dired-narrow))))
+
 (use-package ecb
   :ensure t
   :commands (ecb-activate ecb-deactivate)
