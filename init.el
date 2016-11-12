@@ -179,17 +179,13 @@
   (defun my/cc-mode-company-setup ()
     "Setup company backends for cc-mode."
     (set (make-local-variable 'company-backends)
-         '((company-rtags
-            ;;company-c-headers
-            ;;company-semantic
-            ;;company-clang
-            ;;company-gtags
-            ))))
+         '((company-rtags))))
 
-  (add-hook 'c-mode-common-hook 'google-set-c-style)
-  (add-hook 'c-mode-common-hook 'google-make-newline-indent)
-  (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
-  (add-hook 'c++-mode-common-hook 'rtags-start-process-unless-running)
+  (add-hook 'c-mode-common-hook #'flyspell-prog-mode)
+  (add-hook 'c-mode-common-hook #'google-set-c-style)
+  (add-hook 'c-mode-common-hook #'google-make-newline-indent)
+  (add-hook 'c-mode-common-hook #'rtags-start-process-unless-running)
+  (add-hook 'c++-mode-common-hook #'rtags-start-process-unless-running)
 
   ;;(add-hook 'c-mode-hook #'helm-gtags-mode)
   (add-hook 'c-mode-hook #'linum-mode)
@@ -201,7 +197,7 @@
   (add-hook 'c++-mode-hook #'my/cc-mode-company-setup)
   (add-hook 'c++-mode-hook #'semantic-mode)
 
-  (define-key c++-mode-map (kbd "C-x s") 'company-semantic))
+  (define-key c++-mode-map (kbd "C-x s") 'company-rtags))
 
 (use-package ctags
   :ensure t
@@ -254,7 +250,8 @@
     "Setup company for cmake-mode."
     (set (make-local-variable 'company-backends) '(company-cmake)))
 
-  (add-hook 'cmake-mode-hook #'my/cmake-mode-company-setup))
+  (add-hook 'cmake-mode-hook #'my/cmake-mode-company-setup)
+  (add-hook 'cmake-mode-hook #'flyspell-prog-mode))
 
 (use-package color-theme-solarized
   :ensure t
@@ -280,11 +277,6 @@
    '(company-show-numbers t))
 
   (add-hook 'after-init-hook 'global-company-mode))
-
-(use-package dash-at-point
-  :ensure t
-  :bind (("C-x d" . dash-at-point)
-         ("C-x e" . dash-at-point-with-docset)))
 
 (use-package ecb
   :ensure t
@@ -330,6 +322,7 @@
   (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-pair-mode)
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook #'flyspell-prog-mode)
   (add-hook 'emacs-lisp-mode-hook #'helm-gtags-mode)
   (add-hook 'emacs-lisp-mode-hook #'history-mode)
   ;; (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
@@ -364,12 +357,12 @@
   :demand t
   :config
   (use-package flycheck-pos-tip
-      :ensure t
-      :init
-      (flycheck-pos-tip-mode)
-      (custom-set-variables
-       '(flycheck-pos-tip-timeout 10)
-       '(flycheck-display-errors-delay 0.5)))
+    :ensure t
+    :init
+    (flycheck-pos-tip-mode)
+    (custom-set-variables
+     '(flycheck-pos-tip-timeout 10)
+     '(flycheck-display-errors-delay 0.5)))
   (custom-set-variables
    '(flycheck-display-errors-function nil)
    '(flycheck-check-syntax-automatically '(save mode-enabled)))
@@ -426,8 +419,9 @@
      '(gnus-thread-sort-by-number
        gnus-thread-sort-by-date)))
 
-  (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
-  (add-hook 'gnus-article-mode-hook 'w3m-minor-mode)
+  (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
+  (add-hook 'gnus-article-mode-hook #'w3m-minor-mode)
+  (add-hook 'gnus-message-setup-hook #'flyspell-mode)
 
   (custom-set-variables
    '(gnus-buffer-configuration
@@ -748,6 +742,7 @@
       (unless (minibuffer-prompt)
         (message "%s" msg))))
 
+  (add-hook 'jabber-chat-mode-hook #'flyspell-mode)
   (add-hook 'jabber-chat-mode-hook #'goto-address)
   (add-hook 'jabber-chat-mode-hook #'abbrev-mode))
 
@@ -773,6 +768,7 @@
   (add-hook 'java-mode-hook #'electric-indent-mode)
   (add-hook 'java-mode-hook #'electric-layout-mode)
   (add-hook 'java-mode-hook #'electric-pair-mode)
+  (add-hook 'java-mode-hook #'flyspell-prog-mode)
   (add-hook 'java-mode-hook #'history-mode)
   (add-hook 'java-mode-hook #'subword-mode)
   (add-hook 'java-mode-hook #'wisent-java-default-setup)
@@ -804,6 +800,7 @@
   (add-hook 'js2-mode-hook #'electric-indent-mode)
   (add-hook 'js2-mode-hook #'electric-layout-mode)
   (add-hook 'js2-mode-hook #'electric-pair-mode)
+  (add-hook 'js2-mode-hook #'flyspell-prog-mode)
   (add-hook 'js2-mode-hook #'history-mode)
   (add-hook 'js2-mode-hook #'linum-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
@@ -835,6 +832,7 @@
   :ensure t
   :mode ("\\.md\\'" . markdown-mode)
   :config
+  (add-hook 'markdown-mode-hook #'flyspell-mode)
   (add-hook 'markdown-mode-hook #'yas-minor-mode))
 
 (use-package multi-term
@@ -844,9 +842,9 @@
   (use-package helm-mt :ensure t :demand t)
   (setq multi-term-program "~/.nix-profile/bin/zsh")
   (defun term-send-tab ()
-        "Send tab in term mode."
-        (interactive)
-        (term-send-raw-string "\t"))
+    "Send tab in term mode."
+    (interactive)
+    (term-send-raw-string "\t"))
   (add-to-list 'term-bind-key-alist '("<tab>" . term-send-tab))
   (add-to-list 'term-bind-key-alist '("C-f" . forward-char))
   (add-to-list 'term-bind-key-alist '("C-b" . backward-char))
@@ -907,8 +905,9 @@
   (custom-set-variables
    '(org-special-ctrl-a/e  t))
 
-  (add-hook 'org-mode-hook #'yas-minor-mode)
-  (add-hook 'org-mode-hook #'auto-revert-mode))
+  (add-hook 'org-mode-hook #'auto-revert-mode)
+  (add-hook 'ord-mode-hook #'flyspell-mode)
+  (add-hook 'org-mode-hook #'yas-minor-mode))
 
 (use-package paradox
   :ensure t
@@ -1004,6 +1003,7 @@
   (add-hook 'php-mode-hook #'electric-pair-mode)
   (add-hook 'php-mode-hook #'c-toggle-auto-newline)
   (add-hook 'php-mode-hook #'c-toggle-hungry-state)
+  (add-hook 'php-mode-hook #'flyspell-prog-mode)
   (add-hook 'php-mode-hook #'helm-gtags-mode)
   (add-hook 'php-mode-hook #'history-mode)
   (add-hook 'php-mode-hook #'linum-mode)
@@ -1122,26 +1122,26 @@
 
   ;; Org-mode
   (sp-with-modes
-   'org-mode
-   (sp-local-pair "*" "*"
-                  :actions '(insert wrap)
-                  :unless '(sp-point-after-word-p sp-point-at-bol-p)
-                  :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
-   (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
-   (sp-local-pair "/" "/" :unless '(sp-point-after-word-p)
-                  :post-handlers '(("[d1]" "SPC")))
-   (sp-local-pair "~" "~" :unless '(sp-point-after-word-p)
-                  :post-handlers '(("[d1]" "SPC")))
-   (sp-local-pair "=" "=" :unless '(sp-point-after-word-p)
-                  :post-handlers '(("[d1]" "SPC")))
-   (sp-local-pair "«" "»"))
+      'org-mode
+    (sp-local-pair "*" "*"
+                   :actions '(insert wrap)
+                   :unless '(sp-point-after-word-p sp-point-at-bol-p)
+                   :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
+    (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
+    (sp-local-pair "/" "/" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "~" "~" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "=" "=" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "«" "»"))
 
   ;;; Prog-modes
   (sp-with-modes
-   '(java-mode c++-mode php-mode js2-mode)
-   (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
-   (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
-                                             ("* ||\n[i]" "RET"))))
+      '(java-mode c++-mode php-mode js2-mode)
+    (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
+    (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
+                                              ("* ||\n[i]" "RET"))))
 
   (smartparens-global-strict-mode 1)
   (show-smartparens-global-mode -1)
@@ -1201,7 +1201,8 @@
   (add-hook 'typescript-mode-hook
             (lambda ()
               (tide-setup)
-              (eldoc-mode +1))))
+              (eldoc-mode +1)))
+  (add-hook 'typescript-mode-hook #'flyspell-prog-mode))
 
 (use-package twig-mode
   :ensure t
@@ -1276,9 +1277,9 @@
   :demand t
   :config
   (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
-       (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
-       ;;(setq font-lock-unfontify-region-function 'xterm-color-unfontify-region)
-       ))
+         (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
+         ;;(setq font-lock-unfontify-region-function 'xterm-color-unfontify-region)
+         ))
 
 (use-package yaml-mode
   :ensure t
