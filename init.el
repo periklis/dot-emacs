@@ -1173,15 +1173,15 @@
   :demand t
   :config
   (require 'ansi-color)
+  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+  (defvar my-tramp-ssh-completions
+    '((tramp-parse-sconfig "/etc/ssh_config")
+      (tramp-parse-sconfig "~/.ssh/config")))
 
-  (setq explicit-bash-args '("--login" "--init-file" "~/.bash_profile" "-i"))
-
-  (defvar my-tramp-ssh-completions '((tramp-parse-sconfig "/etc/ssh_config")
-                                     (tramp-parse-sconfig "~/.ssh/config")))
-
-  (mapc (lambda (method)
-          (tramp-set-completion-function method my-tramp-ssh-completions))
-        '("fcp" "rsync" "scp" "scpc" "scpx" "sftp" "ssh"))
+  (mapc
+   (lambda (method)
+     (tramp-set-completion-function method my-tramp-ssh-completions))
+   '("ssh" "scp"))
 
   (defun colorize-compilation-buffer ()
     "Turns ascii colors in compilation buffer."
