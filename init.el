@@ -934,7 +934,7 @@
 
 (use-package paredit
   :ensure t
-  :disabled t
+  :disabled
   :commands paredit-mode
   :diminish paredit-mode
   :config
@@ -1159,11 +1159,7 @@
                                               ("* ||\n[i]" "RET"))))
 
   (smartparens-global-strict-mode 1)
-  (show-smartparens-global-mode -1)
-  ;; :config
-  ;; (set-face-attribute 'sp-pair-overlay-face nil
-  ;;                     :background "#333333" :foreground "#bbc2cf")
-  )
+  (show-smartparens-global-mode -1))
 
 (use-package srefactor
   :ensure t
