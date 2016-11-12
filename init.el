@@ -689,6 +689,21 @@
   (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
   (add-to-list 'history-advised-before-functions 'find-file-noselect t))
 
+(use-package hippie-exp
+  :config
+  (custom-set-variables
+   '(hippie-expand-try-functions-list
+     (try-expand-dabbrev
+      try-expand-dabbrev-all-buffers
+      try-expand-dabbrev-from-kill
+      try-complete-file-name-partially
+      try-complete-file-name
+      try-expand-all-abbrevs
+      try-expand-list
+      try-expand-line
+      try-complete-lisp-symbol-partially
+      try-complete-lisp-symbol))))
+
 (use-package geben
   :ensure t
   :commands php-mode
