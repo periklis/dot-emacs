@@ -45,6 +45,8 @@
 (setq backup-directory-alist
       `(("." . ,(expand-file-name
                  (concat user-emacs-directory "backups")))))
+(add-to-list 'backup-directory-alist
+             (cons tramp-file-name-regexp nil))
 
 ;; Make backups of files, even when they're in version control
 (setq vc-make-backup-files t)
@@ -281,15 +283,35 @@
 (use-package dired
   :bind ("C-x C-j" . dired-jump)
   :config
+  (custom-set-variables
+   '(dired-dwim-target t)
+   '(dired-ls-F-marks-symlinks t)
+   '(diredp-hide-details-initially-flag nil)
+   '(delete-by-moving-to-trash t)
+   '(global-auto-revert-non-file-buffers t))
+  (use-package dired-sort-menu
+    :ensure t
+    :config
+    (use-package dired-sort-menu+ :ensure t))
+  (add-hook 'dired-load-hook #'dired-sort-menu)
   (use-package dired-x
     :init
     (setq-default dired-omit-files-p t)
     :config
     (add-to-list 'dired-omit-extensions ".DS_Store"))
-  (use-package dired+ :ensure t)
+  (use-package dired+
+    :ensure t
+    :config
+    (custom-set-variables
+     '(font-lock-maximum-decoration 1))
+    (add-hook 'dired-before-readin-hook
+              'diredp-breadcrumbs-in-header-line-mode))
   (use-package dired-aux
     :init
-    (use-package dired-async :ensure async))
+    (use-package dired-async
+      :ensure async
+      :config
+      (dired-async-mode 1)))
   (put 'dired-find-alternate-file 'disabled nil)
   (use-package dired-narrow
     :ensure t
@@ -1191,16 +1213,6 @@
   :demand t
   :config
   (require 'ansi-color)
-  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
-  (defvar my-tramp-ssh-completions
-    '((tramp-parse-sconfig "/etc/ssh_config")
-      (tramp-parse-sconfig "~/.ssh/config")))
-
-  (mapc
-   (lambda (method)
-     (tramp-set-completion-function method my-tramp-ssh-completions))
-   '("ssh" "scp"))
-
   (defun colorize-compilation-buffer ()
     "Turns ascii colors in compilation buffer."
     (read-only-mode)
@@ -1233,6 +1245,14 @@
               (eldoc-mode +1)))
   (add-hook 'typescript-mode-hook #'flyspell-prog-mode))
 
+(use-package tramp
+  :demand t
+  :config
+  (custom-set-variables
+   '(tramp-default-method "ssh"))
+
+  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
+
 (use-package twig-mode
   :ensure t
   :mode ("\\.twig\\'". twig-mode)
@@ -1249,9 +1269,7 @@
   :ensure t
   :commands (vagrant-up vagrant-resume vagrant-suspend)
   :init
-  (use-package vagrant-tramp
-    :ensure t
-    :commands vagrant-ssh))
+  (use-package vagrant-tramp :ensure t))
 
 (use-package which-key
   :ensure t
