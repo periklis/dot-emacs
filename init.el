@@ -789,7 +789,8 @@
        jabber-roster-sort-by-displayname
        jabber-roster-sort-by-group))
    '(jabber-alert-presence-message-function
-     (lambda (who oldstatus newstatus statustext) nil)))
+     (lambda (who oldstatus newstatus statustext) ())
+     ))
 
   (define-jabber-alert echo
     "Show a message in the echo area"
@@ -1020,7 +1021,7 @@
     (helm-ag (projectile-project-root)))
 
   ;; Load projectile globaly
-  (projectile-global-mode)
+  (projectile-mode)
   (persp-mode)
   (helm-projectile-on))
 
@@ -1272,9 +1273,10 @@
 
 (use-package vagrant
   :ensure t
-  :commands (vagrant-up vagrant-resume vagrant-suspend)
-  :init
-  (use-package vagrant-tramp :ensure t))
+  :commands (vagrant-up vagrant-resume vagrant-suspend))
+
+(use-package vagrant-tramp
+  :ensure t)
 
 (use-package which-key
   :ensure t
