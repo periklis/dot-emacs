@@ -859,7 +859,8 @@
   (add-hook 'js2-mode-hook #'history-mode)
   (add-hook 'js2-mode-hook #'linum-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-  (add-hook 'js2-mode-hook #'(lambda () (tern-mode t)))
+  ;;(add-hook 'js2-mode-hook #'(lambda () (tern-mode t)))
+  (add-hook 'js2-mode-hook #'tide-mode)
   (add-hook 'js2-mode-hook #'yas-minor-mode))
 
 (use-package karma
@@ -1243,7 +1244,11 @@
             (lambda ()
               (tide-setup)
               (eldoc-mode +1)))
-  (add-hook 'typescript-mode-hook #'flyspell-prog-mode))
+  (add-hook 'typescript-mode-hook #'flyspell-prog-mode)
+  (add-hook 'typescript-mode-hook #'linum-mode)
+
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-hook 'web-mode-hook #'tide-mode))
 
 (use-package tramp
   :demand t
