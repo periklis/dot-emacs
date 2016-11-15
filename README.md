@@ -8,6 +8,7 @@ External tool dependencies
 1. [cedet](http://cedet.sourceforge.net/)
 2. [cmake](https://cmake.org/)
 3. [cppcheck](http://cppcheck.sourceforge.net/)
+4. [rtags](https://github.com/Andersbakken/rtags)
 
 ### PHP Development
 1. [php](https://secure.php.net/)
