@@ -860,8 +860,7 @@
   (add-hook 'js2-mode-hook #'history-mode)
   (add-hook 'js2-mode-hook #'linum-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-  ;;(add-hook 'js2-mode-hook #'(lambda () (tern-mode t)))
-  (add-hook 'js2-mode-hook #'tide-mode)
+  (add-hook 'js2-mode-hook #'tern-mode)
   (add-hook 'js2-mode-hook #'yas-minor-mode))
 
 (use-package karma
