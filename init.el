@@ -154,6 +154,7 @@
   :ensure t
   :demand t
   :config
+  (use-package helm-bbdb :ensure t)
   (bbdb-initialize 'gnus 'message)
   (bbdb-insinuate-gnus)
   (bbdb-mua-auto-update-init 'gnus 'message)
