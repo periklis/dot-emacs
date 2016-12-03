@@ -165,7 +165,7 @@
    '(bbdb-message-all-addresses t)
    '(bbdb-north-american-phone-numbers-p nil)
    '(bbdb-complete-name-allow-cycling t)
-   '(bbdb-use-pop-up t)))
+   '(bbdb-use-pop-up nil)))
 
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
