@@ -155,6 +155,7 @@
   :demand t
   :config
   (bbdb-initialize 'gnus 'message)
+  (bbdb-insinuate-gnus)
   (bbdb-mua-auto-update-init 'gnus 'message)
   (custom-set-variables
    '(bbdb-mua-update-interactive-p '(query . create))
@@ -163,7 +164,7 @@
    '(bbdb-message-all-addresses t)
    '(bbdb-north-american-phone-numbers-p nil)
    '(bbdb-complete-name-allow-cycling t)
-   '(bbdb-use-pop-up nil)))
+   '(bbdb-use-pop-up t)))
 
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
