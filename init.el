@@ -1048,11 +1048,12 @@
       "elpa/php-auto-yasnippets-20141128.1411/Create-PHP-YASnippet.php"
       user-emacs-directory)))
 
-  (add-hook
-   'php-mode-hook
-   #'(lamda ()
-            ((set (make-local-variable 'company-backends) '(company-semantic company-gtags))
-             (add-to-list 'company-semantic-modes 'php-mode))))
+  (defun my/setup-php-comany-backends ()
+    "Setup company backends for php-mode."
+    ((set (make-local-variable 'company-backends) '(company-semantic company-gtags)))
+    (add-to-list 'company-semantic-modes 'php-mode))
+
+  (add-hook 'php-mode-hook #'my/setup-php-comany-backends)
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
   (add-hook 'php-mode-hook #'electric-layout-mode)
