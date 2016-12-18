@@ -304,8 +304,6 @@
   (use-package dired+
     :ensure t
     :config
-    (custom-set-variables
-     '(font-lock-maximum-decoration 1))
     (add-hook 'dired-before-readin-hook
               'diredp-breadcrumbs-in-header-line-mode))
   (use-package dired-aux
