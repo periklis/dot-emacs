@@ -938,6 +938,7 @@
     (add-to-list
      'org-capture-templates
      (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO")))
+  (use-package ox-pandoc :ensure t)
 
   (defun my-org-open-at-point (&optional arg)
     "Open link in external browser if ARG given."
@@ -965,6 +966,23 @@
   (add-hook 'org-mode-hook #'auto-revert-mode)
   (add-hook 'ord-mode-hook #'flyspell-mode)
   (add-hook 'org-mode-hook #'yas-minor-mode))
+
+(use-package pandoc-mode
+  :ensure t
+  :commands pandoc-mode
+  :config
+  (with-eval-after-load 'pandoc-mode
+    (define-key 'pandoc-mode-map "C-c / r" #'pandoc-run-pandoc)
+    (define-key 'pandoc-mode-map "C-c / p" #'pandoc-convert-to-pdf)
+    (define-key 'pandoc-mode-map "C-c / s" #'pandoc-save-settings-file)
+    (define-key 'pandoc-mode-map "C-c / w" #'pandoc-set-write)
+    (define-key 'pandoc-mode-map "C-c / f" #'pandoc-set-master-file)
+    (define-key 'pandoc-mode-map "C-c / m" #'pandoc-set-metadata)
+    (define-key 'pandoc-mode-map "C-c / v" #'pandoc-set-variable)
+    (define-key 'pandoc-mode-map "C-c / V" #'pandoc-view-output)
+    (define-key 'pandoc-mode-map "C-c / S" #'pandoc-view-settings)
+    (define-key 'pandoc-mode-map "C-c / c" #'pandoc-insert-@)
+    (define-key 'pandoc-mode-map "C-c / C" #'pandoc-select-@)))
 
 (use-package paradox
   :ensure t
