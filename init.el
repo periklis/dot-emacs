@@ -963,6 +963,7 @@
   (custom-set-variables
    '(org-special-ctrl-a/e  t))
 
+  (add-hook 'org-capture-mode-hook #'(lambda () (x-focus-frame nil)))
   (add-hook 'org-mode-hook #'auto-revert-mode)
   (add-hook 'ord-mode-hook #'flyspell-mode)
   (add-hook 'org-mode-hook #'yas-minor-mode))
