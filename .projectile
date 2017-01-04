@@ -3,7 +3,10 @@
 -/geben
 -/jabber-avatar-cache
 -/jabber-history
+-/javadoc-cache
 -/semanticdb
+-/site-lisp/ede-php-autoload
+-/site-lisp/semantic-php
 -/themes
 -/tmp
 -/url
