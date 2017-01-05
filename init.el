@@ -926,9 +926,7 @@
   :config
   (use-package orgit :ensure t :commands projectile-vc)
   (use-package org-protocol)
-  (use-package org-projectile
-    :ensure t
-    :bind ("C-c n p" . org-projectile:project-todo-completing-read))
+  (use-package org-projectile :ensure t)
   (use-package ox-pandoc :ensure t)
 
   (defun my-org-open-at-point (&optional arg)
