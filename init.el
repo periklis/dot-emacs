@@ -933,13 +933,7 @@
   (use-package org-protocol)
   (use-package org-projectile
     :ensure t
-    :bind ("C-c n p" . org-projectile:project-todo-completing-read)
-    :config
-    (add-to-list
-     'org-capture-templates (org-projectile:project-todo-entry "p"))
-    (add-to-list
-     'org-capture-templates
-     (org-projectile:project-todo-entry "l" "* TODO %? %a\n" "Linked Project TODO")))
+    :bind ("C-c n p" . org-projectile:project-todo-completing-read))
   (use-package ox-pandoc :ensure t)
 
   (defun my-org-open-at-point (&optional arg)
