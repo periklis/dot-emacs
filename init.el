@@ -892,7 +892,11 @@
   :demand t
   :config
   (use-package helm-mt :ensure t :demand t)
-  (setq multi-term-program "~/.nix-profile/bin/zsh")
+  (custom-set-variables
+   '(multi-term-program "~/.nix-profile/bin/zsh")
+   '(multi-term-scroll-show-maximum-output nil)
+   '(multi-term-scroll-to-bottom-on-output "this")
+   '(multi-term-switch-after-close nil))
   (defun term-send-tab ()
     "Send tab in term mode."
     (interactive)
