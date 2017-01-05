@@ -1331,17 +1331,6 @@
     (add-hook 'shell-mode-hook  'with-editor-export-editor)
     (add-hook 'eshell-mode-hook 'with-editor-export-editor)))
 
-(use-package w3m
-  :ensure t
-  :disabled
-  :commands (w3m-mode w3m-minor-mode)
-  :config
-  (setq mm-text-html-renderer 'w3m)
-  (setq w3m-add-referer nil)
-  (setq w3m-goto-article-function 'w3m-goto-url)
-  (define-key w3m-minor-mode-map (kbd "RET") 'w3m-goto-url)
-  (define-key w3m-minor-mode-map (kbd "C-c w e") 'w3m-view-url-with-external-browser))
-
 (use-package xterm-color
   :ensure t
   :demand t
