@@ -181,7 +181,7 @@
 
   (use-package google-c-style :ensure t :defer t)
 
-  (defun my/cc-mode-company-setup ()
+  (defun periklis/cc-mode-company-setup ()
     "Setup company backends for cc-mode."
     (set (make-local-variable 'company-backends)
          '((company-rtags))))
@@ -193,11 +193,11 @@
   (add-hook 'c++-mode-common-hook #'rtags-start-process-unless-running)
 
   ;;(add-hook 'c-mode-hook #'helm-gtags-mode)
-  (add-hook 'c-mode-hook #'my/cc-mode-company-setup)
+  (add-hook 'c-mode-hook #'periklis/cc-mode-company-setup)
   (add-hook 'c-mode-hook #'semantic-mode)
 
   ;;(add-hook 'c++-mode-hook #'helm-gtags-mode)
-  (add-hook 'c++-mode-hook #'my/cc-mode-company-setup)
+  (add-hook 'c++-mode-hook #'periklis/cc-mode-company-setup)
   (add-hook 'c++-mode-hook #'semantic-mode)
 
   (define-key c++-mode-map (kbd "C-x s") 'company-rtags))
@@ -248,11 +248,11 @@
   :mode (("\\.cmake\\'" . cmake-mode)
          ("\\CMakeLists.txt\\'" . cmake-mode))
   :config
-  (defun my/cmake-mode-company-setup ()
+  (defun periklis/cmake-mode-company-setup ()
     "Setup company for cmake-mode."
     (set (make-local-variable 'company-backends) '(company-cmake)))
 
-  (add-hook 'cmake-mode-hook #'my/cmake-mode-company-setup)
+  (add-hook 'cmake-mode-hook #'periklis/cmake-mode-company-setup)
   (add-hook 'cmake-mode-hook #'flyspell-prog-mode))
 
 (use-package color-theme-solarized
@@ -928,7 +928,7 @@
   (use-package org-projectile :ensure t)
   (use-package ox-pandoc :ensure t)
 
-  (defun my-org-open-at-point (&optional arg)
+  (defun periklis/org-open-at-point (&optional arg)
     "Open link in external browser if ARG given."
     (interactive "P")
     (if (not arg)
@@ -936,7 +936,7 @@
           (org-open-at-point))
       (org-open-at-point)))
 
-  (define-key org-mode-map (kbd "C-c C-o") #'my-org-open-at-point)
+  (define-key org-mode-map (kbd "C-c C-o") #'periklis/org-open-at-point)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -1055,12 +1055,12 @@
       "elpa/php-auto-yasnippets-20141128.1411/Create-PHP-YASnippet.php"
       user-emacs-directory)))
 
-  (defun my/setup-php-comany-backends ()
+  (defun periklis/setup-php-comany-backends ()
     "Setup company backends for php-mode."
     ((set (make-local-variable 'company-backends) '(company-semantic company-gtags)))
     (add-to-list 'company-semantic-modes 'php-mode))
 
-  (add-hook 'php-mode-hook #'my/setup-php-comany-backends)
+  (add-hook 'php-mode-hook #'periklis/setup-php-comany-backends)
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
   (add-hook 'php-mode-hook #'electric-layout-mode)
