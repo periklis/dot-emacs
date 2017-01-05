@@ -904,6 +904,8 @@
   (add-to-list 'term-bind-key-alist '("<tab>" . term-send-tab))
   (add-to-list 'term-bind-key-alist '("C-f" . forward-char))
   (add-to-list 'term-bind-key-alist '("C-b" . backward-char))
+  (add-to-list 'term-bind-key-alist '("M-f" . forward-word))
+  (add-to-list 'term-bind-key-alist '("M-b" . backward-word))
   (add-to-list 'term-bind-key-alist '("C-a" . move-beginning-of-line))
   (add-to-list 'term-bind-key-alist '("C-e" . move-end-of-line)))
 
