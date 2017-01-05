@@ -460,8 +460,10 @@
        gnus-thread-sort-by-date)))
 
   (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
-  ;; (add-hook 'gnus-article-mode-hook #'w3m-minor-mode)
   (add-hook 'gnus-message-setup-hook #'flyspell-mode)
+  (add-hook 'message-mode-hook 'turn-on-orgstruct)
+  (add-hook 'message-mode-hook 'turn-on-orgtbl)
+  (add-hook 'message-mode-hook 'turn-on-orgstruct++)
 
   (custom-set-variables
    '(gnus-buffer-configuration
@@ -963,7 +965,6 @@
   (custom-set-variables
    '(org-special-ctrl-a/e  t))
 
-  (add-hook 'org-capture-mode-hook #'(lambda () (x-focus-frame nil)))
   (add-hook 'org-mode-hook #'auto-revert-mode)
   (add-hook 'ord-mode-hook #'flyspell-mode)
   (add-hook 'org-mode-hook #'yas-minor-mode))
