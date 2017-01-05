@@ -125,6 +125,7 @@
  '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil)))))
 
 ;; Custom general hooks
+(add-hook 'prog-mode-hook #'linum-mode)
 (add-hook 'prog-mode-hook #'goto-address-mode)
 (add-hook 'text-mode-hook #'goto-address-mode)
 (add-hook 'after-init-hook #'server-mode)
@@ -192,12 +193,10 @@
   (add-hook 'c++-mode-common-hook #'rtags-start-process-unless-running)
 
   ;;(add-hook 'c-mode-hook #'helm-gtags-mode)
-  (add-hook 'c-mode-hook #'linum-mode)
   (add-hook 'c-mode-hook #'my/cc-mode-company-setup)
   (add-hook 'c-mode-hook #'semantic-mode)
 
   ;;(add-hook 'c++-mode-hook #'helm-gtags-mode)
-  (add-hook 'c++-mode-hook #'linum-mode)
   (add-hook 'c++-mode-hook #'my/cc-mode-company-setup)
   (add-hook 'c++-mode-hook #'semantic-mode)
 
@@ -357,7 +356,6 @@
   :mode ("\\.el\\'" . emacs-lisp-mode)
   :init
   (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq truncate-lines 0)))
-  (add-hook 'emacs-lisp-mode-hook #'linum-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-indent-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-pair-mode)
@@ -606,7 +604,6 @@
   :init
   (use-package flycheck-haskell :ensure t :commands haskell-mode :disabled)
   (use-package ghc              :ensure t :commands haskell-mode :disabled)
-  (add-hook 'haskell-mode-hook #'linum-mode)
   :config
   (defvar cabal-lib-dir "~/.cabal/lib/")
   (add-to-list 'load-path cabal-lib-dir)
@@ -819,7 +816,6 @@
      '(javadoc-lookup-completing-read-function #'completing-read))
     (global-set-key (kbd "C-c C-e j") 'javadoc-lookup))
 
-  (add-hook 'java-mode-hook #'linum-mode)
   (add-hook 'java-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'java-mode-hook #'c-toggle-auto-newline)
   (add-hook 'java-mode-hook #'c-toggle-hungry-state)
@@ -860,7 +856,6 @@
   (add-hook 'js2-mode-hook #'electric-pair-mode)
   (add-hook 'js2-mode-hook #'flyspell-prog-mode)
   (add-hook 'js2-mode-hook #'history-mode)
-  (add-hook 'js2-mode-hook #'linum-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-hook 'js2-mode-hook #'tern-mode)
   (add-hook 'js2-mode-hook #'yas-minor-mode))
@@ -1078,7 +1073,6 @@
   (add-hook 'php-mode-hook #'flyspell-prog-mode)
   (add-hook 'php-mode-hook #'helm-gtags-mode)
   (add-hook 'php-mode-hook #'history-mode)
-  (add-hook 'php-mode-hook #'linum-mode)
   (add-hook 'php-mode-hook #'php-refactor-mode)
   (add-hook 'php-mode-hook #'semantic-php-default-setup)
   (add-hook 'php-mode-hook #'semantic-mode)
@@ -1261,7 +1255,6 @@
               (tide-setup)
               (eldoc-mode +1)))
   (add-hook 'typescript-mode-hook #'flyspell-prog-mode)
-  (add-hook 'typescript-mode-hook #'linum-mode)
 
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (add-hook 'web-mode-hook #'tide-mode))
