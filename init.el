@@ -243,7 +243,6 @@
       (push 'company-rtags company-backends)))
   (cmake-ide-setup))
 
-
 (use-package cmake-mode
   :ensure t
   :mode (("\\.cmake\\'" . cmake-mode)
