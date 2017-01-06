@@ -259,6 +259,8 @@
   :ensure t
   :defer t
   :init
+  (custom-set-variables
+   '(solarized-termcolors 256))
   (add-hook 'after-init-hook (lambda () (load-theme 'solarized t))))
 
 (use-package company
@@ -901,6 +903,9 @@
     "Send tab in term mode."
     (interactive)
     (term-send-raw-string "\t"))
+  (add-hook 'term-setup-hook #'(lambda () (load-library "xterm-256color")))
+  (add-to-list 'term-bind-key-alist '("C-c C-j" . term-line-mode))
+  (add-to-list 'term-bind-key-alist '("C-c C-k" . term-char-mode))
   (add-to-list 'term-bind-key-alist '("<tab>" . term-send-tab))
   (add-to-list 'term-bind-key-alist '("C-f" . forward-char))
   (add-to-list 'term-bind-key-alist '("C-b" . backward-char))
