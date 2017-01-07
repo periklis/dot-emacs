@@ -267,7 +267,15 @@
   :init
   (custom-set-variables
    '(solarized-termcolors 256))
-  (add-hook 'after-init-hook (lambda () (load-theme 'solarized t))))
+
+  (defun periklis/load-solarized-theme ()
+    "Load solarized theme."
+    (load-theme 'solarized t)
+    (set-frame-parameter nil 'background-mode 'light)
+    (set-terminal-parameter nil 'background-mode 'light)
+    (enable-theme 'solarized))
+
+  (add-hook 'after-init-hook #'periklis/load-solarized-theme))
 
 (use-package company
   :ensure t
