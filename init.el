@@ -606,8 +606,9 @@
   :demand t
   :diminish hardcore-mode
   :init
-  (setq too-hardcore-backspace t)
-  (setq too-hardcore-return t)
+  (custom-set-variables
+   '(too-hardcore-backspace t)
+   '(too-hardcore-return t))
   :config
   (global-hardcore-mode))
 
@@ -786,6 +787,9 @@
     (set-face-background 'jabber-otr-encrypted-sent nil)
     (set-face-background 'jabber-otr-encrypted-unverified nil))
 
+  (defun periklis/jabber-alert-func (who oldstatus newstatus statustext)
+    "Nil function for jabber alerts.")
+
   (custom-set-variables
    '(jabber-auto-reconnect t)
    '(jabber-chat-buffer-format "%n")
@@ -803,14 +807,17 @@
        jabber-roster-sort-by-displayname
        jabber-roster-sort-by-group))
    '(jabber-alert-presence-message-function
-     (lambda (who oldstatus newstatus statustext) ())
+     'periklis/jabber-alert-func
      ))
+
+  (defun periklis/jabber-alert-echo (msg &optional arg)
+    "Jabber alert echo function."
+    (unless (minibuffer-prompt)
+      (message "%s" msg)))
 
   (define-jabber-alert echo
     "Show a message in the echo area"
-    (lambda (msg)
-      (unless (minibuffer-prompt)
-        (message "%s" msg))))
+    'periklis/jabber-alert-echo)
 
   (add-hook 'jabber-chat-mode-hook #'flyspell-mode)
   (add-hook 'jabber-chat-mode-hook #'goto-address)
@@ -907,6 +914,7 @@
   :ensure t
   :demand t
   :config
+  (use-package term+ :ensure t)
   (use-package helm-mt :ensure t :demand t)
   (custom-set-variables
    '(multi-term-program "~/.nix-profile/bin/zsh")
@@ -985,18 +993,17 @@
   :ensure t
   :commands pandoc-mode
   :config
-  (with-eval-after-load 'pandoc-mode
-    (define-key 'pandoc-mode-map "C-c / r" #'pandoc-run-pandoc)
-    (define-key 'pandoc-mode-map "C-c / p" #'pandoc-convert-to-pdf)
-    (define-key 'pandoc-mode-map "C-c / s" #'pandoc-save-settings-file)
-    (define-key 'pandoc-mode-map "C-c / w" #'pandoc-set-write)
-    (define-key 'pandoc-mode-map "C-c / f" #'pandoc-set-master-file)
-    (define-key 'pandoc-mode-map "C-c / m" #'pandoc-set-metadata)
-    (define-key 'pandoc-mode-map "C-c / v" #'pandoc-set-variable)
-    (define-key 'pandoc-mode-map "C-c / V" #'pandoc-view-output)
-    (define-key 'pandoc-mode-map "C-c / S" #'pandoc-view-settings)
-    (define-key 'pandoc-mode-map "C-c / c" #'pandoc-insert-@)
-    (define-key 'pandoc-mode-map "C-c / C" #'pandoc-select-@)))
+  (define-key 'pandoc-mode-map "C-c / r" #'pandoc-run-pandoc)
+  (define-key 'pandoc-mode-map "C-c / p" #'pandoc-convert-to-pdf)
+  (define-key 'pandoc-mode-map "C-c / s" #'pandoc-save-settings-file)
+  (define-key 'pandoc-mode-map "C-c / w" #'pandoc-set-write)
+  (define-key 'pandoc-mode-map "C-c / f" #'pandoc-set-master-file)
+  (define-key 'pandoc-mode-map "C-c / m" #'pandoc-set-metadata)
+  (define-key 'pandoc-mode-map "C-c / v" #'pandoc-set-variable)
+  (define-key 'pandoc-mode-map "C-c / V" #'pandoc-view-output)
+  (define-key 'pandoc-mode-map "C-c / S" #'pandoc-view-settings)
+  (define-key 'pandoc-mode-map "C-c / c" #'pandoc-insert-@)
+  (define-key 'pandoc-mode-map "C-c / C" #'pandoc-select-@))
 
 (use-package paradox
   :ensure t
@@ -1083,7 +1090,7 @@
 
   (defun periklis/setup-php-comany-backends ()
     "Setup company backends for php-mode."
-    ((set (make-local-variable 'company-backends) '(company-semantic company-gtags)))
+    (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
     (add-to-list 'company-semantic-modes 'php-mode))
 
   (add-hook 'php-mode-hook #'periklis/setup-php-comany-backends)
@@ -1316,8 +1323,9 @@
   :init
   (which-key-mode)
   (which-key-setup-minibuffer)
-  (setq which-key-sort-order 'which-key-key-order-alpha
-        which-key-use-C-h-commands t))
+  (custom-set-variables
+   '(which-key-sort-order 'which-key-key-order-alpha)
+   '(which-key-use-C-h-commands t)))
 
 (use-package whitespace-cleanup-mode
   :ensure t
