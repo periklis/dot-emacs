@@ -168,6 +168,12 @@
    '(bbdb-complete-name-allow-cycling t)
    '(bbdb-use-pop-up nil)))
 
+(use-package calendar
+  :config
+  (add-hook 'diary-list-entries-hook 'diary-sort-entries t)
+  (add-hook 'diary-list-entries-hook 'diary-include-other-diary-files)
+  (add-hook 'diary-mark-entries-hook 'diary-mark-included-diary-files))
+
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
          ("\\.h\\'" . c-mode)
@@ -960,6 +966,7 @@
      ))
 
   (custom-set-variables
+   '(org-agenda-include-diary t)
    '(org-special-ctrl-a/e  t))
 
   (add-hook 'org-mode-hook #'auto-revert-mode)
