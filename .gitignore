@@ -10,6 +10,7 @@ ac-*
 auto-save-list/*
 backups/*
 bbdb
+diary
 ede-projects.el
 elpa/*
 flycheck_init.el
