@@ -983,7 +983,8 @@
 
   (custom-set-variables
    '(org-agenda-include-diary t)
-   '(org-special-ctrl-a/e  t))
+   '(org-special-ctrl-a/e  t)
+   '(org-tags-column -120))
 
   (add-hook 'org-mode-hook #'auto-revert-mode)
   (add-hook 'ord-mode-hook #'flyspell-mode)
