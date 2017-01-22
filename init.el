@@ -813,7 +813,7 @@
   (defun periklis/jabber-alert-echo (msg &optional arg)
     "Jabber alert echo function."
     (unless (minibuffer-prompt)
-      (message "%s" msg)))
+      (message "")))
 
   (define-jabber-alert echo
     "Show a message in the echo area"
