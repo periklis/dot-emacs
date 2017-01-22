@@ -234,7 +234,7 @@
     :config
     (custom-set-variables
      '(rtags-autostart-diagnostics t)
-     '(rtags-completions-enabled nil))
+     '(rtags-completions-enabled t))
     (rtags-diagnostics)
 
     (use-package rtags-helm
