@@ -865,6 +865,7 @@
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'" . js2-mode)
+         ("\\.jsx\\'" . js2-mode)
          ("\\.spec\\'" . js2-mode))
   :config
   (use-package js2-refactor :ensure t :commands js2-refactor-mode)
