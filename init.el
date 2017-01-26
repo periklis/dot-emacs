@@ -1,4 +1,4 @@
-;;; init.el --- Emacs initiliazation
+;;; init.el --- Emacs initialization
 
 ;;; Commentary:
 
@@ -25,6 +25,14 @@
 (add-to-list 'load-path contrib-lisp-dir)
 (add-to-list 'load-path site-lisp-dir)
 (add-to-list 'load-path styles-lisp-dir)
+
+;; Set up load path on nix-environments
+(defvar nix-env-p nil)
+(defvar nix-site-lisp "~/.nix-profile/share/emacs/site-lisp/")
+(when (file-accessible-directory-p nix-site-lisp)
+  (setq nix-env-p t)
+  (add-to-list 'load-path nix-site-lisp)
+  (add-to-list 'load-path (expand-file-name "rtags" nix-site-lisp)))
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -234,7 +242,7 @@
   :ensure t
   :config
   (use-package rtags
-    :ensure t
+    :disabled nix-env-p
     :config
     (custom-set-variables
      '(rtags-autostart-diagnostics t)
@@ -942,6 +950,10 @@
   (add-to-list 'term-bind-key-alist '("M-b" . backward-word))
   (add-to-list 'term-bind-key-alist '("C-a" . move-beginning-of-line))
   (add-to-list 'term-bind-key-alist '("C-e" . move-end-of-line)))
+
+(use-package nix-mode
+  :disabled nix-env-p
+  :mode (("\\.nix\\'" . nix-mode)))
 
 (use-package nxml-mode
   :defer t
