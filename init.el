@@ -796,6 +796,8 @@
     "Nil function for jabber alerts.")
 
   (custom-set-variables
+   '(jabber-activity-count-in-title t)
+   '(jabber-activity-make-strings 'jabber-activity-make-strings-shorten)
    '(jabber-auto-reconnect t)
    '(jabber-chat-buffer-format "%n")
    '(jabber-chat-buffer-show-avatar nil)
@@ -812,8 +814,7 @@
        jabber-roster-sort-by-displayname
        jabber-roster-sort-by-group))
    '(jabber-alert-presence-message-function
-     'periklis/jabber-alert-func
-     ))
+     'periklis/jabber-alert-func))
 
   (defun periklis/jabber-alert-echo (msg &optional arg)
     "Jabber alert echo function."
@@ -1239,10 +1240,10 @@
   ;; Org-mode
   (sp-with-modes
       'org-mode
-    (sp-local-pair "*" "*"
-                   :actions '(insert wrap)
-                   :unless '(sp-point-after-word-p sp-point-at-bol-p)
-                   :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
+    ;; (sp-local-pair "*" "*"
+    ;;                :actions '(insert wrap)
+    ;;                :unless '(sp-point-after-word-p sp-point-at-bol-p)
+    ;;                :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
     (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
     (sp-local-pair "/" "/" :unless '(sp-point-after-word-p)
                    :post-handlers '(("[d1]" "SPC")))
