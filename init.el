@@ -1170,6 +1170,12 @@
   ;; Enable semantic status modes
   (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode))
 
+(use-package slack
+  :ensure t
+  :config
+  (custom-set-variables
+   '(slack-prefer-current-team t)))
+
 (use-package smart-mode-line
   :ensure t
   :demand t
