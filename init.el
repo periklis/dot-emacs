@@ -122,7 +122,11 @@
 
 ;; Custom face definitions
 (custom-set-faces
- '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil)))))
+ '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil))))
+ '(perspeen-selected-face ((t (:weight bold :foreground "Black" :background nil))))
+ '(perspeen-tab--powerline-inactive1 ((t (:inherit mode-line))))
+ '(perspeen-tab--header-line-active ((t (:weight bold :foreground "#58675" :background "#eee8d5"))))
+ '(perspeen-tab--header-line-inactive ((t (:foreground "#839496" :background "#eee8d5")))))
 
 ;; Custom general hooks
 (add-hook 'prog-mode-hook #'linum-mode)
@@ -1037,6 +1041,17 @@
   (bind-key "C-. j" 'paredit-join-with-next-list paredit-mode-map)
   (bind-key "C-. J" 'paredit-join-with-previous-list paredit-mode-map))
 
+(use-package perspeen
+  :ensure t
+  :demand t
+  :config
+  (custom-set-variables
+   '(perspeen-use-tab nil))
+  (bind-key "C-z C-d" 'perspeen-tab-del perspeen-mode-map)
+  (bind-key "C-z C-n" 'perspeen-tab-next perspeen-mode-map)
+  (bind-key "C-z C-p" 'perspeen-tab-prev perspeen-mode-map)
+  (perspeen-mode))
+
 (use-package pdf-tools
   :ensure t
   :mode "\\.pdf\\'"
@@ -1048,8 +1063,8 @@
   :ensure t
   :demand t
   :init
-  (use-package perspective      :ensure t :demand t)
-  (use-package persp-projectile :ensure t :demand t)
+  ;; (use-package perspective      :ensure t :demand t)
+  ;; (use-package persp-projectile :ensure t :demand t)
   :config
   (custom-set-variables
    '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
@@ -1061,9 +1076,8 @@
     (interactive)
     (helm-ag (projectile-project-root)))
 
-  ;; Load projectile globaly
   (projectile-mode)
-  (persp-mode)
+  ;; (persp-mode)
   (helm-projectile-on))
 
 (use-package php-mode
@@ -1158,6 +1172,9 @@
   :ensure t
   :demand t
   :config
+  (custom-set-variables
+   '(sml/shorten-directory t)
+   '(sml/shorten-modes t))
   (sml/setup)
   (sml/apply-theme 'respectful))
 
