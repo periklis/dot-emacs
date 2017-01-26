@@ -199,8 +199,8 @@
   (add-hook 'c-mode-common-hook #'flyspell-prog-mode)
   (add-hook 'c-mode-common-hook #'google-set-c-style)
   (add-hook 'c-mode-common-hook #'google-make-newline-indent)
-  (add-hook 'c-mode-common-hook #'rtags-start-process-unless-running)
-  (add-hook 'c++-mode-common-hook #'rtags-start-process-unless-running)
+  ;; (add-hook 'c-mode-common-hook #'rtags-start-process-unless-running)
+  ;; (add-hook 'c++-mode-common-hook #'rtags-start-process-unless-running)
 
   ;;(add-hook 'c-mode-hook #'helm-gtags-mode)
   (add-hook 'c-mode-hook #'periklis/cc-mode-company-setup)
