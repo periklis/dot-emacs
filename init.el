@@ -239,6 +239,7 @@
     (custom-set-variables
      '(rtags-autostart-diagnostics t)
      '(rtags-completions-enabled t))
+    (rtags-enable-standard-keybindings)
     (rtags-diagnostics)
 
     (use-package rtags-helm
