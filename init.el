@@ -942,7 +942,7 @@
   (add-to-list 'term-bind-key-alist '("C-e" . move-end-of-line)))
 
 (use-package nix-mode
-  :disabled nix-env-p
+  :if nix-env-p
   :mode (("\\.nix\\'" . nix-mode)))
 
 (use-package nxml-mode
