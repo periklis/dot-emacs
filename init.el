@@ -196,29 +196,13 @@
   (use-package eassist
     :bind (:map c-mode-base-map
                 ("M-o" . eassist-switch-h-cpp)))
-
   (use-package google-c-style :ensure t :defer t)
-
-  (defun periklis/cc-mode-company-setup ()
-    "Setup company backends for cc-mode."
-    (set (make-local-variable 'company-backends)
-         '((company-rtags))))
 
   (add-hook 'c-mode-common-hook #'flyspell-prog-mode)
   (add-hook 'c-mode-common-hook #'google-set-c-style)
   (add-hook 'c-mode-common-hook #'google-make-newline-indent)
-  ;; (add-hook 'c-mode-common-hook #'rtags-start-process-unless-running)
-  ;; (add-hook 'c++-mode-common-hook #'rtags-start-process-unless-running)
-
-  ;;(add-hook 'c-mode-hook #'helm-gtags-mode)
-  (add-hook 'c-mode-hook #'periklis/cc-mode-company-setup)
   (add-hook 'c-mode-hook #'semantic-mode)
-
-  ;;(add-hook 'c++-mode-hook #'helm-gtags-mode)
-  (add-hook 'c++-mode-hook #'periklis/cc-mode-company-setup)
-  (add-hook 'c++-mode-hook #'semantic-mode)
-
-  (define-key c++-mode-map (kbd "C-x s") 'company-rtags))
+  (add-hook 'c++-mode-hook #'semantic-mode))
 
 (use-package ctags
   :ensure t
@@ -242,24 +226,30 @@
   :ensure t
   :config
   (use-package rtags
-    :disabled nix-env-p
+    :if nix-env-p
     :config
+    (use-package rtags-helm)
     (custom-set-variables
      '(rtags-autostart-diagnostics t)
-     '(rtags-completions-enabled t))
+     '(rtags-completions-enabled t)
+     '(rtags-use-helm t))
+
     (rtags-enable-standard-keybindings)
     (rtags-diagnostics)
 
-    (use-package rtags-helm
-      :config
-      (custom-set-variables
-       '(rtags-use-helm t)))
+    (defun periklis/flycheck-rtags ()
+      "Select rtags for flycheck."
+      (flycheck-select-checker 'rtags)
+      (setq-local flycheck-highlighting-mode nil)
+      (setq-local flycheck-check-syntax-automatically nil))
 
     (use-package flycheck-rtags)
-
     (use-package company-rtags
       :config
-      (push 'company-rtags company-backends)))
+      (push 'company-rtags company-backends))
+
+    (add-hook 'c-mode-common-hook #'periklis/flycheck-rtags)
+    (add-hook 'c++-mode-common-hook #'periklis/flycheck-rtags))
   (cmake-ide-setup))
 
 (use-package cmake-mode
