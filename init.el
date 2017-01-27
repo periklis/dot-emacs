@@ -155,6 +155,19 @@
 (use-package xml-rpc         :ensure t :defer t)
 
 ;; Load packages
+(use-package alert
+  :commands (alert)
+  :init
+  (custom-set-variables
+   '(alert-default-style 'mode-line)
+   '(alert-severity-colors
+     '((urgent   . "red")
+       (high     . "orange")
+       (moderate . "yellow")
+       (normal   . "grey85")
+       (low      . "blue")
+       (trivial . "purple")))))
+
 (use-package auto-compile
   :ensure t
   :config
@@ -1176,7 +1189,28 @@
   :ensure t
   :config
   (custom-set-variables
-   '(slack-prefer-current-team t)))
+   '(slack-prefer-current-team t)
+   '(slack-buffer-create-on-notify t)
+   '(slack-typing-visibility 'never))
+
+  (defmethod slack-room-buffer-name ((room slack-channel))
+    (slack-room-name-with-team-name room))
+
+  (defmethod slack-room-buffer-name ((room slack-im))
+    (slack-room-name-with-team-name room))
+
+  (defmethod slack-room-buffer-name ((room slack-room))
+    (slack-room-name-with-team-name room))
+
+  (bind-key "C-c s s" 'slack-start)
+  (bind-key "C-c s d" 'slack-ws-close)
+  (bind-key "C-c s t" 'slack-change-current-team)
+  (bind-key "C-c s c" 'slack-channel-select)
+  (bind-key "C-c s i" 'slack-im-select)
+  (bind-key "C-c s e" 'slack-edit-message-mode slack-mode-map)
+  (bind-key "C-c s r" 'slack-select-rooms slack-mode-map)
+  (bind-key "C-c s u" 'slack-room-update-messages slack-mode-map)
+  (bind-key "C-c s v" 'slack-room-invite slack-mode-map))
 
 (use-package smart-mode-line
   :ensure t
