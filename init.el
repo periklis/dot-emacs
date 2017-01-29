@@ -159,7 +159,7 @@
   :commands (alert)
   :init
   (custom-set-variables
-   '(alert-default-style 'mode-line)
+   '(alert-default-style 'notifier)
    '(alert-severity-colors
      '((urgent   . "red")
        (high     . "orange")
