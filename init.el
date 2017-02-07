@@ -83,6 +83,9 @@
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
 
+  (custom-set-variables
+   '(use-package-enable-imenu-support t))
+
   (require 'cl)
   (require 'use-package))
 
@@ -122,6 +125,7 @@
  '(show-paren-mode t)
  '(show-trailing-whitespace nil)
  '(size-indication-mode t)
+ '(system-uses-terminfo nil)
  '(tab-always-indent (quote complete))
  '(tab-width 4)
  '(tool-bar-mode nil)
@@ -1228,6 +1232,7 @@
   (electric-pair-mode -1)
   (require 'smartparens-config)
   ;; Turn on smartparens in the minibuffer
+  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
   (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
   (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
   (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
@@ -1302,7 +1307,8 @@
     (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
                                               ("* ||\n[i]" "RET"))))
 
-  (smartparens-global-strict-mode 1)
+  (smartparens-global-strict-mode -1)
+  (smartparens-global-mode 1)
   (show-smartparens-global-mode -1))
 
 (use-package srefactor
