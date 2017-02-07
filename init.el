@@ -117,6 +117,7 @@
  '(load-prefer-newer t)
  '(max-specpdl-size 1600)
  '(message-kill-buffer-on-exit t)
+ '(network-security-level 'paranoid)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(scroll-margin 0)
