@@ -622,6 +622,19 @@
   :defer t
   :commands google-translate-at-point)
 
+(use-package guess-language
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'text-mode-hook #'guess-language-mode)
+  :config
+  (custom-set-variables
+   '(guess-language-langcodes '((en . ("en_US" "English"))
+                                (de . ("de_DE" "German"))))
+   '(guess-language-languages '(en de))
+   '(guess-language-min-paragraph-length 45))
+  :diminish guess-language-mode)
+
 (use-package hardcore-mode
   :ensure t
   :demand t
