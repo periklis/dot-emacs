@@ -1375,6 +1375,11 @@
 (use-package tramp
   :demand t
   :config
+  (use-package helm-tramp
+    :demand t
+    :config
+    (defalias 'exit-tramp 'tramp-cleanup-all-buffers))
+
   (custom-set-variables
    '(tramp-default-method "ssh"))
 
