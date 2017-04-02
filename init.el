@@ -997,6 +997,7 @@
   :mode ("\\.org\\'" . org-mode)
   :config
   (use-package orgit :ensure t :commands projectile-vc)
+  (use-package org-mobile :demand t)
   (use-package org-protocol)
   (use-package org-projectile :ensure t)
   (use-package ox-pandoc :ensure t)
