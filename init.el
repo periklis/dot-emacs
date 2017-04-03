@@ -1000,6 +1000,7 @@
   (use-package org-mobile :demand t)
   (use-package org-protocol)
   (use-package org-projectile :ensure t)
+  (use-package interleave :ensure t :commands interleave-mode)
   (use-package ox-pandoc :ensure t)
 
   (defun periklis/org-open-at-point (&optional arg)
@@ -1090,6 +1091,7 @@
 
 (use-package pdf-tools
   :ensure t
+  :disabled
   :mode "\\.pdf\\'"
   :config
   (pdf-tools-install)
