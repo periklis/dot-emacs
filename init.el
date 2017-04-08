@@ -1407,6 +1407,15 @@
 (use-package vagrant-tramp
   :ensure t)
 
+(use-package web-mode
+  :ensure t
+  :mode (("\\.html\\'" . web-mode)
+         ("\\.htm\\'" . web-mode))
+  :config
+  (custom-set-variables
+   '(web-mode-enable-current-element-highlight t)
+   '(web-mode-enable-current-column-highlight t)))
+
 (use-package which-key
   :ensure t
   :demand t
