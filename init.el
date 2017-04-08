@@ -900,7 +900,6 @@
 (use-package js2-mode
   :ensure t
   :mode (("\\.js\\'" . js2-mode)
-         ("\\.jsx\\'" . js2-jsx-mode)
          ("\\.spec\\'" . js2-mode))
   :config
   (use-package js2-refactor :ensure t :commands js2-refactor-mode)
@@ -1410,11 +1409,13 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.html\\'" . web-mode)
-         ("\\.htm\\'" . web-mode))
+         ("\\.htm\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode))
   :config
   (custom-set-variables
    '(web-mode-enable-current-element-highlight t)
-   '(web-mode-enable-current-column-highlight t)))
+   '(web-mode-enable-current-column-highlight t))
+  (flycheck-add-mode 'javascript-eslint 'web-mode))
 
 (use-package which-key
   :ensure t
