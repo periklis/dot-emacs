@@ -1364,15 +1364,14 @@
   :ensure t
   :mode (("\\.ts\\'" . typescript-mode)
          ("\\.spec.ts\\'". typescript-mode))
-  :init
+  :config
   (add-hook 'typescript-mode-hook
             (lambda ()
               (tide-setup)
               (eldoc-mode +1)))
   (add-hook 'typescript-mode-hook #'flyspell-prog-mode)
 
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook #'tide-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
 
 (use-package tramp
   :demand t
@@ -1413,8 +1412,8 @@
          ("\\.jsx\\'" . web-mode))
   :config
   (custom-set-variables
-   '(web-mode-enable-current-element-highlight t)
-   '(web-mode-enable-current-column-highlight t))
+   '(web-mode-enable-current-element-highlight nil)
+   '(web-mode-enable-current-column-highlight nil))
   (flycheck-add-mode 'javascript-eslint 'web-mode))
 
 (use-package which-key
