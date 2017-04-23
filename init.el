@@ -71,8 +71,8 @@
   (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
     (package-refresh-contents))
 
-  (unless (file-exists-p (expand-file-name "elpa/archives/marmalade" user-emacs-directory))
-    (package-refresh-contents))
+  ;; (unless (file-exists-p (expand-file-name "elpa/archives/marmalade" user-emacs-directory))
+  ;;   (package-refresh-contents))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
     (package-refresh-contents))
