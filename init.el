@@ -217,6 +217,31 @@
                 ("M-o" . eassist-switch-h-cpp)))
   (use-package google-c-style :ensure t :defer t)
 
+  (use-package cmake-ide
+    :ensure t
+    :config
+    (use-package rtags
+      :if nix-env-p
+      :config
+      (use-package rtags-helm)
+      (custom-set-variables
+       '(rtags-autostart-diagnostics t)
+       '(rtags-completions-enabled t)
+       '(rtags-use-helm t))
+
+      (rtags-enable-standard-keybindings)
+      (rtags-diagnostics)
+
+      (use-package flycheck-rtags)
+      (use-package company-rtags)
+      (defun periklis/company-rtags()
+        "Push company-rtags to company-backends."
+        (set (make-local-variable 'company-backends) '(company-rtags)))
+
+      (add-hook 'c-mode-common-hook #'periklis/company-rtags)
+      (add-hook 'c++-mode-common-hook #'periklis/company-rtags))
+    (cmake-ide-setup))
+
   (add-hook 'c-mode-common-hook #'flyspell-prog-mode)
   (add-hook 'c-mode-common-hook #'google-set-c-style)
   (add-hook 'c-mode-common-hook #'google-make-newline-indent))
@@ -238,36 +263,6 @@
     (interactive "sLanguages: \nsOptions: ")
     (create-tags languages options-file-name)
     (message "Created language tags (%s) for current project" languages)))
-
-(use-package cmake-ide
-  :ensure t
-  :config
-  (use-package rtags
-    :if nix-env-p
-    :config
-    (use-package rtags-helm)
-    (custom-set-variables
-     '(rtags-autostart-diagnostics t)
-     '(rtags-completions-enabled t)
-     '(rtags-use-helm t))
-
-    (rtags-enable-standard-keybindings)
-    (rtags-diagnostics)
-
-    (defun periklis/flycheck-rtags ()
-      "Select rtags for flycheck."
-      (flycheck-select-checker 'rtags)
-      (setq-local flycheck-highlighting-mode nil)
-      (setq-local flycheck-check-syntax-automatically nil))
-
-    (use-package flycheck-rtags)
-    (use-package company-rtags
-      :config
-      (push 'company-rtags company-backends))
-
-    (add-hook 'c-mode-common-hook #'periklis/flycheck-rtags)
-    (add-hook 'c++-mode-common-hook #'periklis/flycheck-rtags))
-  (cmake-ide-setup))
 
 (use-package cmake-mode
   :ensure t
