@@ -219,9 +219,7 @@
 
   (add-hook 'c-mode-common-hook #'flyspell-prog-mode)
   (add-hook 'c-mode-common-hook #'google-set-c-style)
-  (add-hook 'c-mode-common-hook #'google-make-newline-indent)
-  (add-hook 'c-mode-hook #'semantic-mode)
-  (add-hook 'c++-mode-hook #'semantic-mode))
+  (add-hook 'c-mode-common-hook #'google-make-newline-indent))
 
 (use-package ctags
   :ensure t
@@ -400,12 +398,8 @@
   (add-hook 'emacs-lisp-mode-hook #'flyspell-prog-mode)
   (add-hook 'emacs-lisp-mode-hook #'helm-gtags-mode)
   (add-hook 'emacs-lisp-mode-hook #'history-mode)
-  ;; (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
-  (add-hook 'emacs-lisp-mode-hook #'semantic-default-elisp-setup)
-  (add-hook 'emacs-lisp-mode-hook #'semantic-mode)
   (add-hook 'emacs-lisp-mode-hook #'subword-mode)
   (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
-  ;; (local-set-key (kbd "<return>") 'paredit-newline)
   (add-hook 'after-save-hook 'check-parens nil t))
 
 (use-package engine-mode
@@ -1188,23 +1182,23 @@
   :commands (semantic-mode)
   :config
   ;; Enabe semenatic idle modes
-  (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode-hook)
-  (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
-  (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-  (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-idle-completions-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-idle-local-symbol-highlight-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-idle-scheduler-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-idle-summary-mode)
 
   ;; Enable semanticdb modes
   (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 
   ;; Enable semenatic highlighting/bookmarking modes
-  (add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode-hook)
-  (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
-  (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-  (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
-  (add-to-list 'semantic-default-submodes 'global-semantic-idle-breadcrumbs-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-highlight-edits-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-highlight-func-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-stickyfunc-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-mru-bookmark-mode)
+  (add-to-list 'semantic-default-submodes 'semantic-idle-breadcrumbs-mode)
 
   ;; Enable semantic status modes
-  (add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode))
+  (add-to-list 'semantic-default-submodes 'semantic-show-parser-state-mode))
 
 (use-package smart-mode-line
   :ensure t
