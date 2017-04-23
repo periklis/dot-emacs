@@ -1331,6 +1331,7 @@
 (use-package tide
   :ensure t
   :mode (("\\.ts\\'" . typescript-mode)
+         ("\\.tsx\\'" . typescript-mode)
          ("\\.spec.ts\\'". typescript-mode))
   :config
   (add-hook 'typescript-mode-hook
