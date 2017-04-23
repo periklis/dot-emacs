@@ -317,7 +317,7 @@
   (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package dired
-  :bind ("C-x C-j" . dired-jump)
+  :commands (dired dired-jump)
   :config
   (custom-set-variables
    '(dired-dwim-target t)
@@ -332,8 +332,8 @@
   (add-hook 'dired-load-hook #'dired-sort-menu)
   (use-package dired-x
     :init
-    (setq-default dired-omit-files-p t)
     :config
+    (setq-default dired-omit-files-p t)
     (add-to-list 'dired-omit-extensions ".DS_Store"))
   (use-package dired+
     :ensure t
@@ -783,8 +783,8 @@
 
 (use-package geben
   :ensure t
-  :commands php-mode
-  :init
+  :commands (geben)
+  :config
   (use-package geben-helm-projectile :ensure t))
 
 (use-package itail
@@ -1362,10 +1362,9 @@
 
 (use-package vagrant
   :ensure t
-  :commands (vagrant-up vagrant-resume vagrant-suspend))
-
-(use-package vagrant-tramp
-  :ensure t)
+  :commands (vagrant-up vagrant-resume vagrant-suspend)
+  :config
+  (use-package vagrant-tramp :ensure t))
 
 (use-package web-mode
   :ensure t
