@@ -402,13 +402,6 @@
   (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
   (add-hook 'after-save-hook 'check-parens nil t))
 
-(use-package engine-mode
-  :ensure t
-  :demand t
-  :config
-  (engine-mode t)
-  (setq engine/browser-function 'browse-url-default-browser))
-
 (use-package expand-region
   :ensure t
   :defer t)
