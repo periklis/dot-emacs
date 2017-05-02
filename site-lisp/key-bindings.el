@@ -8,6 +8,7 @@
 
 ;; register mac specific keys for remote emacs session over ssh
 (when (equal system-type 'darwin)
+  (setq mac-option-modifier nil)
   (setq mac-control-modifier 'control)
   (setq mac-command-modifier 'meta)
   (setq mac-function-modifier 'super))
