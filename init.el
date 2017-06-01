@@ -1162,6 +1162,18 @@
   (custom-set-variables
    '(restclient-log-request nil)))
 
+(use-package rust-mode
+  :ensure t
+  :mode ("\\.rs\\'" . rust-mode)
+  :config
+  (use-package racer :ensure t)
+  (use-package flycheck-rust :ensure t)
+
+  (add-hook 'rust-mode-hook  #'company-mode)
+  (add-hook 'rust-mode-hook  #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
 (use-package sass-mode
   :ensure t
   :mode ("\\.scss\\'" . sass-mode))
