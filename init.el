@@ -1168,7 +1168,7 @@
   :config
   (use-package racer :ensure t)
   (use-package flycheck-rust :ensure t)
-
+  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
   (add-hook 'rust-mode-hook  #'company-mode)
   (add-hook 'rust-mode-hook  #'racer-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
