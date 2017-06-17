@@ -136,7 +136,7 @@
 
 ;; Custom face definitions
 (custom-set-faces
- '(hl-line ((t (:inherit highlight :background "gainsboro" :underline nil))))
+ '(hl-line ((t (:inherit highlight :background "#073642" :underline nil))))
  '(perspeen-selected-face ((t (:weight bold :foreground "Black" :background nil))))
  '(perspeen-tab--powerline-inactive1 ((t (:inherit mode-line))))
  '(perspeen-tab--header-line-active ((t (:weight bold :foreground "#58675" :background "#eee8d5"))))
@@ -286,8 +286,8 @@
   (defun periklis/load-solarized-theme ()
     "Load solarized theme."
     (load-theme 'solarized t)
-    (set-frame-parameter nil 'background-mode 'light)
-    (set-terminal-parameter nil 'background-mode 'light)
+    (set-frame-parameter nil 'background-mode 'dark)
+    (set-terminal-parameter nil 'background-mode 'dark)
     (enable-theme 'solarized))
 
   (add-hook 'after-init-hook #'periklis/load-solarized-theme))
