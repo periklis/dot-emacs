@@ -119,6 +119,7 @@
  '(max-specpdl-size 1600)
  '(message-kill-buffer-on-exit t)
  '(network-security-level 'paranoid)
+ '(ns-auto-hide-menu-bar t)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(scroll-margin 0)
@@ -1006,6 +1007,7 @@
      ))
 
   (custom-set-variables
+   '(org-M-RET-may-split-line '((default . nil)))
    '(org-agenda-include-diary t)
    '(org-special-ctrl-a/e  t)
    '(org-tags-column -120))
