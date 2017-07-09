@@ -4,3 +4,6 @@
 [submodule "site-lisp/ede-php-autoload"]
 	path = site-lisp/ede-php-autoload
 	url = git@github.com:stevenremot/ede-php-autoload.git
+[submodule "machines"]
+	path = machines
+	url = git@github.com:periklis/dot-emacs-machines.git
