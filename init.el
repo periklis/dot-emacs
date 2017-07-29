@@ -406,6 +406,14 @@
   (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
   (add-hook 'after-save-hook 'check-parens nil t))
 
+(use-package ensime
+  :ensure t
+  :mode (("\\.scala\\'" . ensime)
+         ("\\.sc\\'" . ensime))
+  :config
+  (use-package sbt-mode :ensure t)
+  (use-package scala-mode :ensure t))
+
 (use-package expand-region
   :ensure t
   :defer t)
