@@ -348,6 +348,14 @@
     :bind (:map dired-mode-map
                 ("/" . dired-narrow))))
 
+(use-package docker
+  :ensure t
+  :mode ("\\Dockerfile\\'" . dockerfile-mode))
+
+(use-package docker-compose-mode
+  :ensure t
+  :mode ("\\docker-compose.yml\\'" . docker-compose-mode))
+
 (use-package ecb
   :ensure t
   :commands (ecb-activate ecb-deactivate)
