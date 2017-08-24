@@ -973,6 +973,7 @@
 
 (use-package nix-mode
   :if nix-env-p
+  :ensure t
   :mode (("\\.nix\\'" . nix-mode)))
 
 (use-package nxml-mode
