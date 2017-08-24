@@ -417,12 +417,18 @@
 (use-package eshell
   :config
   (use-package em-smart)
-  (add-to-list 'eshell-visual-commands "htop")
-  (add-to-list 'eshell-visual-commands "fzf")
+  (defun periklis/eshell-mode-hook ()
+    "Append visual commands to eshell mode hook."
+    (add-to-list 'eshell-visual-commands "htop")
+    (add-to-list 'eshell-visual-commands "fzf")
+    (add-to-list 'eshell-visual-commands "nix-shell"))
+
   (custom-set-variables
    '(eshell-where-to-jump 'begin)
    '(eshell-review-quick-commands nil)
-   '(eshell-smart-space-goes-to-end t)))
+   '(eshell-smart-space-goes-to-end t))
+
+  (add-hook 'eshell-mode-hook #'periklis/eshell-mode-hook))
 
 (use-package expand-region
   :ensure t
