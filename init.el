@@ -414,6 +414,16 @@
   (use-package sbt-mode :ensure t)
   (use-package scala-mode :ensure t))
 
+(use-package eshell
+  :config
+  (use-package em-smart)
+  (add-to-list 'eshell-visual-commands "htop")
+  (add-to-list 'eshell-visual-commands "fzf")
+  (custom-set-variables
+   '(eshell-where-to-jump 'begin)
+   '(eshell-review-quick-commands nil)
+   '(eshell-smart-space-goes-to-end t)))
+
 (use-package expand-region
   :ensure t
   :defer t)
