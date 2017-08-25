@@ -419,9 +419,9 @@
   (use-package em-smart)
   (defun periklis/eshell-mode-hook ()
     "Append visual commands to eshell mode hook."
-    (add-to-list 'eshell-visual-commands "htop")
-    (add-to-list 'eshell-visual-commands "fzf")
-    (add-to-list 'eshell-visual-commands "nix-shell"))
+    (add-to-list 'eshell-visual-commands "htop" t)
+    (add-to-list 'eshell-visual-commands "fzf" t)
+    (add-to-list 'eshell-visual-commands "nix-shell" t))
 
   (custom-set-variables
    '(eshell-where-to-jump 'begin)
