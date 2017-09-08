@@ -412,7 +412,13 @@
          ("\\.sc\\'" . ensime))
   :config
   (use-package sbt-mode :ensure t)
-  (use-package scala-mode :ensure t))
+  (use-package scala-mode :ensure t)
+
+  (custom-set-variables
+   '(ensime-startup-notification nil)
+   '(ensime-startup-snapshot-notification nil))
+
+  (add-hook 'ensime-mode-hook #'scala-mode))
 
 (use-package eshell
   :config
