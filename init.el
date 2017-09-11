@@ -1,4 +1,4 @@
-;;; init.el --- Emacs initialization
+q;;; init.el --- Emacs initialization
 
 ;;; Commentary:
 
@@ -1259,45 +1259,18 @@
   :init
   (electric-pair-mode -1)
   (require 'smartparens-config)
-  ;; Turn on smartparens in the minibuffer
+  (sp-use-smartparens-bindings)
+
   (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
   (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
-  (define-key smartparens-mode-map (kbd "C-M-f") 'sp-forward-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-b") 'sp-backward-sexp)
 
-  (define-key smartparens-mode-map (kbd "C-M-<right>") 'sp-forward-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-<left>") 'sp-backward-sexp)
-
-  (define-key smartparens-mode-map (kbd "C-M-d") 'sp-down-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-a") 'sp-backward-down-sexp)
-  (define-key smartparens-mode-map (kbd "C-S-d") 'sp-beginning-of-sexp)
-  (define-key smartparens-mode-map (kbd "C-S-a") 'sp-end-of-sexp)
-
-  (define-key smartparens-mode-map (kbd "C-M-e") 'sp-up-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-u") 'sp-backward-up-sexp)
   (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
-
-  (define-key smartparens-mode-map (kbd "C-M-n") 'sp-next-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-p") 'sp-previous-sexp)
-
-  (define-key smartparens-mode-map (kbd "C-M-k") 'sp-kill-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-w") 'sp-copy-sexp)
-
-  (define-key smartparens-mode-map (kbd "M-r") 'sp-unwrap-sexp)
-
   (define-key smartparens-mode-map (kbd "C-(") 'sp-forward-barf-sexp)
   (define-key smartparens-mode-map (kbd "C-)") 'sp-forward-slurp-sexp)
-  (define-key smartparens-mode-map (kbd "M-(") 'sp-forward-barf-sexp)
-  (define-key smartparens-mode-map (kbd "M-)") 'sp-forward-slurp-sexp)
-
-  (define-key smartparens-mode-map (kbd "C-]") 'sp-select-next-thing-exchange)
+  (define-key smartparens-mode-map (kbd "M-(") 'sp-backward-barf-sexp)
+  (define-key smartparens-mode-map (kbd "M-)") 'sp-backward-slurp-sexp)
   (define-key smartparens-mode-map (kbd "C-M-[") 'sp-select-previous-thing)
   (define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
-
-  (define-key smartparens-mode-map (kbd "M-D") 'sp-splice-sexp)
-
-  (define-key smartparens-mode-map (kbd "M-F") 'sp-forward-symbol)
-  (define-key smartparens-mode-map (kbd "M-B") 'sp-backward-symbol)
 
   ;; Handle backspace in c-like modes better for smartparens
   (bind-key [remap c-electric-backspace]
@@ -1334,6 +1307,10 @@
     (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
     (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
                                               ("* ||\n[i]" "RET"))))
+
+  (sp-pair "(" ")" :wrap "s-(")
+  (sp-pair "[" "]" :wrap "s-[")
+  (sp-pair "{" "}" :wrap "s-{")
 
   (smartparens-global-strict-mode -1)
   (smartparens-global-mode 1)
