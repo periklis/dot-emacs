@@ -116,7 +116,8 @@ q;;; init.el --- Emacs initialization
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(load-prefer-newer t)
- '(max-specpdl-size 1600)
+ '(max-lisp-eval-depth 50000)
+ '(max-specpdl-size 5000)
  '(message-kill-buffer-on-exit t)
  '(network-security-level 'paranoid)
  '(ns-auto-hide-menu-bar t)
@@ -412,13 +413,10 @@ q;;; init.el --- Emacs initialization
          ("\\.sc\\'" . ensime))
   :config
   (use-package sbt-mode :ensure t)
-  (use-package scala-mode :ensure t)
 
   (custom-set-variables
    '(ensime-startup-notification nil)
-   '(ensime-startup-snapshot-notification nil))
-
-  (add-hook 'ensime-mode-hook #'scala-mode))
+   '(ensime-startup-snapshot-notification nil)))
 
 (use-package eshell
   :config
@@ -1221,6 +1219,11 @@ q;;; init.el --- Emacs initialization
 (use-package sass-mode
   :ensure t
   :mode ("\\.scss\\'" . sass-mode))
+
+(use-package scala-mode
+  :ensure t
+  :mode (("\\.scala\\'" . scala-mode)
+         ("\\.sc\\'" . scala-mode)))
 
 (use-package semantic
   :commands (semantic-mode)
