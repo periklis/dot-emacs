@@ -409,11 +409,9 @@ q;;; init.el --- Emacs initialization
 
 (use-package ensime
   :ensure t
-  :mode (("\\.scala\\'" . ensime)
-         ("\\.sc\\'" . ensime))
   :config
   (use-package sbt-mode :ensure t)
-
+  (use-package scala-mode :ensure t)
   (custom-set-variables
    '(ensime-startup-notification nil)
    '(ensime-startup-snapshot-notification nil)))
@@ -1219,11 +1217,6 @@ q;;; init.el --- Emacs initialization
 (use-package sass-mode
   :ensure t
   :mode ("\\.scss\\'" . sass-mode))
-
-(use-package scala-mode
-  :ensure t
-  :mode (("\\.scala\\'" . scala-mode)
-         ("\\.sc\\'" . scala-mode)))
 
 (use-package semantic
   :commands (semantic-mode)
