@@ -824,6 +824,7 @@
 
 (use-package jabber
   :ensure t
+  :disabled
   :preface
   (define-key ctl-x-map "\C-j" jabber-global-keymap)
   :bind (("C-x C-j C-c" . jabber-connect-all)
