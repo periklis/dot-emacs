@@ -267,6 +267,9 @@
     (create-tags languages options-file-name)
     (message "Created language tags (%s) for current project" languages)))
 
+(use-package circe
+  :ensure t)
+
 (use-package cmake-mode
   :ensure t
   :mode (("\\.cmake\\'" . cmake-mode)
