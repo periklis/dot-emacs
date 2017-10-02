@@ -391,6 +391,7 @@
 
 (use-package emacs-eclim
   :ensure t
+  :disabled
   :commands (global-eclim-mode))
 
 (use-package emacs-lisp-mode
@@ -1428,6 +1429,7 @@
 
 (use-package wget
   :ensure t
+  :disabled
   :commands wget)
 
 (use-package wgrep
