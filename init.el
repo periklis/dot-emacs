@@ -255,17 +255,17 @@
   :config
   (defvar ctags-executable "~/.nix-profile/bin/ctags")
 
-  (defun create-tags (languages options)
+  (defun create-tags ()
     "Create tags file."
     (interactive)
     (shell-command
-     (format "%s --languages=%s --options=%s -e -R ." ctags-executable languages options)))
+     (format "%s -e -R ." ctags-executable)))
 
-  (defun create-project-tags (languages options-file-name)
+  (defun create-project-tags ()
     "Create tags for current project."
-    (interactive "sLanguages: \nsOptions: ")
-    (create-tags languages options-file-name)
-    (message "Created language tags (%s) for current project" languages)))
+    (interactive)
+    (create-tags)
+    (message "Created language tags for current project")))
 
 (use-package circe
   :ensure t)
@@ -746,6 +746,11 @@
     (custom-set-variables
      '(helm-gtags-prefix-key "\C-cg")
      '(helm-gtags-suggested-key-mapping t)))
+  (use-package helm-xref
+    :ensure t
+    :config
+    (custom-set-variables
+     '(xref-show-xrefs-function 'helm-xref-show-xrefs)))
   :config
   (when (executable-find "curl")
     (setq helm-net-prefer-curl t))
@@ -1151,6 +1156,12 @@
    '(projectile-mode-line-lighter "")
    '(projectile-enable-caching t)
    '(projectile-completion-system 'helm))
+
+  (projectile-register-project-type 'npm '("package.json")
+                                    :compile "npm install"
+                                    :test "npm test"
+                                    :run "npm start"
+                                    :test-suffix "Spec")
 
   (defun projectile-helm-ag ()
     (interactive)
