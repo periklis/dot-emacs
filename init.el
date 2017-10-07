@@ -1489,6 +1489,7 @@
   :commands yas-minor-mode
   :diminish  yas-minor-mode
   :config
+  (use-package yasnippet-snippets :ensure t)
   (custom-set-variables
    '(yas-prompt-functions
      '(yas-completing-prompt))))
