@@ -944,7 +944,7 @@
          ("\\.spec\\'" . js2-mode))
   :config
   (use-package js2-refactor :ensure t :commands js2-refactor-mode)
-  (use-package tern         :ensure t)
+  (use-package tern         :ensure t :disabled)
   (use-package company-tern :ensure t :commands tern-mode)
 
   (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
@@ -955,7 +955,7 @@
   (add-hook 'js2-mode-hook #'flyspell-prog-mode)
   (add-hook 'js2-mode-hook #'history-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-  (add-hook 'js2-mode-hook #'tern-mode)
+  ;; (add-hook 'js2-mode-hook #'tern-mode)
   (add-hook 'js2-mode-hook #'yas-minor-mode))
 
 (use-package karma
