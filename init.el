@@ -309,11 +309,16 @@
     :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
     :config (setq company-quickhelp-delay 2))
   (custom-set-variables
-   '(company-idle-delay 0.5)
-   '(company-auto-complete 'company-explicit-action-p)
+   '(company-auto-complete t)
+   '(company-etags-everywhere t)
+   '(company-idle-delay 0.2)
+   '(company-minimum-prefix-length 1)
+   '(company-require-match nil)
+   '(company-show-numbers t)
    '(company-tooltip-align-annotations t)
-   '(company-transformers '(company-sort-by-backend-importance))
-   '(company-show-numbers t))
+   '(company-tooltip-limit 10)
+   '(company-tooltip-offset-display 'lines)
+   '(company-transformers '(company-sort-by-backend-importance)))
 
   (add-hook 'after-init-hook 'global-company-mode))
 

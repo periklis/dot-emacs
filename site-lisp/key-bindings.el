@@ -22,7 +22,7 @@
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 ;; company-complete-common-or-cycle
-(global-set-key (kbd "C-;") 'company-complete-common-or-cycle)
+(global-set-key (kbd "C-c ;") 'company-complete-common-or-cycle)
 
 ;; expand region
 (global-set-key (kbd "C-=") 'er/expand-region)
