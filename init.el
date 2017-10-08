@@ -64,15 +64,11 @@
   (package-initialize nil)
 
   (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-  ;;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
     (package-refresh-contents))
-
-  ;; (unless (file-exists-p (expand-file-name "elpa/archives/marmalade" user-emacs-directory))
-  ;;   (package-refresh-contents))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
     (package-refresh-contents))
@@ -1152,9 +1148,6 @@
 (use-package projectile
   :ensure t
   :demand t
-  :init
-  ;; (use-package perspective      :ensure t :demand t)
-  ;; (use-package persp-projectile :ensure t :demand t)
   :config
   (custom-set-variables
    '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
@@ -1162,18 +1155,11 @@
    '(projectile-enable-caching t)
    '(projectile-completion-system 'helm))
 
-  (projectile-register-project-type 'npm '("package.json")
-                                    :compile "npm install"
-                                    :test "npm test"
-                                    :run "npm start"
-                                    :test-suffix "Spec")
-
   (defun projectile-helm-ag ()
     (interactive)
     (helm-ag (projectile-project-root)))
 
   (projectile-mode)
-  ;; (persp-mode)
   (helm-projectile-on))
 
 (use-package php-mode
@@ -1186,7 +1172,6 @@
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
-  (load "semantic-php/loaddefs.el")
 
   (custom-set-variables
    '(php-mode-speedbar-open nil)
