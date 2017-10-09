@@ -305,11 +305,11 @@
     :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
     :config (setq company-quickhelp-delay 2))
   (custom-set-variables
-   '(company-auto-complete t)
+   '(company-auto-complete 'company-explicit-action-p)
    '(company-etags-everywhere t)
    '(company-idle-delay 0.2)
    '(company-minimum-prefix-length 1)
-   '(company-require-match ''company-explicit-action-p)
+   '(company-require-match 'company-explicit-action-p)
    '(company-show-numbers t)
    '(company-tooltip-align-annotations t)
    '(company-tooltip-limit 10)
