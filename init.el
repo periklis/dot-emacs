@@ -393,6 +393,17 @@
   (setq ediff-split-window-function 'split-window-vertically)
   (setq ediff-ignore-similar-regions t))
 
+(use-package elm-mode
+  :ensure t
+  :mode ("\\.elm\\'" . elm-mode)
+  :config
+  (use-package flycheck-elm :ensure t)
+  (use-package elm-yasnippets :ensure t)
+  (custom-set-variables
+   '(elm-format-on-save t)
+   '(elm-tags-on-save t))
+  (add-to-list 'company-backends 'company-elm))
+
 (use-package emacs-eclim
   :ensure t
   :disabled
