@@ -397,12 +397,23 @@
   :ensure t
   :mode ("\\.elm\\'" . elm-mode)
   :config
-  (use-package flycheck-elm :ensure t)
   (use-package elm-yasnippets :ensure t)
+  (use-package flycheck-elm
+    :ensure t
+    :config
+    (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
+
   (custom-set-variables
    '(elm-format-on-save t)
    '(elm-tags-on-save t))
-  (add-to-list 'company-backends 'company-elm))
+
+  (defun periklis/elm-company-setup ()
+    "Adds company-elm to company-backends."
+    ;; (setq company-backends '(company-elm))
+    (add-to-list 'company-backends 'company-elm))
+
+  (add-hook 'elm-mode-hook #'periklis/elm-company-setup)
+  (add-hook 'elm-mode-hook #'elm-oracle-setup-completion))
 
 (use-package emacs-eclim
   :ensure t
