@@ -404,8 +404,10 @@
     (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
 
   (custom-set-variables
+   '(elm-tags-exclude-elm-stuff nil)
    '(elm-format-on-save t)
-   '(elm-tags-on-save t))
+   '(elm-sort-imports-on-save t)
+   '(elm-tags-on-save nil))
 
   (defun periklis/elm-company-setup ()
     "Adds company-elm to company-backends."
