@@ -972,10 +972,10 @@
   :ensure t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.spec\\'" . js2-mode))
+  :preface
+  (define-key js2-mode-map (kbd "M-.") nil)
   :config
   (use-package js2-refactor :ensure t :commands js2-refactor-mode)
-  (use-package tern         :ensure t :disabled)
-  (use-package company-tern :ensure t :commands tern-mode)
 
   (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'js2-mode-hook #'subword-mode)
@@ -985,12 +985,7 @@
   (add-hook 'js2-mode-hook #'flyspell-prog-mode)
   (add-hook 'js2-mode-hook #'history-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-  ;; (add-hook 'js2-mode-hook #'tern-mode)
   (add-hook 'js2-mode-hook #'yas-minor-mode))
-
-(use-package karma
-  :ensure t
-  :commands karma-mode)
 
 (use-package macrostep
   :ensure t
@@ -1493,6 +1488,21 @@
   (progn
     (add-hook 'shell-mode-hook  'with-editor-export-editor)
     (add-hook 'eshell-mode-hook 'with-editor-export-editor)))
+
+(use-package xref-js2
+  :ensure t
+  :commands (js2-mode web-mode)
+  :config
+  (custom-set-variables
+   '(xref-js2-ignored-dirs '("bower_components"
+                             "build"
+                             "lib")))
+  (defun periklis/xref-js2-setup ()
+    "Setup xref-js2 backend."
+    (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))
+
+  (add-hook 'js2-mode-hook #'periklis/xref-js2-setup)
+  (add-hook 'web-mode-hook #'periklis/xref-js2-setup))
 
 (use-package xterm-color
   :ensure t
