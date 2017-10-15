@@ -1347,10 +1347,6 @@
     (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
                                               ("* ||\n[i]" "RET"))))
 
-  (sp-pair "(" ")" :wrap "s-(")
-  (sp-pair "[" "]" :wrap "s-[")
-  (sp-pair "{" "}" :wrap "s-{")
-
   (smartparens-global-strict-mode -1)
   (smartparens-global-mode 1)
   (show-smartparens-global-mode -1))
