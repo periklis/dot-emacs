@@ -1231,6 +1231,13 @@
   (define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
   (define-key php-mode-map (kbd "C-x p") 'phpunit-current-project))
 
+(use-package prettier-js
+  :ensure t
+  :commands (js2-mode web-mode)
+  :config
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode))
+
 (use-package puppet-mode
   :ensure t
   :mode ("\\.pp\\'" . puppet-mode))
