@@ -924,10 +924,6 @@
   (add-hook 'jabber-chat-mode-hook #'goto-address)
   (add-hook 'jabber-chat-mode-hook #'abbrev-mode))
 
-(use-package jasminejs-mode
-  :ensure t
-  :commands jasminejs-mode)
-
 (use-package java
   :commands java-mode
   :config
@@ -950,10 +946,6 @@
   (add-hook 'java-mode-hook #'wisent-java-default-setup)
   (add-hook 'java-mode-hook #'semantic-mode)
   (add-hook 'java-mode-hook #'yas-minor-mode))
-
-(use-package jenkins
-  :ensure t
-  :commands jenkins)
 
 (use-package json-mode
   :ensure t
@@ -1113,28 +1105,6 @@
   (custom-set-variables
    '(paradox-github-token t))
   (paradox-enable))
-
-(use-package paredit
-  :ensure t
-  :disabled
-  :commands paredit-mode
-  :diminish paredit-mode
-  :config
-  (bind-key "C-M-l" 'paredit-recentre-on-sexp paredit-mode-map)
-  (bind-key ")" 'paredit-close-round-and-newline paredit-mode-map)
-  (bind-key "M-)" 'paredit-close-round paredit-mode-map)
-  (bind-key "M-k" 'paredit-raise-sexp paredit-mode-map)
-  (bind-key "M-I" 'paredit-splice-sexp paredit-mode-map)
-  (unbind-key "M-r" paredit-mode-map)
-  (unbind-key "M-s" paredit-mode-map)
-  (bind-key "C-. D" 'paredit-forward-down paredit-mode-map)
-  (bind-key "C-. B" 'paredit-splice-sexp-killing-backward paredit-mode-map)
-  (bind-key "C-. C" 'paredit-convolute-sexp paredit-mode-map)
-  (bind-key "C-. F" 'paredit-splice-sexp-killing-forward paredit-mode-map)
-  (bind-key "C-. a" 'paredit-add-to-next-list paredit-mode-map)
-  (bind-key "C-. A" 'paredit-add-to-previous-list paredit-mode-map)
-  (bind-key "C-. j" 'paredit-join-with-next-list paredit-mode-map)
-  (bind-key "C-. J" 'paredit-join-with-previous-list paredit-mode-map))
 
 (use-package perspeen
   :ensure t
@@ -1424,23 +1394,12 @@
 
   (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
 
-(use-package twig-mode
-  :ensure t
-  :mode ("\\.twig\\'". twig-mode)
-  :commands twig-mode)
-
 (use-package undo-tree
   :ensure t
   :demand t
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode))
-
-(use-package vagrant
-  :ensure t
-  :commands (vagrant-up vagrant-resume vagrant-suspend)
-  :config
-  (use-package vagrant-tramp :ensure t))
 
 (use-package web-mode
   :ensure t
