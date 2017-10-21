@@ -66,14 +66,9 @@
 (global-set-key (kbd "C-c p s") 'projectile-switch-project)
 (global-set-key (kbd "C-c p b") 'projectile-switch-to-buffer)
 
-;; perspective mode
-(define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project)
-(global-set-key (kbd "s-n") 'persp-next)
-(global-set-key (kbd "s-p") 'persp-prev)
-
-;; history-mode
-(global-set-key (kbd "M-]") 'history-next-history)
-(global-set-key (kbd "M-[") 'history-prev-history)
+;; perspeen mode
+(global-set-key (kbd "s-n") 'perspeen-next-ws)
+(global-set-key (kbd "s-p") 'perspeen-previous-ws)
 
 ;; org-mode
 (define-key global-map "\C-cc" 'org-capture)

@@ -433,7 +433,6 @@
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
   (add-hook 'emacs-lisp-mode-hook #'flyspell-prog-mode)
   (add-hook 'emacs-lisp-mode-hook #'helm-gtags-mode)
-  (add-hook 'emacs-lisp-mode-hook #'history-mode)
   (add-hook 'emacs-lisp-mode-hook #'subword-mode)
   (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
   (add-hook 'after-save-hook 'check-parens nil t))
@@ -742,7 +741,6 @@
   (add-hook 'haskell-mode-hook #'electric-indent-mode)
   (add-hook 'haskell-mode-hook #'electric-layout-mode)
   (add-hook 'haskell-mode-hook #'electric-pair-mode)
-  (add-hook 'haskell-mode-hook #'history-mode)
   (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation)
   (add-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
@@ -840,14 +838,6 @@
 
   (global-set-key (kbd "M-n") 'highlight-symbol-next)
   (global-set-key (kbd "M-p") 'highlight-symbol-prev))
-
-(use-package history
-  :ensure t
-  :defer t
-  :diminish history-mode
-  :config
-  (add-to-list 'history-advised-before-functions 'find-tag-noselect t)
-  (add-to-list 'history-advised-before-functions 'find-file-noselect t))
 
 (use-package hippie-exp
   :config
@@ -952,7 +942,6 @@
   (add-hook 'java-mode-hook #'electric-layout-mode)
   (add-hook 'java-mode-hook #'electric-pair-mode)
   (add-hook 'java-mode-hook #'flyspell-prog-mode)
-  (add-hook 'java-mode-hook #'history-mode)
   (add-hook 'java-mode-hook #'subword-mode)
   (add-hook 'java-mode-hook #'wisent-java-default-setup)
   (add-hook 'java-mode-hook #'semantic-mode)
@@ -982,7 +971,6 @@
   (add-hook 'js2-mode-hook #'electric-layout-mode)
   (add-hook 'js2-mode-hook #'electric-pair-mode)
   (add-hook 'js2-mode-hook #'flyspell-prog-mode)
-  (add-hook 'js2-mode-hook #'history-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-hook 'js2-mode-hook #'yas-minor-mode))
 
@@ -1217,7 +1205,6 @@
   (add-hook 'php-mode-hook #'c-toggle-hungry-state)
   (add-hook 'php-mode-hook #'flyspell-prog-mode)
   (add-hook 'php-mode-hook #'helm-gtags-mode)
-  (add-hook 'php-mode-hook #'history-mode)
   (add-hook 'php-mode-hook #'php-refactor-mode)
   (add-hook 'php-mode-hook #'semantic-php-default-setup)
   (add-hook 'php-mode-hook #'semantic-mode)
