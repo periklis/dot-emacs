@@ -1225,10 +1225,6 @@
   (add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'web-mode-hook 'prettier-js-mode))
 
-(use-package puppet-mode
-  :ensure t
-  :mode ("\\.pp\\'" . puppet-mode))
-
 (use-package restclient
   :ensure t
   :commands (restclient-mode)
