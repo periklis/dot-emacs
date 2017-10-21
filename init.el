@@ -973,8 +973,6 @@
   :ensure t
   :mode (("\\.js\\'" . js2-mode)
          ("\\.spec\\'" . js2-mode))
-  :preface
-  (define-key js2-mode-map (kbd "M-.") nil)
   :config
   (use-package js2-refactor :ensure t :commands js2-refactor-mode)
 
@@ -1234,6 +1232,7 @@
 
 (use-package prettier-js
   :ensure t
+  :disabled
   :commands (js2-mode web-mode)
   :config
   (add-hook 'js2-mode-hook 'prettier-js-mode)
@@ -1392,6 +1391,20 @@
   :ensure t
   :commands ssh-config-mode)
 
+(use-package tern
+  :ensure t
+  :config
+  (use-package company-tern :ensure t)
+
+  (defun periklis/setup-company-tern ()
+    "Add company-tern to company-backends."
+    (add-to-list 'company-backends 'company-tern))
+
+  (add-hook 'js2-mode-hook #'tern-mode)
+  (add-hook 'js2-mode-hook #'periklis/setup-company-tern)
+  (add-hook 'web-mode-hook #'tern-mode)
+  (add-hook 'web-mode-hook #'periklis/setup-company-tern))
+
 (use-package tide
   :ensure t
   :mode (("\\.ts\\'" . typescript-mode)
@@ -1492,21 +1505,6 @@
   (progn
     (add-hook 'shell-mode-hook  'with-editor-export-editor)
     (add-hook 'eshell-mode-hook 'with-editor-export-editor)))
-
-(use-package xref-js2
-  :ensure t
-  :commands (js2-mode web-mode)
-  :config
-  (custom-set-variables
-   '(xref-js2-ignored-dirs '("bower_components"
-                             "build"
-                             "lib")))
-  (defun periklis/xref-js2-setup ()
-    "Setup xref-js2 backend."
-    (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))
-
-  (add-hook 'js2-mode-hook #'periklis/xref-js2-setup)
-  (add-hook 'web-mode-hook #'periklis/xref-js2-setup))
 
 (use-package xterm-color
   :ensure t
