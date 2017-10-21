@@ -307,6 +307,7 @@
   (custom-set-variables
    '(company-auto-complete 'company-explicit-action-p)
    '(company-etags-everywhere t)
+   '(company-dabbrev-downcase nil)
    '(company-idle-delay 0.2)
    '(company-minimum-prefix-length 1)
    '(company-require-match 'company-explicit-action-p)
