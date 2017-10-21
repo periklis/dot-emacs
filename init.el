@@ -860,6 +860,10 @@
   :config
   (use-package geben-helm-projectile :ensure t))
 
+(use-package import-js
+  :ensure t
+  :commands (js2-mode web-mode))
+
 (use-package itail
   :ensure t
   :defer t)
