@@ -369,6 +369,7 @@
   :config
   (custom-set-variables
    '(ecb-auto-update-methods-after-save t)
+   '(ecb-compile-window-height 15)
    '(ecb-compile-window-temporally-enlarge nil)
    '(ecb-force-reparse-when-semantic-idle-scheduler-off t)
    '(ecb-layout-name "left3")
