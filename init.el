@@ -370,10 +370,10 @@
   (custom-set-variables
    '(ecb-auto-update-methods-after-save t)
    '(ecb-force-reparse-when-semantic-idle-scheduler-off t)
-   '(ecb-layout-name "left9")
+   '(ecb-layout-name "left3")
    '(ecb-methods-menu-sorter nil)
    '(ecb-non-semantic-exclude-modes (quote (sh-mode fundamental-mode text-mode)))
-   '(ecb-options-version "2.40")
+   '(ecb-options-version "2.50")
    '(ecb-post-process-semantic-taglist
      (quote
       ((c++-mode ecb-group-function-tags-with-parents)
