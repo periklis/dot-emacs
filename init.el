@@ -372,7 +372,7 @@
    '(ecb-compile-window-height 15)
    '(ecb-compile-window-temporally-enlarge nil)
    '(ecb-force-reparse-when-semantic-idle-scheduler-off t)
-   '(ecb-layout-name "left3")
+   '(ecb-layout-name "left2")
    '(ecb-methods-menu-sorter nil)
    '(ecb-non-semantic-exclude-modes (quote (sh-mode fundamental-mode text-mode)))
    '(ecb-options-version "2.50")
