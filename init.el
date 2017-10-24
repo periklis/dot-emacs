@@ -369,8 +369,9 @@
   :config
   (custom-set-variables
    '(ecb-auto-update-methods-after-save t)
-   '(ecb-compile-window-height 15)
-   '(ecb-compile-window-temporally-enlarge nil)
+   '(ecb-compile-window-height 10)
+   '(ecb-compile-window-temporally-enlarge 'after-selection)
+   '(ecb-enlarged-compilation-window-max-height 'half)
    '(ecb-force-reparse-when-semantic-idle-scheduler-off t)
    '(ecb-layout-name "left2")
    '(ecb-methods-menu-sorter nil)
@@ -381,10 +382,16 @@
       ((c++-mode ecb-group-function-tags-with-parents)
        (emacs-lisp-mode ecb-group-function-tags-with-parents)
        (c-mode ecb-filter-c-prototype-tags))))
+   '(ecb-scroll-other-window-scrolls-compile-window t)
    '(ecb-source-path (quote (("/" "/"))))
    '(ecb-tip-of-the-day nil)
    '(ecb-windows-width 45)
-   '(ecb-major-modes-show-or-hide '((php-mode js2-mode haskell-mode)))))
+   '(ecb-major-modes-show-or-hide '((php-mode js2-mode haskell-mode))))
+
+  (defun ecb-not-using-layout-advices (&rest args)
+    "Do not use the layout advices of ecb."
+    (ecb-disable-advices 'ecb-layout-basic-adviced-functions))
+  (advice-add #'ecb-activate--impl :after #'ecb-not-using-layout-advices))
 
 (use-package ediff
   :defer t
