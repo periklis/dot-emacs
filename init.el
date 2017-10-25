@@ -488,6 +488,12 @@
 
   (add-hook 'eshell-mode-hook #'periklis/eshell-mode-hook))
 
+(use-package eslintd-fix
+  :ensure t
+  :config
+  (add-hook 'js2-mode-hook 'eslintd-fix-mode)
+  (add-hook 'web-mode-hook 'eslintd-fix-mode))
+
 (use-package expand-region
   :ensure t
   :defer t)
