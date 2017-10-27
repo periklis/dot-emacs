@@ -877,7 +877,9 @@
 
 (use-package import-js
   :ensure t
-  :commands (js2-mode web-mode))
+  :config
+  (add-hook 'js2-mode-hook #'run-import-js)
+  (add-hook 'web-mode-hook #'run-import-js))
 
 (use-package itail
   :ensure t
