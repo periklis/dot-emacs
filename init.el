@@ -1512,6 +1512,8 @@
 
 (use-package yasnippet
   :ensure t
+  :bind (:map yas-minor-mode-map
+              ("C-c y" . yas-expand))
   :commands yas-minor-mode
   :diminish  yas-minor-mode
   :config
