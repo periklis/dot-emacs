@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: describe
+# key: desc
+# --
+describe('$1', () => {
+    $0
+});

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: import
+# key: imp
+# --
+import $1 from '$0';

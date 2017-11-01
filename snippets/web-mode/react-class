@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: react-class
+# key: react
+# --
+import React, { PropTypes } from 'react';
+
+class $1 extends React.${2:$$(yas-choose-value '("PureComponent" "Component"))} {
+    constructor(...args) {
+        super(...args);
+    }
+
+    render () {
+        return (
+            $0
+        )
+    }
+}
+
+$1.propTypes = {
+
+};
+
+$1.contextTypes = {
+
+};
+
+export default $1;

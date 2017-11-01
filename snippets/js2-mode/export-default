@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: export-default
+# key: expdef
+# --
+export default ($1) => {
+    $0
+};
