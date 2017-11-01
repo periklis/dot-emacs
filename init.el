@@ -1005,8 +1005,17 @@
 
 (use-package markdown-mode
   :ensure t
-  :mode ("\\.md\\'" . markdown-mode)
+  :mode (("\\`README\\.md\\'" . gfm-mode)
+         ("\\.md\\'"          . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
   :config
+  (use-package markdown-preview-mode
+    :ensure t
+    :config
+    (add-to-list
+     'markdown-preview-stylesheets
+     "https://raw.githubusercontent.com/richleland/pygments-css/master/emacs.css"))
+
   (add-hook 'markdown-mode-hook #'flyspell-mode)
   (add-hook 'markdown-mode-hook #'yas-minor-mode))
 
