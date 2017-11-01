@@ -1217,7 +1217,7 @@
 
 (use-package restclient
   :ensure t
-  :commands (restclient-mode)
+  :mode ("\\.rest\\'" . restclient-mode)
   :config
   (custom-set-variables
    '(restclient-log-request nil)))
