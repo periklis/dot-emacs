@@ -1515,6 +1515,7 @@
   :commands yas-minor-mode
   :diminish  yas-minor-mode
   :config
+  (use-package auto-yasnippet :ensure t)
   (use-package yasnippet-snippets :ensure t)
   (custom-set-variables
    '(yas-prompt-functions
