@@ -526,7 +526,6 @@
   :init
   (require 'nnir)
   (require 'gnus-async)
-  (load "gnus-notify+.el")
   (custom-set-variables
    '(gnus-asynchronous t)
    '(gnus-select-method '(nnnil ""))
