@@ -150,7 +150,7 @@
 (use-package f               :ensure t :defer t)
 (use-package info+           :ensure t :commands (info))
 (use-package let-alist       :ensure t :defer t)
-(use-package popwin          :ensure t :defer t)
+(use-package popwin          :ensure t :demand t)
 (use-package s               :ensure t :defer t)
 (use-package uuidgen         :ensure t :defer t)
 (use-package xml-rpc         :ensure t :defer t)
