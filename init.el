@@ -357,7 +357,14 @@
 
 (use-package docker
   :ensure t
-  :mode ("\\Dockerfile\\'" . dockerfile-mode))
+  :diminish docker-mode
+  :config
+  (docker-global-mode)
+  (use-package docker-images)
+  (use-package docker-containers)
+  (use-package docker-volumes)
+  (use-package docker-networks)
+  (use-package docker-machines))
 
 (use-package docker-compose-mode
   :ensure t
