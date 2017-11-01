@@ -140,12 +140,6 @@
  '(perspeen-tab--header-line-active ((t (:weight bold :foreground "#58675" :background "#eee8d5"))))
  '(perspeen-tab--header-line-inactive ((t (:foreground "#839496" :background "#eee8d5")))))
 
-;; Custom general hooks
-(add-hook 'prog-mode-hook #'linum-mode)
-(add-hook 'prog-mode-hook #'goto-address-mode)
-(add-hook 'text-mode-hook #'goto-address-mode)
-(add-hook 'after-init-hook #'server-mode)
-
 ;; Load Libraries
 (use-package async           :ensure t :defer t)
 (use-package bind-key        :ensure t :defer t)
@@ -156,9 +150,17 @@
 (use-package f               :ensure t :defer t)
 (use-package info+           :ensure t :commands (info))
 (use-package let-alist       :ensure t :defer t)
+(use-package popwin          :ensure t :defer t)
 (use-package s               :ensure t :defer t)
 (use-package uuidgen         :ensure t :defer t)
 (use-package xml-rpc         :ensure t :defer t)
+
+;; Custom general hooks
+(add-hook 'prog-mode-hook #'linum-mode)
+(add-hook 'prog-mode-hook #'goto-address-mode)
+(add-hook 'prog-mode-hook #'popwin-mode)
+(add-hook 'text-mode-hook #'goto-address-mode)
+(add-hook 'after-init-hook #'server-mode)
 
 ;; Load packages
 (use-package alert
