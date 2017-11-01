@@ -364,7 +364,7 @@
   (use-package docker-containers)
   (use-package docker-volumes)
   (use-package docker-networks)
-  (use-package docker-machines))
+  (use-package docker-machine))
 
 (use-package docker-compose-mode
   :ensure t
