@@ -2,23 +2,27 @@
 # contributor: Periklis Tsirakidis
 # name: mkderivation
 # key: mkdrv
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# type: snippet
 # --
 {pkgs ? import <nixpkgs> {}}:
 let
   inherit(pkgs) stdenv;
 in
 stdenv.mkDerivation rec {
-  name = "$1";
-  version = "$2";
+  name = ${1:""};
+  version = ${2:""};
   src = ./.;
 
+  $0
+
   meta = {
-    description = "$3";
+    description = ${3:""};
     longDescription = ''
       $4
     '';
-    license = stdenv.lib.licenses.$5;
+    license = stdenv.lib.licenses.${5:gpl3Plus};
     maintainers = [ stdenv.lib.maintainers.periklis ];
-    platforms = with stdenv.lib.platforms; [ $6 ];
+    platforms = with stdenv.lib.platforms; [ ${6:unix} ];
   };
 }
