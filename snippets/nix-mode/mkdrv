@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: mkderivation
+# key: mkdrv
+# --
+{pkgs ? import <nixpkgs> {}}:
+let
+  inherit(pkgs) stdenv;
+in
+stdenv.mkDerivation rec {
+  name = "$1";
+  version = "$2";
+  src = ./.;
+
+  meta = {
+    description = "$3";
+    longDescription = ''
+      $4
+    '';
+    license = stdenv.lib.licenses.$5;
+    maintainers = [ stdenv.lib.maintainers.periklis ];
+    platforms = with stdenv.lib.platforms; [ $6 ];
+  };
+}
