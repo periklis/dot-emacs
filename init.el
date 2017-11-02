@@ -145,6 +145,7 @@
 (use-package bind-key        :ensure t :defer t)
 (use-package dash            :ensure t :defer t :config (eval-after-load "dash" '(dash-enable-font-lock)))
 (use-package data-debug      :commands (data-debug-eval-expression))
+(use-package deferred        :ensure t :demand t)
 (use-package diminish        :ensure t :defer t)
 (use-package duplicate-thing :ensure t :bind ("C-c C-d" . duplicate-thing))
 (use-package f               :ensure t :defer t)
