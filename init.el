@@ -537,6 +537,7 @@
   :init
   (require 'nnir)
   (require 'gnus-async)
+  (require 'gnus-demon)
   (custom-set-variables
    '(gnus-asynchronous t)
    '(gnus-select-method '(nnnil ""))
