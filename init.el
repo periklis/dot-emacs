@@ -449,7 +449,6 @@
   (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'emacs-lisp-mode-hook #'electric-indent-mode)
   (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
-  (add-hook 'emacs-lisp-mode-hook #'electric-pair-mode)
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
   (add-hook 'emacs-lisp-mode-hook #'flyspell-prog-mode)
   (add-hook 'emacs-lisp-mode-hook #'helm-gtags-mode)
@@ -766,7 +765,6 @@
   (add-hook 'haskell-mode-hook #'subword-mode)
   (add-hook 'haskell-mode-hook #'electric-indent-mode)
   (add-hook 'haskell-mode-hook #'electric-layout-mode)
-  (add-hook 'haskell-mode-hook #'electric-pair-mode)
   (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation)
   (add-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
@@ -968,7 +966,6 @@
   (add-hook 'java-mode-hook #'c-toggle-hungry-state)
   (add-hook 'java-mode-hook #'electric-indent-mode)
   (add-hook 'java-mode-hook #'electric-layout-mode)
-  (add-hook 'java-mode-hook #'electric-pair-mode)
   (add-hook 'java-mode-hook #'flyspell-prog-mode)
   (add-hook 'java-mode-hook #'subword-mode)
   (add-hook 'java-mode-hook #'wisent-java-default-setup)
@@ -991,9 +988,6 @@
 
   (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'js2-mode-hook #'subword-mode)
-  (add-hook 'js2-mode-hook #'electric-indent-mode)
-  (add-hook 'js2-mode-hook #'electric-layout-mode)
-  (add-hook 'js2-mode-hook #'electric-pair-mode)
   (add-hook 'js2-mode-hook #'flyspell-prog-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-hook 'js2-mode-hook #'yas-minor-mode))
@@ -1222,7 +1216,6 @@
   (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
   (add-hook 'php-mode-hook #'electric-indent-mode)
   (add-hook 'php-mode-hook #'electric-layout-mode)
-  (add-hook 'php-mode-hook #'electric-pair-mode)
   (add-hook 'php-mode-hook #'c-toggle-auto-newline)
   (add-hook 'php-mode-hook #'c-toggle-hungry-state)
   (add-hook 'php-mode-hook #'flyspell-prog-mode)
@@ -1308,7 +1301,7 @@
 (use-package smartparens
   :ensure t
   :init
-  (electric-pair-mode -1)
+  (electric-pair-mode nil)
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
 
