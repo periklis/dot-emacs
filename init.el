@@ -103,6 +103,7 @@
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(display-time-mode t)
+ '(electric-pair-mode nil)
  '(enable-local-eval t)
  '(enable-local-variables :all)
  '(fringe-mode '(4 . 0))
