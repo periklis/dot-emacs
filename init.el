@@ -251,7 +251,6 @@
   (add-hook 'c-mode-common-hook #'google-make-newline-indent))
 
 (use-package ctags
-  :ensure t
   :commands (create-tags create-project-tags)
   :config
   (defvar ctags-executable "~/.nix-profile/bin/ctags")
@@ -1128,18 +1127,18 @@
 (use-package pandoc-mode
   :ensure t
   :commands pandoc-mode
-  :config
-  (define-key 'pandoc-mode-map "C-c / r" #'pandoc-run-pandoc)
-  (define-key 'pandoc-mode-map "C-c / p" #'pandoc-convert-to-pdf)
-  (define-key 'pandoc-mode-map "C-c / s" #'pandoc-save-settings-file)
-  (define-key 'pandoc-mode-map "C-c / w" #'pandoc-set-write)
-  (define-key 'pandoc-mode-map "C-c / f" #'pandoc-set-master-file)
-  (define-key 'pandoc-mode-map "C-c / m" #'pandoc-set-metadata)
-  (define-key 'pandoc-mode-map "C-c / v" #'pandoc-set-variable)
-  (define-key 'pandoc-mode-map "C-c / V" #'pandoc-view-output)
-  (define-key 'pandoc-mode-map "C-c / S" #'pandoc-view-settings)
-  (define-key 'pandoc-mode-map "C-c / c" #'pandoc-insert-@)
-  (define-key 'pandoc-mode-map "C-c / C" #'pandoc-select-@))
+  :bind (:map pandoc-mode-map
+              ("C-c / r" . pandoc-run-pandoc)
+              ("C-c / p" . pandoc-convert-to-pdf)
+              ("C-c / s" . pandoc-save-settings-file)
+              ("C-c / w" . pandoc-set-write)
+              ("C-c / f" . pandoc-set-master-file)
+              ("C-c / m" . pandoc-set-metadata)
+              ("C-c / v" . pandoc-set-variable)
+              ("C-c / V" . pandoc-view-output)
+              ("C-c / S" . pandoc-view-settings)
+              ("C-c / c" . pandoc-insert-@)
+              ("C-c / C" . pandoc-select-@)))
 
 (use-package paradox
   :ensure t
@@ -1189,9 +1188,7 @@
   :ensure t
   :commands (php-mode)
   :config
-  (use-package inf-php             :ensure t :commands inf-php)
   (use-package phpcbf              :ensure t :commands php-mode)
-  (use-package php-extras          :ensure t :commands php-mode)
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
@@ -1302,7 +1299,6 @@
 (use-package smartparens
   :ensure t
   :init
-  (electric-pair-mode nil)
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
 
