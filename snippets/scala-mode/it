@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: it
+# key: it
+# --
+it should "$1" in {
+  $0
+}

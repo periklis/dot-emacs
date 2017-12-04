@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: spec
+# key: spec
+# --
+package $1
+
+import org.scalatest.{FlatSpec, Matchers}
+
+class $2 extends FlatSpec with Matchers {
+
+  behavior of "$3"
+
+  it should "$4" in {
+    $0
+  }
+}

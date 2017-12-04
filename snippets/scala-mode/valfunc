@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: valfunc
+# key: valfunc
+# --
+val $1: $2 =
+  $3 => $0

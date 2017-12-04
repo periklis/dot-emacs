@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: object
+# key: object
+# --
+object $1 {
+  $0
+}

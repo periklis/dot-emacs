@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: caseclass
+# key: caseclass
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# type: snippet
+# --
+sealed trait $1
+case class $2 extends $1
+$0
