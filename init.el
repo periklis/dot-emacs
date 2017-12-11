@@ -460,7 +460,10 @@
   :ensure t
   :config
   (use-package sbt-mode :ensure t)
-  (use-package scala-mode :ensure t)
+  (use-package scala-mode
+    :ensure t
+    :config
+    (add-hook 'scala-mode-hook #'auto-revert-mode))
   (custom-set-variables
    '(ensime-startup-notification nil)
    '(ensime-startup-snapshot-notification nil)
