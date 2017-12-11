@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Periklis Tsirakidis
+# name: arrow
+# key: arrow
+# --
+($1) => {$0}
