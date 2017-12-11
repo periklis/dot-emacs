@@ -225,6 +225,7 @@
     :ensure t
     :config
     (use-package rtags
+      :disabled
       :if nix-env-p
       :config
       (use-package rtags-helm)
@@ -1430,7 +1431,7 @@
   :demand t
   :config
   (use-package helm-tramp
-    :demand t
+    :disabled
     :config
     (defalias 'exit-tramp 'tramp-cleanup-all-buffers))
 
