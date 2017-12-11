@@ -782,7 +782,9 @@
   (use-package helm-ag         :ensure t :commands helm-ag)
   (use-package helm-descbinds  :ensure t :bind ("C-c h b" . helm-descbinds))
   (use-package helm-flycheck   :ensure t :bind ("C-c f e" . helm-flycheck))
-  (use-package helm-git-grep   :ensure t :commands helm-git-grep)
+  (use-package helm-git-grep   :ensure t :bind ("C-c h g" . helm-git-grep))
+  (use-package helm-ls-git     :ensure t :bind (("C-c h s" . helm-ls-git-ls)
+                                                ("C-c h p" . helm-browse-project)))
   (use-package helm-sys        :commands helm-top)
   (use-package helm-swoop
     :ensure t
