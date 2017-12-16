@@ -1437,6 +1437,7 @@
 
 (use-package tramp
   :demand t
+  :bind ("C-c s" . helm-tramp)
   :config
   (use-package helm-tramp   :ensure t)
   (use-package docker-tramp :ensure t)
