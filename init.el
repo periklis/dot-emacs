@@ -1438,10 +1438,9 @@
 (use-package tramp
   :demand t
   :config
-  (use-package helm-tramp
-    :disabled
-    :config
-    (defalias 'exit-tramp 'tramp-cleanup-all-buffers))
+  (use-package helm-tramp   :ensure t)
+  (use-package docker-tramp :ensure t)
+  (defalias 'exit-tramp 'tramp-cleanup-all-buffers)
 
   (custom-set-variables
    '(tramp-default-method "ssh"))
