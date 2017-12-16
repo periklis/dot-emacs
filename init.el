@@ -849,6 +849,14 @@
   (helm-descbinds-mode)
   (helm-autoresize-mode 1))
 
+
+(use-package helpful
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h c" . helpful-command)
+         ("C-h C-h" . helpful-at-point)))
+
 (use-package highlight-numbers
   :ensure t
   :diminish highlight-numbers-mode
