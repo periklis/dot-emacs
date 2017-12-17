@@ -32,7 +32,9 @@
 (when (file-accessible-directory-p nix-site-lisp)
   (setq nix-env-p t)
   (add-to-list 'load-path nix-site-lisp)
-  (add-to-list 'load-path (expand-file-name "rtags" nix-site-lisp)))
+  (let ((rtagsdir (expand-file-name "rtags" nix-site-lisp)))
+    (when (file-accessible-directory-p rtagsdir)
+      (add-to-list 'load-path rtagsdir))))
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -166,6 +168,7 @@
 
 ;; Load packages
 (use-package alert
+  :ensure t
   :commands (alert)
   :init
   (custom-set-variables
@@ -333,32 +336,33 @@
    '(diredp-hide-details-initially-flag nil)
    '(delete-by-moving-to-trash t)
    '(global-auto-revert-non-file-buffers t))
-  (use-package dired-sort-menu
-    :ensure t
-    :config
-    (use-package dired-sort-menu+ :ensure t))
-  (add-hook 'dired-load-hook #'dired-sort-menu)
+
   (use-package dired-x
     :init
     :config
     (setq-default dired-omit-files-p t)
     (add-to-list 'dired-omit-extensions ".DS_Store"))
+
   (use-package dired+
     :ensure t
     :config
     (add-hook 'dired-before-readin-hook
               'diredp-breadcrumbs-in-header-line-mode))
+
   (use-package dired-aux
     :init
     (use-package dired-async
       :ensure async
       :config
       (dired-async-mode 1)))
+
   (put 'dired-find-alternate-file 'disabled nil)
+
   (use-package dired-narrow
     :ensure t
     :bind (:map dired-mode-map
                 ("/" . dired-narrow))))
+
 
 (use-package docker
   :ensure t
