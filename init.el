@@ -82,7 +82,7 @@
     (package-install 'use-package))
 
   (custom-set-variables
-   '(use-package-verbose nil)
+   '(use-package-verbose t)
    '(use-package-enable-imenu-support t))
 
   (require 'cl)
