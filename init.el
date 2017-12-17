@@ -1318,7 +1318,7 @@
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
 
-  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+  (add-hook 'prog-mode-hook 'turn-on-smartparens-mode)
   (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
 
   (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
@@ -1342,29 +1342,13 @@
         (and (= (1+ (line-beginning-position)) me)
              (eq 32 (char-after me)))))
 
-  ;; Org-mode
-  (sp-with-modes
-      'org-mode
-    ;; (sp-local-pair "*" "*"
-    ;;                :actions '(insert wrap)
-    ;;                :unless '(sp-point-after-word-p sp-point-at-bol-p)
-    ;;                :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
-    (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
-    (sp-local-pair "/" "/" :unless '(sp-point-after-word-p)
-                   :post-handlers '(("[d1]" "SPC")))
-    (sp-local-pair "~" "~" :unless '(sp-point-after-word-p)
-                   :post-handlers '(("[d1]" "SPC")))
-    (sp-local-pair "=" "=" :unless '(sp-point-after-word-p)
-                   :post-handlers '(("[d1]" "SPC")))
-    (sp-local-pair "«" "»"))
-
   ;;; Prog-modes
   (sp-with-modes
       '(java-mode c++-mode php-mode js2-mode)
     (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
     (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
                                               ("* ||\n[i]" "RET"))))
-
+  :config
   (smartparens-global-strict-mode -1)
   (smartparens-global-mode 1)
   (show-smartparens-global-mode -1))
