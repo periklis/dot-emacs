@@ -474,6 +474,8 @@
    '(ensime-startup-snapshot-notification nil)
    '(ensime-startup-snapshot-notification-3)
    '(ensime-overlays-use-font-lock t)
+   '(ensime-eldoc-hints 'all)
+   '(ensime-search-interface 'helm)
    '(ensime-sem-high-faces
      '((var . scala-font-lock:var-face)
        (val . (:inherit font-lock-constant-face :slant italic))
@@ -1401,27 +1403,21 @@
 
   (add-hook 'js2-mode-hook #'tern-mode)
   (add-hook 'js2-mode-hook #'periklis/setup-company-tern)
-  (add-hook 'web-mode-hook #'tern-mode)
   (add-hook 'web-mode-hook #'periklis/setup-company-tern))
 
 (use-package tide
   :ensure t
-  :mode (("\\.ts\\'" . typescript-mode)
-         ("\\.tsx\\'" . typescript-mode)
-         ("\\.spec.ts\\'". typescript-mode))
   :config
-  (add-hook 'typescript-mode-hook
-            (lambda ()
-              (tide-setup)
-              (eldoc-mode +1)))
-  (add-hook 'typescript-mode-hook #'flyspell-prog-mode)
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1))
 
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-  (add-hook 'web-mode-hook
-          (lambda ()
-            (when (string-equal "tsx" (file-name-extension buffer-file-name))
-              (tide-setup))))
-  )
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (add-hook 'typescript-mode-hook #'flyspell-prog-mode))
 
 (use-package tramp
   :demand t
@@ -1447,12 +1443,23 @@
   :ensure t
   :mode (("\\.html\\'" . web-mode)
          ("\\.htm\\'" . web-mode)
-         ("\\.jsx\\'" . web-mode))
+         ("\\.jsx\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode))
   :config
   (custom-set-variables
    '(web-mode-enable-current-element-highlight nil)
    '(web-mode-enable-current-column-highlight nil))
-  (flycheck-add-mode 'javascript-eslint 'web-mode))
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "jsx" (file-name-extension buffer-file-name))
+                (tern-mode))))
+
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                (tide-setup)))))
 
 (use-package which-key
   :ensure t
