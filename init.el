@@ -1254,10 +1254,8 @@
 
 (use-package prettier-js
   :ensure t
-  :disabled
-  :commands (js2-mode web-mode)
   :config
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'typescript-mode-hook 'prettier-js-mode)
   (add-hook 'web-mode-hook 'prettier-js-mode))
 
 (use-package restclient
