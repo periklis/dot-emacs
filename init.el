@@ -167,6 +167,10 @@
 (add-hook 'after-init-hook #'server-mode)
 
 ;; Load packages
+(use-package ace-window
+  :ensure t
+  :bind (("M-o" . ace-window)))
+
 (use-package alert
   :ensure t
   :commands (alert)
@@ -1424,6 +1428,7 @@
   :config
   (use-package helm-tramp   :ensure t)
   (use-package docker-tramp :ensure t)
+  (use-package tramp-term   :ensure t)
   (defalias 'exit-tramp 'tramp-cleanup-all-buffers)
 
   (custom-set-variables
