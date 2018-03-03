@@ -137,7 +137,7 @@
 
 ;; Custom face definitions
 (custom-set-faces
- '(hl-line ((t (:inherit highlight :background "#073642" :underline nil))))
+ '(hl-line ((t (:inherit highlight :background "#4E3D45" :underline nil))))
  '(perspeen-selected-face ((t (:weight bold :foreground "Black" :background nil))))
  '(perspeen-tab--powerline-inactive1 ((t (:inherit mode-line))))
  '(perspeen-tab--header-line-active ((t (:weight bold :foreground "#58675" :background "#eee8d5"))))
@@ -291,6 +291,7 @@
   (add-hook 'cmake-mode-hook #'flyspell-prog-mode))
 
 (use-package color-theme-solarized
+  :disabled
   :ensure t
   :defer t
   :init
@@ -330,6 +331,18 @@
    '(company-transformers '(company-sort-by-backend-importance)))
 
   (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package darktooth-theme
+  :ensure t
+  :defer t
+  :init
+  (defun periklis/load-darktooth-theme ()
+    "Load solarized theme."
+    (load-theme 'darktooth t)
+    (enable-theme 'darktooth))
+
+  (add-hook 'after-init-hook #'periklis/load-darktooth-theme))
+
 
 (use-package dired
   :commands (dired dired-jump)
