@@ -10,6 +10,7 @@ ac-*
 auto-save-list/*
 backups/*
 bbdb
+common.el
 custom.el
 diary
 ede-projects.el
