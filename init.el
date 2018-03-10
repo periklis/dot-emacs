@@ -1433,6 +1433,7 @@
     (tide-hl-identifier-mode +1))
 
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (add-hook 'typescript-mode-hook #'linum-mode)
   (add-hook 'typescript-mode-hook #'flyspell-prog-mode))
 
 (use-package tramp
@@ -1551,6 +1552,10 @@
   :demand t)
 
 ;; Load local machine specific stuff
+(defvar common-file (expand-file-name "common.el" user-emacs-directory))
+(when (file-exists-p common-file)
+  (load common-file))
+
 (defvar local-file (expand-file-name "local.el" user-emacs-directory))
 (when (file-exists-p local-file)
   (load local-file))
