@@ -1108,6 +1108,10 @@
   :ensure t
   :mode (("\\.nix\\'" . nix-mode)))
 
+(use-package nix-sandbox
+  :if nix-env-p
+  :ensure t)
+
 (use-package nxml-mode
   :defer t
   :commands nxml-mode
