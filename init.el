@@ -151,7 +151,6 @@
 (use-package deferred             :ensure t :demand t)
 (use-package diminish             :ensure t :defer t)
 (use-package duplicate-thing      :ensure t :bind ("C-c C-d" . duplicate-thing))
-(use-package exec-path-from-shell :ensure t :config (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize)))
 (use-package f                    :ensure t :defer t)
 (use-package info+                :ensure t :commands (info))
 (use-package let-alist            :ensure t :defer t)
