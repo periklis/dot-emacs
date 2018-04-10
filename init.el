@@ -6,6 +6,14 @@
 
 ;;; Code:
 
+;; Improve startup time by gc-collect on after-init
+(setq gc-cons-threshold most-positive-fixnum)
+(add-hook 'after-init-hook
+          (lambda ()
+            (garbage-collect)
+            (setq gc-cons-threshold
+                  (car (get 'gc-cons-threshold 'standard-value)))))
+
 (setq inhibit-startup-message t)
 (fset 'yes-or-no-p 'y-or-n-p)
 (set-terminal-coding-system 'utf-8)
