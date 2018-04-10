@@ -540,6 +540,20 @@
   :ensure t
   :defer t)
 
+(use-package ffap
+  :bind (("C-x C-f" . find-file-at-point)
+         ("C-x C-r" . ffap-read-only)
+         ("C-x C-v" . ffap-alternate-file)
+         ("C-x 4 f" . ffap-other-window)
+         ("C-x 5 f" . ffap-other-frame)
+         ("C-x 4 r" . ffap-read-only-other-window)
+         ("C-x 5 r" . ffap-read-only-other-frame)
+         ("C-x d"  . dired-at-point)
+         ("C-x 4 d" . ffap-dired-other-window)
+         ("C-x 5 d" . ffap-dired-other-frame)
+         ("C-x C-d" . ffap-list-directory))
+  :ensure nil)
+
 (use-package flx
   :ensure t
   :demand t
@@ -1429,6 +1443,10 @@
   (add-hook 'js2-mode-hook #'tern-mode)
   (add-hook 'js2-mode-hook #'periklis/setup-company-tern)
   (add-hook 'web-mode-hook #'periklis/setup-company-tern))
+
+(use-package sudo-edit
+  :ensure t
+  :bind (("C-c C-r" . sudo-edit)))
 
 (use-package tide
   :ensure t
