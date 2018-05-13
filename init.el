@@ -1089,6 +1089,10 @@
   :if nix-env-p
   :ensure t)
 
+(use-package nlinum
+  :ensure t
+  :if (< emacs-major-version 26))
+
 (use-package nxml-mode
   :defer t
   :commands nxml-mode
