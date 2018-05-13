@@ -767,6 +767,12 @@
   :defer t
   :commands google-translate-at-point)
 
+(use-package groovy-mode
+  :ensure t
+  :config
+  (use-package groovy-imports
+    :ensure t))
+
 (use-package guess-language
   :ensure t
   :defer t
