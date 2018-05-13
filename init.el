@@ -44,6 +44,11 @@
     (when (file-accessible-directory-p rtagsdir)
       (add-to-list 'load-path rtagsdir))))
 
+(when (eq window-system 'ns)
+  ;; Unset TERM_PROGRAM=Apple_Terminal, which will be set if GUI Emacs was
+  ;; launched from a terminal
+  (setenv "TERM_PROGRAM" nil))
+
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
