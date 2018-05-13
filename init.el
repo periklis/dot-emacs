@@ -968,62 +968,6 @@
   :ensure t
   :defer t)
 
-(use-package jabber
-  :ensure t
-  :disabled
-  :preface
-  (define-key ctl-x-map "\C-j" jabber-global-keymap)
-  :bind (("C-x C-j C-c" . jabber-connect-all)
-         ("C-x C-j C-d" . jabber-disconnect)
-         ("C-x C-j C-r" . jabber-display-roster)
-         ("C-x C-j C-m" . jabber-muc-join))
-  :commands (jabber-connect jabber-connect-all)
-  :config
-  (use-package jabber-otr
-    :ensure t
-    :commands jabber-otr-encrypt
-    :config
-    (set-face-background 'jabber-otr-encrypted nil)
-    (set-face-background 'jabber-otr-encrypted-sent nil)
-    (set-face-background 'jabber-otr-encrypted-unverified nil))
-
-  (defun periklis/jabber-alert-func (who oldstatus newstatus statustext)
-    "Nil function for jabber alerts.")
-
-  (custom-set-variables
-   '(jabber-activity-count-in-title t)
-   '(jabber-activity-make-strings 'jabber-activity-make-strings-shorten)
-   '(jabber-auto-reconnect t)
-   '(jabber-chat-buffer-format "%n")
-   '(jabber-chat-buffer-show-avatar nil)
-   '(jabber-connection-ssl-program nil)
-   '(jabber-groupchat-buffer-format "%n")
-   '(jabber-mode-line-mode t)
-   '(jabber-muc-private-buffer-format "%g-%n")
-   '(jabber-roster-buffer "roster")
-   '(jabber-roster-line-format " %c %-25n %u %-8s  %S")
-   '(jabber-roster-show-title nil)
-   '(jabber-roster-show-bindings nil)
-   '(jabber-roster-sort-functions
-     '(jabber-roster-sort-by-status
-       jabber-roster-sort-by-displayname
-       jabber-roster-sort-by-group))
-   '(jabber-alert-presence-message-function
-     'periklis/jabber-alert-func))
-
-  (defun periklis/jabber-alert-echo (msg &optional arg)
-    "Jabber alert echo function."
-    (unless (minibuffer-prompt)
-      (message "")))
-
-  (define-jabber-alert echo
-    "Show a message in the echo area"
-    'periklis/jabber-alert-echo)
-
-  (add-hook 'jabber-chat-mode-hook #'flyspell-mode)
-  (add-hook 'jabber-chat-mode-hook #'goto-address)
-  (add-hook 'jabber-chat-mode-hook #'abbrev-mode))
-
 (use-package java
   :commands java-mode
   :config
