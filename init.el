@@ -1193,7 +1193,6 @@
 
 (use-package pdf-tools
   :ensure t
-  :disabled
   :mode "\\.pdf\\'"
   :config
   (pdf-tools-install)
