@@ -960,6 +960,10 @@
   (add-hook 'js2-mode-hook #'run-import-js)
   (add-hook 'web-mode-hook #'run-import-js))
 
+(use-package ibuffer
+  :config
+  (add-hook 'ibuffer-hook #'ibuffer-do-sort-by-alphabetic))
+
 (use-package itail
   :ensure t
   :defer t)
