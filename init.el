@@ -894,17 +894,8 @@
    '(helm-gtags-path-style                 'root)
    '(helm-gtags-auto-update                t))
 
-  (custom-set-faces
-   '(helm-buffer-directory ((t (:foreground "#657b83"))))
-   '(helm-ff-directory ((t nil)))
-   '(helm-selection ((t (:background "gainsboro" :underline t))))
-   '(helm-source-header ((t (:background "#eee8d5" :foreground "#839496" :weight bold :height 1.3 :family "Sans Serif"))))
-   '(helm-visible-mark ((t (:background "gainsboro")))))
-
-  ;; Load helm globaly
   (helm-mode 1)
-  (helm-descbinds-mode)
-  (helm-autoresize-mode 1))
+  (helm-descbinds-mode))
 
 
 (use-package helpful
