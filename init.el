@@ -1093,6 +1093,12 @@
   :ensure t
   :if (< emacs-major-version 26))
 
+(use-package nov
+  :ensure t
+  :mode ("\\.epub\\'" . nov-mode)
+  :config
+  (setq nov-save-place-file (expand-file-name "nov-save-place" user-emacs-directory)))
+
 (use-package nxml-mode
   :defer t
   :commands nxml-mode
