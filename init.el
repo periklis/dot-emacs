@@ -216,7 +216,7 @@
   :ensure t
   :demand t
   :config
-  (use-package helm-bbdb :ensure t)
+  (use-package counsel-bbdb :ensure t)
   (bbdb-initialize 'gnus 'message)
   (bbdb-insinuate-gnus)
   (bbdb-mua-auto-update-init 'gnus 'message)
@@ -254,11 +254,9 @@
       :disabled
       :if nix-env-p
       :config
-      (use-package rtags-helm)
       (custom-set-variables
        '(rtags-autostart-diagnostics t)
-       '(rtags-completions-enabled t)
-       '(rtags-use-helm t))
+       '(rtags-completions-enabled t))
 
       (rtags-enable-standard-keybindings)
       (rtags-diagnostics)
@@ -330,6 +328,7 @@
   :ensure t
   :demand t
   :diminish company-mode
+  :bind (("C-c ;" . company-complete-common-or-cycle))
   :config
   (use-package company-c-headers :ensure t :defer t)
   (use-package company-quickhelp
@@ -492,7 +491,6 @@
   (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
   (add-hook 'emacs-lisp-mode-hook #'flyspell-prog-mode)
-  (add-hook 'emacs-lisp-mode-hook #'helm-gtags-mode)
   (add-hook 'emacs-lisp-mode-hook #'subword-mode)
   (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
   (add-hook 'after-save-hook 'check-parens nil t))
@@ -511,7 +509,7 @@
    '(ensime-startup-snapshot-notification-3)
    '(ensime-overlays-use-font-lock t)
    '(ensime-eldoc-hints 'all)
-   '(ensime-search-interface 'helm)
+   '(ensime-search-interface 'ivy)
    '(ensime-sem-high-faces
      '((var . scala-font-lock:var-face)
        (val . (:inherit font-lock-constant-face :slant italic))
@@ -552,7 +550,8 @@
 
 (use-package expand-region
   :ensure t
-  :defer t)
+  :defer t
+  :bind (("C-=" . er/expand-region)))
 
 (use-package ffap
   :bind (("C-x C-f" . find-file-at-point)
@@ -834,75 +833,6 @@
   (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation)
   (add-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
-(use-package helm
-  :ensure t
-  :demand t
-  :diminish helm-mode
-  :init
-  (use-package helm-config     :demand t)
-  (use-package helm-fuzzier    :ensure t :demand t :init (helm-fuzzier-mode))
-  (use-package helm-projectile :ensure t :demand t)
-  (use-package helm-ag         :ensure t :commands helm-ag)
-  (use-package helm-descbinds  :ensure t :bind ("C-c h b" . helm-descbinds))
-  (use-package helm-flycheck   :ensure t :bind ("C-c f e" . helm-flycheck))
-  (use-package helm-git-grep   :ensure t :bind ("C-c h g" . helm-git-grep))
-  (use-package helm-ls-git     :ensure t :bind (("C-c h s" . helm-ls-git-ls)
-                                                ("C-c h p" . helm-browse-project)))
-  (use-package helm-sys        :commands helm-top)
-  (use-package helm-swoop
-    :ensure t
-    :bind (("M-i" . helm-swoop)
-           ("M-I" . helm-swoop-back-to-last-point)
-           ("C-c M-i" . helm-multi-swoop)
-           ("C-x M-i" . helm-multi-swoop-all)))
-  (use-package helm-gtags
-    :ensure t
-    :commands helm-gtags-mode
-    :init
-    (custom-set-variables
-     '(helm-gtags-prefix-key "\C-cg")
-     '(helm-gtags-suggested-key-mapping t)))
-  (use-package helm-xref
-    :ensure t
-    :config
-    (custom-set-variables
-     '(xref-show-xrefs-function 'helm-xref-show-xrefs)))
-  :config
-  (when (executable-find "curl")
-    (setq helm-net-prefer-curl t))
-
-  (custom-set-variables
-   '(helm-grep-default-command             "grep -a -d recurse %e -n%cH -e %p %f")
-   '(helm-ack-base-command                 "ack -H --nogroup")
-   '(helm-time-zone-home-location          "Berlin")
-   '(helm-echo-input-in-header-line        t)
-   '(helm-net-prefer-curl                  t)
-   '(helm-quick-update                     t)
-   '(helm-split-window-in-side-p           t)
-   '(helm-buffers-fuzzy-matching           t)
-   '(helm-move-to-line-cycle-in-source     t)
-   '(helm-ff-search-library-in-sexp        t)
-   '(helm-scroll-amount                    8)
-   '(helm-ff-file-name-history-use-recentf t)
-   '(helm-mode-fuzzy-match                 t)
-   '(helm-completion-in-region-fuzzy-match t)
-   '(helm-recentf-fuzzy-match              t)
-   '(helm-buffers-fuzzy-matching           t)
-   '(helm-locate-fuzzy-match               t)
-   '(helm-M-x-fuzzy-match                  t)
-   '(helm-semantic-fuzzy-match             t)
-   '(helm-imenu-fuzzy-match                t)
-   '(helm-apropos-fuzzy-match              t)
-   '(helm-swoop-move-to-line-cycle         t)
-   '(helm-swoop-use-line-number-face       t)
-   '(helm-swoop-split-direction            'split-window-horizontally)
-   '(helm-gtags-path-style                 'root)
-   '(helm-gtags-auto-update                t))
-
-  (helm-mode 1)
-  (helm-descbinds-mode))
-
-
 (use-package helpful
   :ensure t
   :bind (("C-h f" . helpful-callable)
@@ -934,6 +864,7 @@
   (global-set-key (kbd "M-p") 'highlight-symbol-prev))
 
 (use-package hippie-exp
+  :bind (("M-/" . hippie-expand))
   :config
   (custom-set-variables
    '(hippie-expand-try-functions-list
@@ -950,9 +881,7 @@
 
 (use-package geben
   :ensure t
-  :commands (geben)
-  :config
-  (use-package geben-helm-projectile :ensure t))
+  :commands (geben))
 
 (use-package import-js
   :ensure t
@@ -967,6 +896,32 @@
 (use-package itail
   :ensure t
   :defer t)
+
+(use-package ivy
+  :ensure t
+  :demand t
+  :bind (("C-'" . ivy-avy)
+         ("C-x C-b" . counsel-ibuffer)
+         ("C-x C-f" . counsel-find-file)
+         ("C-c h a" . counsel-ag)
+         ("C-c h b" . counsel-descbinds)
+         ("C-c h g" . counsel-git-grep)
+         ("C-c h l" . counsel-locate)
+         ("C-c h s" . counsel-git)
+         ("M-y" . counsel-yank-pop)
+         ("M-i" . swiper)
+         ("C-c M-i" . swiper-multi))
+  :config
+  (use-package swiper :ensure t)
+  (custom-set-variables
+   '(ivy-height 10)
+   '(ivy-use-virtual-buffers t)
+   '(ivy-count-format "%d/%d ")
+   '(ivy-re-builders-alist
+     '((read-file-name-internal . ivy--regex-fuzzy)
+       (t . ivy--regex-plus))))
+
+  (ivy-mode))
 
 (use-package java
   :commands java-mode
@@ -1048,7 +1003,6 @@
   :demand t
   :config
   (use-package term+ :ensure t)
-  (use-package helm-mt :ensure t :demand t)
   (custom-set-variables
    '(multi-term-program "~/.nix-profile/bin/zsh")
    '(multi-term-scroll-show-maximum-output nil)
@@ -1118,6 +1072,9 @@
 (use-package org
   :ensure t
   :mode ("\\.org\\'" . org-mode)
+  :bind (("\C-cc" . org-capture)
+         ("\C-ca" . org-agenda)
+         ("\C-cl" . org-store-link))
   :config
   (use-package orgit :ensure t :commands projectile-vc)
   (use-package org-mobile :demand t)
@@ -1183,6 +1140,8 @@
 (use-package perspeen
   :ensure t
   :demand t
+  :bind (("s-n" . perspeen-next-ws)
+         ("s-p" . perspeen-previous-ws))
   :config
   (custom-set-variables
    '(perspeen-use-tab nil))
@@ -1201,19 +1160,21 @@
 (use-package projectile
   :ensure t
   :demand t
+  :bind (("C-c p s" . projectile-switch-project)
+         ("C-c p b" . projectile-switch-to-buffer))
   :config
+  (use-package counsel-projectile
+    :ensure t
+    :bind (("C-c p SPC" . counsel-projectile)
+           ("C-c p s g" . counsel-projectile-grep)
+           ("C-c p 0" . counsel-projectile-org-capture)))
   (custom-set-variables
    '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
    '(projectile-mode-line-lighter "")
    '(projectile-enable-caching t)
-   '(projectile-completion-system 'helm))
+   '(projectile-completion-system 'ivy))
 
-  (defun projectile-helm-ag ()
-    (interactive)
-    (helm-ag (projectile-project-root)))
-
-  (projectile-mode)
-  (helm-projectile-on))
+  (projectile-mode))
 
 (use-package php-mode
   :ensure t
@@ -1248,7 +1209,6 @@
   (add-hook 'php-mode-hook #'c-toggle-auto-newline)
   (add-hook 'php-mode-hook #'c-toggle-hungry-state)
   (add-hook 'php-mode-hook #'flyspell-prog-mode)
-  (add-hook 'php-mode-hook #'helm-gtags-mode)
   (add-hook 'php-mode-hook #'php-refactor-mode)
   (add-hook 'php-mode-hook #'semantic-php-default-setup)
   (add-hook 'php-mode-hook #'semantic-mode)
@@ -1432,9 +1392,9 @@
 
 (use-package tramp
   :demand t
-  :bind ("C-c s" . helm-tramp)
+  :bind ("C-c s" . counsel-tramp)
   :config
-  (use-package helm-tramp   :ensure t)
+  (use-package counsel-tramp :ensure t)
   (use-package docker-tramp :ensure t)
   (use-package tramp-term   :ensure t)
   (defalias 'exit-tramp 'tramp-cleanup-all-buffers)
@@ -1507,7 +1467,6 @@
   :config
   (custom-set-variables
    '(wgrep-auto-save-buffer t))
-  (use-package wgrep-helm :ensure t :demand t)
   (define-key grep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
   (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
 
