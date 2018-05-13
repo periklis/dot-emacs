@@ -1383,6 +1383,9 @@
     (read-only-mode)
     (ansi-color-apply-on-region (point-min) (point-max)))
 
+  (custom-set-variables
+   '(shell-dirtrack-verbose nil))
+
   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
 
 (use-package ssh
@@ -1412,10 +1415,6 @@
   (add-hook 'js2-mode-hook #'periklis/setup-company-tern)
   (add-hook 'web-mode-hook #'periklis/setup-company-tern))
 
-(use-package sudo-edit
-  :ensure t
-  :bind (("C-c C-r" . sudo-edit)))
-
 (use-package tide
   :ensure t
   :config
@@ -1441,7 +1440,12 @@
   (defalias 'exit-tramp 'tramp-cleanup-all-buffers)
 
   (custom-set-variables
-   '(tramp-default-method "ssh"))
+   '(tramp-default-method "ssh")
+   '(tramp-histfile-override nil)
+   '(vc-ignore-dir-regexp
+     (format "\\(%s\\)\\|\\(%s\\)"
+             vc-ignore-dir-regexp
+             tramp-file-name-regexp)))
 
   (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
 
