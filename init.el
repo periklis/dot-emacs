@@ -912,6 +912,7 @@
          ("M-i" . swiper)
          ("C-c M-i" . swiper-multi))
   :config
+  (use-package smex :ensure t)
   (use-package swiper :ensure t)
   (custom-set-variables
    '(ivy-height 10)
@@ -919,6 +920,7 @@
    '(ivy-count-format "%d/%d ")
    '(ivy-re-builders-alist
      '((read-file-name-internal . ivy--regex-fuzzy)
+       (counsel-M-x . ivy--regex-fuzzy)
        (t . ivy--regex-plus))))
 
   (ivy-mode))
@@ -976,7 +978,8 @@
   :init
   (custom-set-variables
    '(magit-last-seen-setup-instructions "1.4.0")
-   '(magit-diff-options '("-b")))
+   '(magit-diff-options '("-b"))
+   '(magit-completing-read-function 'ivy-completing-read))
   :config
   (use-package gitconfig-mode   :ensure t)
   (use-package gitignore-mode   :ensure t)
