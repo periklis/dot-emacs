@@ -923,6 +923,11 @@
        (counsel-M-x . ivy--regex-fuzzy)
        (t . ivy--regex-plus))))
 
+  (ivy-set-actions
+   'ivy-switch-buffer
+   '(("k" kill-buffer "kill")
+     ("r" ivy--rename-buffer-action "rename")))
+
   (ivy-mode))
 
 (use-package java
