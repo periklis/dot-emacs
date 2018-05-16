@@ -912,12 +912,16 @@
          ("M-i" . swiper)
          ("C-c M-i" . swiper-multi))
   :config
+  (use-package ivy-rich :ensure t)
   (use-package smex :ensure t)
   (use-package swiper :ensure t)
   (custom-set-variables
    '(ivy-height 10)
    '(ivy-use-virtual-buffers t)
    '(ivy-count-format "%d/%d ")
+   '(ivy-virtual-abbreviate 'full)
+   '(ivy-rich-path-style 'abbrev)
+   '(ivy-rich-switch-buffer-align-virtual-buffer t)
    '(ivy-re-builders-alist
      '((read-file-name-internal . ivy--regex-fuzzy)
        (counsel-M-x . ivy--regex-fuzzy)
@@ -927,6 +931,10 @@
    'ivy-switch-buffer
    '(("k" kill-buffer "kill")
      ("r" ivy--rename-buffer-action "rename")))
+
+  (ivy-set-display-transformer
+   'ivy-switch-buffer
+   'ivy-rich-switch-buffer-transformer)
 
   (ivy-mode))
 
