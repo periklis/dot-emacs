@@ -1168,21 +1168,16 @@
 (use-package projectile
   :ensure t
   :demand t
-  :bind (("C-c p s" . projectile-switch-project)
-         ("C-c p b" . projectile-switch-to-buffer))
   :config
-  (use-package counsel-projectile
-    :ensure t
-    :bind (("C-c p SPC" . counsel-projectile)
-           ("C-c p s g" . counsel-projectile-grep)
-           ("C-c p 0" . counsel-projectile-org-capture)))
+  (use-package counsel-projectile :ensure t)
   (custom-set-variables
    '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
    '(projectile-mode-line-lighter "")
    '(projectile-enable-caching t)
    '(projectile-completion-system 'ivy))
 
-  (projectile-mode))
+  (projectile-mode)
+  (counsel-projectile-mode))
 
 (use-package php-mode
   :ensure t
