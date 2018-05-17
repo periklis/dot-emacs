@@ -922,10 +922,9 @@
    '(ivy-virtual-abbreviate 'full)
    '(ivy-rich-path-style 'abbrev)
    '(ivy-rich-switch-buffer-align-virtual-buffer t)
+   '(ivy-initial-inputs-alist nil)
    '(ivy-re-builders-alist
-     '((read-file-name-internal . ivy--regex-fuzzy)
-       (counsel-M-x . ivy--regex-fuzzy)
-       (t . ivy--regex-plus))))
+     '((t . ivy--regex-fuzzy))))
 
   (ivy-set-actions
    'ivy-switch-buffer
