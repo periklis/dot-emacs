@@ -524,7 +524,9 @@
        (package . font-lock-preprocessor-face)
        (implicitConversion . nil)
        (implicitParams . nil)
-       (deprecated . (:strike-through "dark gray"))))))
+       (deprecated . (:strike-through "dark gray"))))
+   '(sbt:program-options '("-Djline.terminal=auto"))
+   '(sbt:scroll-to-bottom-on-output t)))
 
 (use-package eshell
   :config
