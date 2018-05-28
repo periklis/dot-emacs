@@ -288,9 +288,6 @@
     (create-tags)
     (message "Created language tags for current project")))
 
-(use-package circe
-  :ensure t)
-
 (use-package cmake-mode
   :ensure t
   :mode (("\\.cmake\\'" . cmake-mode)
@@ -523,6 +520,13 @@
        (deprecated . (:strike-through "dark gray"))))
    '(sbt:program-options '("-Djline.terminal=auto"))
    '(sbt:scroll-to-bottom-on-output t)))
+
+(use-package erc
+  :commands (erc erc-tls)
+  :config
+  (custom-set-variables
+   '(erc-join-buffer 'bury))
+  (erc-spelling-mode))
 
 (use-package eshell
   :config
