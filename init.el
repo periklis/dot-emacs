@@ -1238,7 +1238,8 @@
   :demand t
   :config
   (use-package spaceline :ensure t :demand t)
-  (spaceline-emacs-theme))
+  (spaceline-emacs-theme)
+  (spaceline-toggle-minor-modes-off))
 
 (use-package prettier-js
   :ensure t
