@@ -1233,6 +1233,13 @@
   (define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
   (define-key php-mode-map (kbd "C-x p") 'phpunit-current-project))
 
+(use-package powerline
+  :ensure t
+  :demand t
+  :config
+  (use-package spaceline :ensure t :demand t)
+  (spaceline-emacs-theme))
+
 (use-package prettier-js
   :ensure t
   :config
@@ -1286,16 +1293,6 @@
 
   ;; Enable semantic status modes
   (add-to-list 'semantic-default-submodes 'semantic-show-parser-state-mode))
-
-(use-package smart-mode-line
-  :ensure t
-  :demand t
-  :config
-  (custom-set-variables
-   '(sml/shorten-directory t)
-   '(sml/shorten-modes t))
-  (sml/setup)
-  (sml/apply-theme 'respectful))
 
 (use-package smartparens
   :ensure t
