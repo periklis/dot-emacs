@@ -155,11 +155,7 @@
 
 ;; Custom face definitions
 (custom-set-faces
- '(hl-line ((t (:inherit highlight :background "#4E3D45" :underline nil))))
- '(perspeen-selected-face ((t (:weight bold :foreground "Black" :background nil))))
- '(perspeen-tab--powerline-inactive1 ((t (:inherit mode-line))))
- '(perspeen-tab--header-line-active ((t (:weight bold :foreground "#58675" :background "#eee8d5"))))
- '(perspeen-tab--header-line-inactive ((t (:foreground "#839496" :background "#eee8d5")))))
+ '(hl-line ((t (:inherit highlight :background "#4E3D45" :underline nil)))))
 
 ;; Load Libraries
 (use-package async                :ensure t :defer t)
@@ -549,6 +545,18 @@
   :config
   (add-hook 'js2-mode-hook 'eslintd-fix-mode)
   (add-hook 'web-mode-hook 'eslintd-fix-mode))
+
+(use-package eyebrowse
+  :ensure t
+  :demand t
+  :bind (("s-n" . eyebrowse-next-window-config)
+         ("s-p" . eyebrowse-prev-window-config))
+  :config
+  (custom-set-variables
+   '(eyebrowse-new-workspace t)
+   '(eyebrowse-wrap-around t))
+  (eyebrowse-setup-opinionated-keys)
+  (eyebrowse-mode))
 
 (use-package expand-region
   :ensure t
@@ -1153,19 +1161,6 @@
   (custom-set-variables
    '(paradox-github-token t))
   (paradox-enable))
-
-(use-package perspeen
-  :ensure t
-  :demand t
-  :bind (("s-n" . perspeen-next-ws)
-         ("s-p" . perspeen-previous-ws))
-  :config
-  (custom-set-variables
-   '(perspeen-use-tab nil))
-  (bind-key "C-z C-d" 'perspeen-tab-del perspeen-mode-map)
-  (bind-key "C-z C-n" 'perspeen-tab-next perspeen-mode-map)
-  (bind-key "C-z C-p" 'perspeen-tab-prev perspeen-mode-map)
-  (perspeen-mode))
 
 (use-package pdf-tools
   :ensure t
