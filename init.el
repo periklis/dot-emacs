@@ -76,23 +76,25 @@
 
 ;; Add package manager configuration
 (eval-and-compile
-  (package-initialize nil)
+  (setq package-archives nil)
 
-  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+  ;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+  ;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
-  (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
-    (package-refresh-contents))
+  ;; (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
+  ;;   (package-refresh-contents))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
     (package-refresh-contents))
 
-  (unless (file-exists-p (expand-file-name "elpa/archives/melpa-stable" user-emacs-directory))
-    (package-refresh-contents))
+  ;; (unless (file-exists-p (expand-file-name "elpa/archives/melpa-stable" user-emacs-directory))
+  ;;   (package-refresh-contents))
 
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
+  ;; (unless (package-installed-p 'use-package)
+  ;;   (package-install 'use-package))
+
+  (package-initialize nil)
 
   (custom-set-variables
    '(use-package-verbose t)
@@ -166,7 +168,6 @@
 (use-package diminish             :ensure t :defer t)
 (use-package duplicate-thing      :ensure t :bind ("C-c C-d" . duplicate-thing))
 (use-package f                    :ensure t :defer t)
-(use-package info+                :ensure t :commands (info))
 (use-package let-alist            :ensure t :defer t)
 (use-package popwin               :ensure t :demand t)
 (use-package s                    :ensure t :defer t)
@@ -370,12 +371,6 @@
     :config
     (setq-default dired-omit-files-p t)
     (add-to-list 'dired-omit-extensions ".DS_Store"))
-
-  (use-package dired+
-    :ensure t
-    :config
-    (add-hook 'dired-before-readin-hook
-              'diredp-breadcrumbs-in-header-line-mode))
 
   (use-package dired-aux
     :init
