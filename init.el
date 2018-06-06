@@ -134,7 +134,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(load-prefer-newer t)
  '(max-lisp-eval-depth 50000)
- '(max-specpdl-size 5000)
+ '(max-specpdl-size 500000)
  '(message-kill-buffer-on-exit t)
  '(network-security-level 'paranoid)
  '(next-error-recenter t)
@@ -556,6 +556,12 @@
    '(eyebrowse-wrap-around t))
   (eyebrowse-setup-opinionated-keys)
   (eyebrowse-mode))
+
+(use-package exec-path-from-shell
+  :demand t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 (use-package expand-region
   :ensure t
@@ -988,6 +994,9 @@
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-hook 'js2-mode-hook #'yas-minor-mode))
 
+(use-package list-environment
+  :commands (list-environment))
+
 (use-package macrostep
   :ensure t
   :bind ("C-c e m" . macrostep-expand))
@@ -1028,7 +1037,7 @@
   :config
   (use-package term+ :ensure t)
   (custom-set-variables
-   '(multi-term-program "~/.nix-profile/bin/zsh")
+   '(multi-term-program "/run/current-system/sw/bin/zsh")
    '(multi-term-scroll-show-maximum-output nil)
    '(multi-term-scroll-to-bottom-on-output "this")
    '(multi-term-switch-after-close nil))
