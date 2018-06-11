@@ -1176,6 +1176,10 @@
   (pdf-tools-install)
   (pdf-tools-enable-minor-modes))
 
+(use-package pinentry
+  :config
+  (pinentry-start))
+
 (use-package projectile
   :ensure t
   :demand t
