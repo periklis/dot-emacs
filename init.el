@@ -1178,6 +1178,8 @@
 
 (use-package pinentry
   :config
+  (custom-set-variables
+   '(epa-pinentry-mode 'loopback))
   (pinentry-start))
 
 (use-package projectile
