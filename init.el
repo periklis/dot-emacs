@@ -127,7 +127,7 @@
  '(enable-local-eval t)
  '(enable-local-variables :all)
  '(fringe-mode '(4 . 0))
- '(global-linum-mode nil)
+ '(global-display-line-numbers-mode nil)
  '(global-hl-line-mode t)
  '(global-visual-line-mode t)
  '(indent-tabs-mode nil)
@@ -175,7 +175,7 @@
 (use-package xml-rpc              :ensure t :defer t)
 
 ;; Custom general hooks
-(add-hook 'prog-mode-hook #'linum-mode)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'goto-address-mode)
 (add-hook 'prog-mode-hook #'popwin-mode)
 (add-hook 'text-mode-hook #'goto-address-mode)
@@ -1076,10 +1076,6 @@
   :if nix-env-p
   :ensure t)
 
-(use-package nlinum
-  :ensure t
-  :if (< emacs-major-version 26))
-
 (use-package nov
   :ensure t
   :mode ("\\.epub\\'" . nov-mode)
@@ -1406,7 +1402,7 @@
     (tide-hl-identifier-mode +1))
 
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (add-hook 'typescript-mode-hook #'linum-mode)
+  (add-hook 'typescript-mode-hook #'display-line-numbers-mode)
   (add-hook 'typescript-mode-hook #'flyspell-prog-mode))
 
 (use-package tramp
