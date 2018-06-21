@@ -1013,8 +1013,7 @@
    '(magit-completing-read-function 'ivy-completing-read))
   :config
   (use-package gitconfig-mode   :ensure t)
-  (use-package gitignore-mode   :ensure t)
-  (use-package git-timemachine  :ensure t))
+  (use-package gitignore-mode   :ensure t))
 
 (use-package markdown-mode
   :ensure t
