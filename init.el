@@ -595,17 +595,12 @@
   :ensure t
   :demand t
   :config
-  (use-package flycheck-pos-tip
-    :ensure t
-    :init
-    (flycheck-pos-tip-mode)
-    (custom-set-variables
-     '(flycheck-pos-tip-timeout 10)
-     '(flycheck-display-errors-delay 0.5)))
+  (use-package flycheck-inline :ensure t :demand t)
   (custom-set-variables
    '(flycheck-display-errors-function nil)
    '(flycheck-check-syntax-automatically '(save mode-enabled)))
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
 
 (use-package gnus
   :init
