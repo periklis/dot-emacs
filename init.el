@@ -47,7 +47,11 @@
 (when (eq window-system 'ns)
   ;; Unset TERM_PROGRAM=Apple_Terminal, which will be set if GUI Emacs was
   ;; launched from a terminal
-  (setenv "TERM_PROGRAM" nil))
+  (setenv "TERM_PROGRAM" nil)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (setq ns-use-proxy-icon  nil)
+  (setq frame-title-format nil))
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
