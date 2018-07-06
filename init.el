@@ -130,12 +130,14 @@
  '(electric-pair-mode nil)
  '(enable-local-eval t)
  '(enable-local-variables :all)
+ '(fast-but-imprecise-scrolling t)
  '(fringe-mode '(4 . 0))
  '(global-display-line-numbers-mode nil)
  '(global-hl-line-mode t)
  '(global-visual-line-mode t)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(jit-lock-defer-time 0.05)
  '(load-prefer-newer t)
  '(max-lisp-eval-depth 50000)
  '(max-specpdl-size 500000)
@@ -143,10 +145,11 @@
  '(network-security-level 'paranoid)
  '(next-error-recenter t)
  '(ns-auto-hide-menu-bar t)
+ '(proced-tree-flag t)
+ '(redisplay-dont-pause t)
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
- '(scroll-margin 0)
- '(scroll-conservatively 100000)
+ '(scroll-step 1)
  '(scroll-preserve-screen-position t)
  '(show-paren-mode t)
  '(show-trailing-whitespace nil)
@@ -155,6 +158,8 @@
  '(tab-always-indent (quote complete))
  '(tab-width 4)
  '(tls-checktrust t)
+ '(tooltip-mode nil)
+ '(use-dialog-box nil)
  '(tool-bar-mode nil)
  '(visible-bell nil)
  '(winner-mode t))
@@ -188,7 +193,7 @@
 ;; Load packages
 (use-package ace-window
   :ensure t
-  :bind (("M-o" . ace-window)))
+  :bind (("C-x o" . ace-window)))
 
 (use-package alert
   :ensure t
@@ -932,7 +937,7 @@
   (use-package swiper :ensure t)
   (custom-set-variables
    '(ivy-height 10)
-   '(ivy-use-virtual-buffers t)
+   '(ivy-use-virtual-buffers nil)
    '(ivy-count-format "%d/%d ")
    '(ivy-virtual-abbreviate 'full)
    '(ivy-rich-path-style 'abbrev)
@@ -1056,6 +1061,8 @@
   (add-to-list 'term-bind-key-alist '("C-a" . move-beginning-of-line))
   (add-to-list 'term-bind-key-alist '("C-e" . move-end-of-line))
 
+  (define-key term-raw-map (kbd "C-c C-y") 'term-paste)
+
   (defun periklis/term-end-of-buffer ()
     (interactive)
     (call-interactively #'end-of-buffer)
@@ -1134,6 +1141,7 @@
    '(org-M-RET-may-split-line '((default . nil)))
    '(org-agenda-include-diary t)
    '(org-special-ctrl-a/e  t)
+   '(org-use-speed-commands t)
    '(org-tags-column -120))
 
   (add-hook 'org-mode-hook #'auto-revert-mode)
