@@ -571,6 +571,7 @@
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "PYTHONPATH")
     (exec-path-from-shell-copy-env "SSH_AUTH_SOCK")))
 
 (use-package expand-region
@@ -1257,6 +1258,26 @@
   :config
   (add-hook 'typescript-mode-hook 'prettier-js-mode)
   (add-hook 'web-mode-hook 'prettier-js-mode))
+
+(use-package python-mode
+  :mode ("\\.py\\'" . python-mode)
+  :init
+  (elpy-enable)
+  :config
+  (use-package elpy :ensure t)
+  (use-package jedi :ensure t)
+  (use-package company-jedi :ensure t)
+  (use-package py-autopep8 :ensure t)
+  (use-package virtualenv :ensure t)
+  (custom-set-variables
+   '(elpy-rpc-backend "jedi")
+     '(jedi:setup-keys t)
+     '(jedi:complete-on-dot t)
+     '(python-shell-interpreter "ipython")
+     '(python-shell-interpreter-args "-i"))
+  (elpy-use-ipython)
+  (add-hook 'python-mode-hook #'jedi:setup)
+  (add-hook 'python-mode-hook #'py-autopep8-enable-on-save))
 
 (use-package restclient
   :ensure t
