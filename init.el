@@ -480,6 +480,17 @@
   :disabled
   :commands (global-eclim-mode))
 
+(use-package git-gutter
+  :ensure t
+  :demand
+  :config
+  (custom-set-variables
+   '(git-gutter:ask-p nil)
+   '(git-gutter:hide-gutter t)
+   '(git-gutter:window-width 2)
+   '(git-gutter:verbosity 0))
+  (global-git-gutter-mode))
+
 (use-package emacs-lisp-mode
   :mode ("\\.el\\'" . emacs-lisp-mode)
   :init
