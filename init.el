@@ -1256,7 +1256,6 @@
 (use-package prettier-js
   :ensure t
   :config
-  (add-hook 'typescript-mode-hook 'prettier-js-mode)
   (add-hook 'web-mode-hook 'prettier-js-mode))
 
 (use-package python-mode
