@@ -401,12 +401,8 @@
 (use-package docker
   :ensure t
   :diminish docker-mode
+  :bind ("C-c d" . docker)
   :config
-  (docker-global-mode)
-  (use-package docker-images)
-  (use-package docker-containers)
-  (use-package docker-volumes)
-  (use-package docker-networks)
   (use-package docker-machine))
 
 (use-package docker-compose-mode
