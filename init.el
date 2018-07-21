@@ -135,7 +135,7 @@
  '(global-display-line-numbers-mode nil)
  '(global-hl-line-mode t)
  '(global-visual-line-mode t)
- '(gnutls-verify-error t)
+ '(gnutls-verify-error nil)
  '(gnutls-min-prime-bits 1024)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
