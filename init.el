@@ -560,7 +560,6 @@
 (use-package eslintd-fix
   :ensure t
   :config
-  (add-hook 'js2-mode-hook 'eslintd-fix-mode)
   (add-hook 'web-mode-hook 'eslintd-fix-mode))
 
 (use-package eyebrowse
@@ -916,7 +915,6 @@
 (use-package import-js
   :ensure t
   :config
-  (add-hook 'js2-mode-hook #'run-import-js)
   (add-hook 'web-mode-hook #'run-import-js))
 
 (use-package ibuffer
@@ -1414,6 +1412,7 @@
 
 (use-package tern
   :ensure t
+  :disabled
   :config
   (use-package company-tern :ensure t)
 
@@ -1438,7 +1437,9 @@
 
   (add-hook 'typescript-mode-hook #'setup-tide-mode)
   (add-hook 'typescript-mode-hook #'display-line-numbers-mode)
-  (add-hook 'typescript-mode-hook #'flyspell-prog-mode))
+  (add-hook 'typescript-mode-hook #'flyspell-prog-mode)
+
+  (add-hook 'js2-mode-hook #'setup-tide-mode))
 
 (use-package tramp
   :demand t
