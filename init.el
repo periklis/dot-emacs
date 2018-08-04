@@ -1196,6 +1196,8 @@
 (use-package projectile
   :ensure t
   :demand t
+  :init
+  (setq projectile-keymap-prefix (kbd "C-c p"))
   :config
   (use-package counsel-projectile :ensure t)
   (custom-set-variables
