@@ -791,6 +791,35 @@
                   (message 0.5)
                   (mml-preview 1.0 point)))))))
 
+
+(use-package go-mode
+  :config
+  (use-package company-go)
+  (use-package go-eldoc)
+  (use-package go-errcheck)
+  ;; (use-package go-fillstruct)
+  (use-package go-gen-test)
+  (use-package go-guru)
+  (use-package go-impl)
+  (use-package go-imports)
+  (use-package go-projectile)
+  (use-package go-rename)
+  (use-package go-snippets)
+
+  (custom-set-variables
+   '(gofmt-command "goimports")
+   '())
+
+  (defun periklis/setup-go-mode ()
+    "Extra setup for go-mode."
+    (set (make-local-variable 'company-backends) '(company-go)))
+
+  (add-hook 'before-save-hook #'gofmt-before-save)
+  (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
+  (add-hook 'go-mode-hook #'periklis/setup-go-mode)
+  (add-hook 'go-mode-hook #'company-mode)
+  (add-hook 'go-mode-hook #'go-eldoc-setup))
+
 (use-package google-maps
   :ensure t
   :commands google-maps)
