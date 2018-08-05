@@ -797,7 +797,7 @@
   (use-package company-go)
   (use-package go-eldoc)
   (use-package go-errcheck)
-  ;; (use-package go-fillstruct)
+  (use-package go-fill-struct)
   (use-package go-gen-test)
   (use-package go-guru)
   (use-package go-impl)
@@ -807,12 +807,14 @@
   (use-package go-snippets)
 
   (custom-set-variables
-   '(gofmt-command "goimports")
-   '())
+   '(gofmt-command "goimports"))
 
   (defun periklis/setup-go-mode ()
     "Extra setup for go-mode."
-    (set (make-local-variable 'company-backends) '(company-go)))
+    (set (make-local-variable 'company-backends) '(company-go))
+    (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet")))
 
   (add-hook 'before-save-hook #'gofmt-before-save)
   (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
