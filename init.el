@@ -141,6 +141,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(jit-lock-defer-time 0.05)
  '(load-prefer-newer t)
+ '(menu-bar-mode nil)
  '(max-lisp-eval-depth 50000)
  '(max-specpdl-size 500000)
  '(message-kill-buffer-on-exit t)

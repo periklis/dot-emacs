@@ -7,10 +7,17 @@
 ;;; Code:
 
 ;; register mac specific keys for remote emacs session over ssh
-(when (equal system-type 'darwin)
+(when (and (equal system-type 'darwin)
+           (not (equal window-system nil)))
   (setq mac-option-modifier nil)
   (setq mac-control-modifier 'control)
   (setq mac-command-modifier 'meta)
+  (setq mac-function-modifier 'super))
+
+(when (equal window-system nil)
+  (setq mac-option-modifier 'meta)
+  (setq mac-control-modifier 'control)
+  (setq mac-command-modifier nil)
   (setq mac-function-modifier 'super))
 
 ;; compile-command
