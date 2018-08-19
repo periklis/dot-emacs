@@ -539,7 +539,15 @@
   :commands (erc erc-tls)
   :config
   (custom-set-variables
-   '(erc-join-buffer 'bury))
+   '(erc-button-mode nil)
+   '(erc-hide-timestamps nil)
+   '(erc-join-buffer 'bury)
+   '(erc-log-insert-log-on-open nil)
+   '(erc-log-channels t)
+   '(erc-log-channels-directory "~/.cache/erc/")
+   '(erc-max-buffer-size 20000)
+   '(erc-prompt-for-password nil)
+   '(erc-save-buffer-on-part t))
   (erc-spelling-mode))
 
 (use-package eshell
