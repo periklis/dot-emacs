@@ -139,7 +139,7 @@
  '(gnutls-min-prime-bits 1024)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(jit-lock-defer-time 0.05)
+ '(jit-lock-defer-time 0.01)
  '(load-prefer-newer t)
  '(menu-bar-mode nil)
  '(max-lisp-eval-depth 50000)
@@ -479,16 +479,12 @@
   :disabled
   :commands (global-eclim-mode))
 
-(use-package git-gutter
-  :ensure t
-  :demand
+(use-package emamux
+  :demand (display-graphic-p)
   :config
+  (global-set-key (kbd "C-z") emamux:keymap)
   (custom-set-variables
-   '(git-gutter:ask-p nil)
-   '(git-gutter:hide-gutter t)
-   '(git-gutter:window-width 2)
-   '(git-gutter:verbosity 0))
-  (global-git-gutter-mode))
+   '(emamux:completing-read-type 'normal)))
 
 (use-package emacs-lisp-mode
   :mode ("\\.el\\'" . emacs-lisp-mode)
@@ -628,6 +624,17 @@
    '(flycheck-check-syntax-automatically '(save mode-enabled)))
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+
+(use-package git-gutter
+  :ensure t
+  :demand
+  :config
+  (custom-set-variables
+   '(git-gutter:ask-p nil)
+   '(git-gutter:hide-gutter t)
+   '(git-gutter:window-width 2)
+   '(git-gutter:verbosity 0))
+  (global-git-gutter-mode))
 
 (use-package gnus
   :init
