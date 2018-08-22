@@ -807,7 +807,6 @@
                   (message 0.5)
                   (mml-preview 1.0 point)))))))
 
-
 (use-package go-mode
   :config
   (use-package company-go)
@@ -827,6 +826,7 @@
 
   (defun periklis/setup-go-mode ()
     "Extra setup for go-mode."
+    (local-set-key (kbd "M-.") 'godef-jump))
     (set (make-local-variable 'company-backends) '(company-go))
     (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
