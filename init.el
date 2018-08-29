@@ -196,7 +196,7 @@
 ;; Load packages
 (use-package ace-window
   :ensure t
-  :bind (("C-x o" . ace-window)))
+  :bind (("M-o" . ace-window)))
 
 (use-package alert
   :ensure t
