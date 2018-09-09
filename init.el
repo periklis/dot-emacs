@@ -121,7 +121,7 @@
  '(comint-completion-addsuffix t)
  '(compilation-always-kill t)
  '(compilation-ask-about-save nil)
- '(compilation-environment '("TERM=xterm-256color"))
+ '(compilation-environment '("TERM=screen-256color"))
  '(display-battery-mode t)
  '(display-time-default-load-average 1)
  '(display-time-24hr-format t)
@@ -165,7 +165,8 @@
  '(use-dialog-box nil)
  '(tool-bar-mode nil)
  '(visible-bell nil)
- '(winner-mode t))
+ '(winner-mode t)
+ '(xterm-query-timeout nil))
 
 ;; Custom face definitions
 (custom-set-faces
