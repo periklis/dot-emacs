@@ -36,7 +36,7 @@
 
 ;; Set up load path on nix-environments
 (defvar nix-env-p nil)
-(defvar nix-site-lisp "~/.nix-profile/share/emacs/site-lisp/")
+(defvar nix-site-lisp "/run/current-system/sw/share/emacs/site-lisp/")
 (when (file-accessible-directory-p nix-site-lisp)
   (setq nix-env-p t)
   (add-to-list 'load-path nix-site-lisp)
@@ -359,7 +359,7 @@
 
 (use-package darktooth-theme
   :ensure t
-  :defer t
+  :demand t
   :init
   (defun periklis/load-darktooth-theme ()
     "Load solarized theme."
@@ -1129,7 +1129,6 @@
     (define-key term-pager-break-map "\177" 'term-pager-back-page)))
 
 (use-package nix-mode
-  :if nix-env-p
   :ensure t
   :mode (("\\.nix\\'" . nix-mode)))
 
@@ -1244,8 +1243,6 @@
 (use-package projectile
   :ensure t
   :demand t
-  :init
-  (setq projectile-keymap-prefix (kbd "C-c p"))
   :config
   (use-package counsel-projectile :ensure t)
   (custom-set-variables
@@ -1255,7 +1252,8 @@
    '(projectile-completion-system 'ivy))
 
   (projectile-mode)
-  (counsel-projectile-mode))
+  (counsel-projectile-mode)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package php-mode
   :ensure t
@@ -1580,7 +1578,7 @@
 
 (use-package xterm-color
   :ensure t
-  :demand t
+  :disabled
   :config
   (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
          (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
