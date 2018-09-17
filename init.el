@@ -168,10 +168,6 @@
  '(winner-mode t)
  '(xterm-query-timeout nil))
 
-;; Custom face definitions
-(custom-set-faces
- '(hl-line ((t (:inherit highlight :background "#4E3D45" :underline nil)))))
-
 ;; Load Libraries
 (use-package async                :ensure t :defer t)
 (use-package bind-key             :ensure t :defer t)
@@ -1006,10 +1002,6 @@
    'ivy-switch-buffer
    '(("k" kill-buffer "kill")
      ("r" ivy--rename-buffer-action "rename")))
-
-  (ivy-set-display-transformer
-   'ivy-switch-buffer
-   'ivy-rich-switch-buffer-transformer)
 
   (ivy-mode))
 
