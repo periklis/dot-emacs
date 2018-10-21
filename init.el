@@ -582,6 +582,7 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)
     (exec-path-from-shell-copy-env "PYTHONPATH")
+    (exec-path-from-shell-copy-env "GOPATH")
     (exec-path-from-shell-copy-env "SSH_AUTH_SOCK")))
 
 (use-package expand-region
