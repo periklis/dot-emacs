@@ -1123,7 +1123,10 @@
 
 (use-package nix-mode
   :ensure t
-  :mode (("\\.nix\\'" . nix-mode)))
+  :mode (("\\.nix\\'" . nix-mode))
+  :config
+  (custom-set-variables
+   '(nix-indent-function #'nix-indent-line)))
 
 (use-package nix-sandbox
   :if nix-env-p
