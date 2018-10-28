@@ -567,8 +567,8 @@
 (use-package eyebrowse
   :ensure t
   :demand t
-  :bind (("s-n" . eyebrowse-next-window-config)
-         ("s-p" . eyebrowse-prev-window-config))
+  :bind (("C-z n" . eyebrowse-next-window-config)
+         ("C-z p" . eyebrowse-prev-window-config))
   :config
   (custom-set-variables
    '(eyebrowse-new-workspace t)
