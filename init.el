@@ -1070,7 +1070,7 @@
 
 (use-package markdown-mode
   :ensure t
-  :mode (("\\`README\\.md\\'" . gfm-mode)
+  :mode (("\\README\\.md\\'" . gfm-mode)
          ("\\.md\\'"          . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :config
@@ -1080,6 +1080,9 @@
     (add-to-list
      'markdown-preview-stylesheets
      "https://raw.githubusercontent.com/richleland/pygments-css/master/emacs.css"))
+
+  (custom-set-variables
+   '(markdown-command "marked"))
 
   (add-hook 'markdown-mode-hook #'flyspell-mode)
   (add-hook 'markdown-mode-hook #'yas-minor-mode))
