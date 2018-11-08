@@ -812,6 +812,7 @@
 (use-package go-mode
   :config
   (use-package company-go)
+  (use-package go-dlv)
   (use-package go-eldoc)
   (use-package go-errcheck)
   (use-package go-fill-struct)
