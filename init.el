@@ -1337,6 +1337,9 @@
   (add-hook 'python-mode-hook #'jedi:setup)
   (add-hook 'python-mode-hook #'py-autopep8-enable-on-save))
 
+(use-package realgud
+  :commands (realgud))
+
 (use-package restclient
   :ensure t
   :mode ("\\.rest\\'" . restclient-mode)
