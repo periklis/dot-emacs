@@ -1319,8 +1319,6 @@
 
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode)
-  :init
-  (elpy-enable)
   :config
   (use-package elpy :ensure t)
   (use-package jedi :ensure t)
