@@ -818,6 +818,7 @@
   (use-package go-fill-struct)
   (use-package go-gen-test)
   (use-package go-guru)
+  (use-package go-imenu)
   (use-package go-impl)
   (use-package go-imports)
   (use-package go-projectile)
@@ -839,7 +840,8 @@
   (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
   (add-hook 'go-mode-hook #'periklis/setup-go-mode)
   (add-hook 'go-mode-hook #'company-mode)
-  (add-hook 'go-mode-hook #'go-eldoc-setup))
+  (add-hook 'go-mode-hook #'go-eldoc-setup)
+  (add-hook 'go-mode-hook #'go-imenu-setup))
 
 (use-package google-maps
   :ensure t
