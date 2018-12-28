@@ -985,6 +985,7 @@
          ("C-x C-f" . counsel-find-file)
          ("C-c h b" . counsel-descbinds)
          ("C-c h g" . counsel-git-grep)
+         ("C-c h i" . counsel-imenu)
          ("C-c h l" . counsel-locate)
          ("C-c h s" . counsel-git)
          ("C-c h r" . counsel-rg)
