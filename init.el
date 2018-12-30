@@ -1143,6 +1143,12 @@
   :if nix-env-p
   :ensure t)
 
+(use-package nord-theme
+  :disabled
+  :ensure t
+  :config
+  (load-theme 'nord t))
+
 (use-package nov
   :ensure t
   :mode ("\\.epub\\'" . nov-mode)
