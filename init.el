@@ -834,7 +834,8 @@
     (set (make-local-variable 'company-backends) '(company-go))
     (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
-           "go build -v && go test -v && go vet")))
+           "go build -v && go test -v && go vet"))
+    (setq indent-tabs-mode nil))
 
   (add-hook 'before-save-hook #'gofmt-before-save)
   (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
