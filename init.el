@@ -1567,9 +1567,7 @@
 (use-package whitespace-cleanup-mode
   :ensure t
   :demand t
-  :diminish whitespace-cleanup-mode
-  :config
-  (add-hook 'before-save-hook 'whitespace-cleanup))
+  :diminish whitespace-cleanup-mode)
 
 (use-package wget
   :ensure t
