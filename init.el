@@ -279,7 +279,8 @@
 
       (add-hook 'c-mode-common-hook #'periklis/company-rtags)
       (add-hook 'c++-mode-common-hook #'periklis/company-rtags))
-    (cmake-ide-setup))
+    (cmake-ide-setup)
+    (remove-hook 'before-save-hook 'cide--before-save))
 
   (add-hook 'c-mode-common-hook #'flyspell-prog-mode)
   (add-hook 'c-mode-common-hook #'google-set-c-style)
