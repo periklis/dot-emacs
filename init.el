@@ -574,6 +574,9 @@
   :demand t
   :bind (("C-z n" . eyebrowse-next-window-config)
          ("C-z p" . eyebrowse-prev-window-config))
+  :init
+  (custom-set-variables
+   '(eyebrowse-keymap-prefix (kbd "C-c C-z")))
   :config
   (custom-set-variables
    '(eyebrowse-new-workspace t)
