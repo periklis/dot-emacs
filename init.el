@@ -828,6 +828,7 @@
   (use-package go-projectile)
   (use-package go-rename)
   (use-package go-snippets)
+  (use-package gotest)
 
   (custom-set-variables
    '(gofmt-command "goimports"))
@@ -839,7 +840,10 @@
     (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
            "go build -v && go test -v && go vet"))
-    (setq indent-tabs-mode nil))
+    (setq indent-tabs-mode nil)
+    (define-key go-mode-map (kbd "C-x f") 'go-test-current-file)
+    (define-key go-mode-map (kbd "C-x t") 'go-test-current-test)
+    (define-key go-mode-map (kbd "C-x p") 'go-test-current-project))
 
   (add-hook 'before-save-hook #'gofmt-before-save)
   (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
