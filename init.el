@@ -695,9 +695,9 @@
 
   (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
   (add-hook 'gnus-message-setup-hook #'flyspell-mode)
-  (add-hook 'message-mode-hook 'turn-on-orgstruct)
-  (add-hook 'message-mode-hook 'turn-on-orgtbl)
-  (add-hook 'message-mode-hook 'turn-on-orgstruct++)
+  ;; (add-hook 'message-mode-hook 'turn-on-orgstruct)
+  ;; (add-hook 'message-mode-hook 'turn-on-orgtbl)
+  ;; (add-hook 'message-mode-hook 'turn-on-orgstruct++)
 
   (custom-set-variables
    '(gnus-buffer-configuration
