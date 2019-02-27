@@ -1198,7 +1198,7 @@
     "Open link in external browser if ARG given."
     (interactive "P")
     (if (not arg)
-        (let ((browse-url-browser-function #'browse-url-default-macosx-browser))
+        (let ((browse-url-browser-function #'browse-url-default-browser))
           (org-open-at-point))
       (org-open-at-point)))
 
