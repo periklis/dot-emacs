@@ -833,6 +833,11 @@
   (custom-set-variables
    '(gofmt-command "goimports"))
 
+  ;; Temporary go-vet fix until https://github.com/flycheck/flycheck/pull/1548
+  (let ((govet (flycheck-checker-get 'go-vet 'command)))
+    (when (equal (cadr govet) "tool")
+      (setf (cdr govet) (cddr govet))))
+
   (defun periklis/setup-go-mode ()
     "Extra setup for go-mode."
     (local-set-key (kbd "M-.") 'godef-jump)
