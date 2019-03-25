@@ -851,6 +851,7 @@
     (define-key go-mode-map (kbd "C-x p") 'go-test-current-project))
 
   (add-hook 'before-save-hook #'gofmt-before-save)
+  (add-hook 'go-mode-hook #'subword-mode)
   (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
   (add-hook 'go-mode-hook #'periklis/setup-go-mode)
   (add-hook 'go-mode-hook #'company-mode)
