@@ -980,9 +980,7 @@
   :commands (geben))
 
 (use-package import-js
-  :ensure t
-  :config
-  (add-hook 'web-mode-hook #'run-import-js))
+  :ensure t)
 
 (use-package ibuffer
   :config
