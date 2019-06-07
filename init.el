@@ -359,11 +359,12 @@
   (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package darktooth-theme
+  :disabled
   :ensure t
   :demand t
   :init
   (defun periklis/load-darktooth-theme ()
-    "Load solarized theme."
+    "Load darktooth theme."
     (load-theme 'darktooth t)
     (enable-theme 'darktooth))
 
@@ -872,6 +873,11 @@
   :config
   (use-package groovy-imports
     :ensure t))
+
+(use-package gruvbox-theme
+  :ensure t
+  :config
+  (load-theme 'gruvbox-dark-soft t))
 
 (use-package guess-language
   :ensure t
