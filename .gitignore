@@ -40,3 +40,4 @@ url/*
 /var
 /eshell/*
 /nov-save-place
+/transient/history.el

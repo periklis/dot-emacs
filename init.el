@@ -413,6 +413,9 @@
   :ensure t
   :mode ("\\docker-compose.yml\\'" . docker-compose-mode))
 
+(use-package dockerfile-mode
+  :ensure t)
+
 (use-package ecb
   :ensure t
   :commands (ecb-activate ecb-deactivate)
@@ -935,6 +938,9 @@
   (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation)
   (add-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
+(use-package hcl-mode
+  :ensure t)
+
 (use-package helpful
   :ensure t
   :bind (("C-h f" . helpful-callable)
@@ -1054,6 +1060,9 @@
   (add-hook 'java-mode-hook #'wisent-java-default-setup)
   (add-hook 'java-mode-hook #'semantic-mode)
   (add-hook 'java-mode-hook #'yas-minor-mode))
+
+(use-package jinja2-mode
+  :ensure t)
 
 (use-package json-mode
   :ensure t
