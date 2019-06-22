@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: table {}
+# key: table
+# description: add a test method with table test cases
+# --
+func Test${1:Feature}(t *testing.T) {
+    tests := []struct{
+        desc string
+    }{}
+    for _, test := range tests {
+        test := test
+        t.Run(test.desc, func(t *testing.T) {
+            t.Parallel()
+            $0
+        })
+    }
+}
