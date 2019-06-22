@@ -850,6 +850,7 @@
       (set (make-local-variable 'compile-command)
            "go build -v && go test -v && go vet"))
     (setq indent-tabs-mode nil)
+    (whitespace-cleanup-mode nil)
     (define-key go-mode-map (kbd "C-x f") 'go-test-current-file)
     (define-key go-mode-map (kbd "C-x t") 'go-test-current-test)
     (define-key go-mode-map (kbd "C-x p") 'go-test-current-project))
@@ -1596,7 +1597,9 @@
 (use-package whitespace-cleanup-mode
   :ensure t
   :demand t
-  :diminish whitespace-cleanup-mode)
+  :diminish whitespace-cleanup-mode
+  :config
+  (global-whitespace-cleanup-mode))
 
 (use-package wget
   :ensure t
