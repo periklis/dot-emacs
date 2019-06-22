@@ -836,6 +836,7 @@
 
   (custom-set-variables
    '(gofmt-command "goimports")
+   '(godoc-and-godef-command "go doc")
    '(go-packages-function 'go-packages-go-list))
 
   ;; Temporary go-vet fix until https://github.com/flycheck/flycheck/pull/1548
