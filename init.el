@@ -835,7 +835,8 @@
   (use-package gotest)
 
   (custom-set-variables
-   '(gofmt-command "goimports"))
+   '(gofmt-command "goimports")
+   '(go-packages-function 'go-packages-go-list))
 
   ;; Temporary go-vet fix until https://github.com/flycheck/flycheck/pull/1548
   (let ((govet (flycheck-checker-get 'go-vet 'command)))
