@@ -1073,8 +1073,6 @@
 
 (use-package js2-mode
   :ensure t
-  :mode (("\\.js\\'" . js2-mode)
-         ("\\.spec\\'" . js2-mode))
   :config
   (use-package js2-refactor :ensure t :commands js2-refactor-mode)
 
@@ -1531,6 +1529,11 @@
 
   (add-hook 'js2-mode-hook #'setup-tide-mode))
 
+(use-package typescript-mode
+  :ensure t
+  :mode (("\\.js\\'" . typescript-mode)
+         ("\\.spec\\'" . typescript-mode)))
+
 (use-package tramp
   :demand t
   :bind ("C-c s" . counsel-tramp)
@@ -1572,7 +1575,7 @@
   (add-hook 'web-mode-hook
             (lambda ()
               (when (string-equal "jsx" (file-name-extension buffer-file-name))
-                (tern-mode))))
+                (tide-mode))))
 
   (add-hook 'web-mode-hook
             (lambda ()
