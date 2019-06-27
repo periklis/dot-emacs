@@ -401,6 +401,10 @@
     :bind (:map dired-mode-map
                 ("/" . dired-narrow))))
 
+(use-package direnv
+  :ensure t
+  :config
+  (direnv-mode))
 
 (use-package docker
   :ensure t
