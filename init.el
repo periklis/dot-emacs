@@ -1088,6 +1088,15 @@
 
 (use-package lsp-mode
   :ensure t
+  :bind (("C-c C-l d" . lsp-ui-doc-show)
+         ("C-c C-l h" . lsp-ui-doc-hide)
+         ("C-c C-l f" . lsp-format-buffer)
+         ("C-c C-l j" . lsp-find-definition)
+         ("C-c C-l J" . lsp-ui-peek-find-definitions)
+         ("C-c C-l r" . lsp-find-references)
+         ("C-c C-l R" . lsp-ui-peek-find-references)
+         ("C-c C-l s" . lsp-ui-sideline-mode)
+         ("C-c C-l i" . lsp-ui-imenu))
   :config
   (use-package company-lsp :ensure t)
   (use-package lsp-ui :ensure t))
