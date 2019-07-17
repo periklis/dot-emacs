@@ -510,12 +510,8 @@
 
 (use-package ensime
   :ensure t
+  :disabled
   :config
-  (use-package sbt-mode :ensure t)
-  (use-package scala-mode
-    :ensure t
-    :config
-    (add-hook 'scala-mode-hook #'auto-revert-mode))
   (custom-set-variables
    '(ensime-startup-notification nil)
    '(ensime-startup-snapshot-notification nil)
@@ -537,9 +533,7 @@
        (package . font-lock-preprocessor-face)
        (implicitConversion . nil)
        (implicitParams . nil)
-       (deprecated . (:strike-through "dark gray"))))
-   '(sbt:program-options '("-Djline.terminal=auto"))
-   '(sbt:scroll-to-bottom-on-output t)))
+       (deprecated . (:strike-through "dark gray"))))))
 
 (use-package erc
   :commands (erc erc-tls)
@@ -1092,6 +1086,12 @@
 (use-package list-environment
   :commands (list-environment))
 
+(use-package lsp-mode
+  :ensure t
+  :config
+  (use-package company-lsp :ensure t)
+  (use-package lsp-ui :ensure t))
+
 (use-package macrostep
   :ensure t
   :bind ("C-c e m" . macrostep-expand))
@@ -1405,6 +1405,26 @@
 (use-package sass-mode
   :ensure t
   :mode ("\\.scss\\'" . sass-mode))
+
+(use-package sbt-mode
+  :ensure t
+  :commands (sbt-start sbt-command)
+  :config
+  (custom-set-variables
+   '(sbt:program-options '("-Djline.terminal=auto"))
+   '(sbt:scroll-to-bottom-on-output t))
+
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map))
+
+(use-package scala-mode
+  :ensure t
+  :mode "\\.s\\(cala\\|bt\\)$"
+  :config
+  (add-hook 'scala-mode-hook #'auto-revert-mode)
+  (add-hook 'scala-mode-hook #'lsp))
 
 (use-package semantic
   :commands (semantic-mode)
