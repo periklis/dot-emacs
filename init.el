@@ -490,6 +490,7 @@
   :commands (global-eclim-mode))
 
 (use-package emamux
+  :ensure t
   :demand (display-graphic-p)
   :config
   (global-set-key (kbd "C-z") emamux:keymap)
@@ -587,6 +588,7 @@
   (eyebrowse-mode))
 
 (use-package exec-path-from-shell
+  :ensure t
   :demand t
   :config
   (when (memq window-system '(mac ns x))
@@ -816,21 +818,22 @@
                   (mml-preview 1.0 point)))))))
 
 (use-package go-mode
+  :ensure t
   :config
-  (use-package company-go)
-  (use-package go-dlv)
-  (use-package go-eldoc)
-  (use-package go-errcheck)
-  (use-package go-fill-struct)
-  (use-package go-gen-test)
-  (use-package go-guru)
-  (use-package go-imenu)
-  (use-package go-impl)
-  (use-package go-imports)
-  (use-package go-projectile)
-  (use-package go-rename)
-  (use-package go-snippets)
-  (use-package gotest)
+  (use-package company-go :ensure t)
+  (use-package go-dlv :ensure t)
+  (use-package go-eldoc :ensure t)
+  (use-package go-errcheck :ensure t)
+  (use-package go-fill-struct :ensure t)
+  (use-package go-gen-test :ensure t)
+  (use-package go-guru :ensure t)
+  (use-package go-imenu :ensure t)
+  (use-package go-impl :ensure t)
+  (use-package go-imports :ensure t)
+  (use-package go-projectile :ensure t)
+  (use-package go-rename :ensure t)
+  (use-package go-snippets :ensure t)
+  (use-package gotest :ensure t)
 
   (custom-set-variables
    '(gofmt-command "goimports")
@@ -879,6 +882,7 @@
     :ensure t))
 
 (use-package gruvbox-theme
+  :disabled
   :ensure t
   :config
   (load-theme 'gruvbox-dark-soft t))
@@ -1213,6 +1217,11 @@
    '(nxml-slash-auto-complete-flag         t)
    '(nxml-sexp-element-flag                t)))
 
+(use-package one-themes
+  :ensure t
+  :init
+  (load-theme 'one-dark t))
+
 (use-package org
   :ensure t
   :mode ("\\.org\\'" . org-mode)
@@ -1290,6 +1299,8 @@
   (pdf-tools-enable-minor-modes))
 
 (use-package pinentry
+  :disabled
+  :ensure t
   :config
   (custom-set-variables
    '(epa-pinentry-mode 'loopback))
