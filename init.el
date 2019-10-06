@@ -1229,7 +1229,6 @@
          ("\C-ca" . org-agenda)
          ("\C-cl" . org-store-link))
   :config
-  (use-package orgit :ensure t :commands projectile-vc)
   (use-package org-mobile :disabled)
   (use-package org-protocol)
   (use-package org-projectile :ensure t)
