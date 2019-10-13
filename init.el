@@ -139,7 +139,7 @@
  '(gnutls-min-prime-bits 1024)
  '(indent-tabs-mode nil)
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(jit-lock-defer-time 0.01)
+ ;; '(jit-lock-defer-time 0.01)
  '(load-prefer-newer t)
  '(menu-bar-mode nil)
  '(max-lisp-eval-depth 50000)
