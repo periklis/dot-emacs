@@ -820,9 +820,7 @@
 (use-package go-mode
   :ensure t
   :config
-  (use-package company-go :ensure t)
   (use-package go-dlv :ensure t)
-  (use-package go-eldoc :ensure t)
   (use-package go-errcheck :ensure t)
   (use-package go-fill-struct :ensure t)
   (use-package go-gen-test :ensure t)
@@ -847,13 +845,17 @@
 
   (defun periklis/setup-go-mode ()
     "Extra setup for go-mode."
-    (local-set-key (kbd "M-.") 'godef-jump)
-    (set (make-local-variable 'company-backends) '(company-go))
+    (local-set-key (kbd "M-.") 'lsp-find-definition)
     (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
            "go build -v && go test -v && go vet"))
     (setq indent-tabs-mode nil)
     (whitespace-cleanup-mode nil)
+    (eldoc-mode nil)
+    (projectile-register-project-type 'gomake projectile-go-project-test-function
+                                  :compile "go build"
+                                  :test "go test ./..."
+                                  :test-suffix "_test")
     (define-key go-mode-map (kbd "C-x f") 'go-test-current-file)
     (define-key go-mode-map (kbd "C-x t") 'go-test-current-test)
     (define-key go-mode-map (kbd "C-x p") 'go-test-current-project))
@@ -864,7 +866,8 @@
   (add-hook 'go-mode-hook #'periklis/setup-go-mode)
   (add-hook 'go-mode-hook #'company-mode)
   (add-hook 'go-mode-hook #'go-eldoc-setup)
-  (add-hook 'go-mode-hook #'go-imenu-setup))
+  (add-hook 'go-mode-hook #'go-imenu-setup)
+  (add-hook 'go-mode-hook #'lsp-deferred))
 
 (use-package google-maps
   :ensure t
