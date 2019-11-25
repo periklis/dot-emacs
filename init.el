@@ -471,11 +471,6 @@
   (add-hook 'elm-mode-hook #'periklis/elm-company-setup)
   (add-hook 'elm-mode-hook #'elm-oracle-setup-completion))
 
-(use-package emacs-eclim
-  :ensure t
-  :disabled
-  :commands (global-eclim-mode))
-
 (use-package emamux
   :ensure t
   :demand (display-graphic-p)
