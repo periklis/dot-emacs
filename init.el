@@ -942,9 +942,6 @@
        try-complete-lisp-symbol-partially
        try-complete-lisp-symbol))))
 
-(use-package import-js
-  :ensure t)
-
 (use-package ibuffer
   :config
   (add-hook 'ibuffer-hook #'ibuffer-do-sort-by-alphabetic))
