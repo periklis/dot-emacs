@@ -1587,11 +1587,6 @@
   :config
   (global-whitespace-cleanup-mode))
 
-(use-package wget
-  :ensure t
-  :disabled
-  :commands wget)
-
 (use-package wgrep
   :ensure t
   :commands (grep rgrep)
