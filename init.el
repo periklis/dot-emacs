@@ -34,16 +34,6 @@
 (add-to-list 'load-path site-lisp-dir)
 (add-to-list 'load-path styles-lisp-dir)
 
-;; Set up load path on nix-environments
-(defvar nix-env-p nil)
-(defvar nix-site-lisp "/run/current-system/sw/share/emacs/site-lisp/")
-(when (file-accessible-directory-p nix-site-lisp)
-  (setq nix-env-p t)
-  (add-to-list 'load-path nix-site-lisp)
-  (let ((rtagsdir (expand-file-name "rtags" nix-site-lisp)))
-    (when (file-accessible-directory-p rtagsdir)
-      (add-to-list 'load-path rtagsdir))))
-
 (when (eq window-system 'ns)
   ;; Unset TERM_PROGRAM=Apple_Terminal, which will be set if GUI Emacs was
   ;; launched from a terminal
@@ -262,7 +252,6 @@
     :config
     (use-package rtags
       :disabled
-      :if nix-env-p
       :config
       (custom-set-variables
        '(rtags-autostart-diagnostics t)
@@ -289,8 +278,6 @@
 (use-package ctags
   :commands (create-tags create-project-tags)
   :config
-  (defvar ctags-executable "~/.nix-profile/bin/ctags")
-
   (defun create-tags ()
     "Create tags file."
     (interactive)
@@ -1188,10 +1175,6 @@
   :config
   (custom-set-variables
    '(nix-indent-function #'nix-indent-line)))
-
-(use-package nix-sandbox
-  :if nix-env-p
-  :ensure t)
 
 (use-package nord-theme
   :disabled
