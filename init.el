@@ -1499,20 +1499,6 @@
   :ensure t
   :commands ssh-config-mode)
 
-(use-package tern
-  :ensure t
-  :disabled
-  :config
-  (use-package company-tern :ensure t)
-
-  (defun periklis/setup-company-tern ()
-    "Add company-tern to company-backends."
-    (add-to-list 'company-backends 'company-tern))
-
-  (add-hook 'js2-mode-hook #'tern-mode)
-  (add-hook 'js2-mode-hook #'periklis/setup-company-tern)
-  (add-hook 'web-mode-hook #'periklis/setup-company-tern))
-
 (use-package tide
   :ensure t
   :config
