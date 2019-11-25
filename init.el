@@ -1081,43 +1081,6 @@
   (add-hook 'markdown-mode-hook #'flyspell-mode)
   (add-hook 'markdown-mode-hook #'yas-minor-mode))
 
-(use-package multi-term
-  :ensure t
-  :demand t
-  :config
-  (use-package term+ :ensure t)
-  (custom-set-variables
-   '(multi-term-program "/run/current-system/sw/bin/zsh")
-   '(multi-term-scroll-show-maximum-output nil)
-   '(multi-term-scroll-to-bottom-on-output "this")
-   '(multi-term-switch-after-close nil))
-
-  (defun term-send-tab ()
-    "Send tab in term mode."
-    (interactive)
-    (term-send-raw-string "\t"))
-
-  (add-to-list 'term-bind-key-alist '("C-c C-j" . term-line-mode))
-  (add-to-list 'term-bind-key-alist '("C-c C-k" . term-char-mode))
-  (add-to-list 'term-bind-key-alist '("<tab>" . term-send-tab))
-  (add-to-list 'term-bind-key-alist '("C-f" . forward-char))
-  (add-to-list 'term-bind-key-alist '("C-b" . backward-char))
-  (add-to-list 'term-bind-key-alist '("M-f" . forward-word))
-  (add-to-list 'term-bind-key-alist '("M-b" . backward-word))
-  (add-to-list 'term-bind-key-alist '("C-a" . move-beginning-of-line))
-  (add-to-list 'term-bind-key-alist '("C-e" . move-end-of-line))
-
-  (define-key term-raw-map (kbd "C-c C-y") 'term-paste)
-
-  (defun periklis/term-end-of-buffer ()
-    (interactive)
-    (call-interactively #'end-of-buffer)
-    (if (and (eobp) (bolp))
-        (delete-char -1)))
-
-  (defadvice term-process-pager (after term-process-rebind-keys activate)
-    (define-key term-pager-break-map "\177" 'term-pager-back-page)))
-
 (use-package nix-mode
   :ensure t
   :mode (("\\.nix\\'" . nix-mode))
