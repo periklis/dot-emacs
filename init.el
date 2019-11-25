@@ -357,7 +357,6 @@
 
   (add-hook 'after-init-hook #'periklis/load-darktooth-theme))
 
-
 (use-package dired
   :commands (dired dired-jump)
   :config
