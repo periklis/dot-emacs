@@ -946,10 +946,6 @@
   :config
   (add-hook 'ibuffer-hook #'ibuffer-do-sort-by-alphabetic))
 
-(use-package itail
-  :ensure t
-  :defer t)
-
 (use-package ivy
   :ensure t
   :demand t
