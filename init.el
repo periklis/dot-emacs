@@ -942,10 +942,6 @@
        try-complete-lisp-symbol-partially
        try-complete-lisp-symbol))))
 
-(use-package geben
-  :ensure t
-  :commands (geben))
-
 (use-package import-js
   :ensure t)
 
