@@ -471,14 +471,6 @@
   (add-hook 'elm-mode-hook #'periklis/elm-company-setup)
   (add-hook 'elm-mode-hook #'elm-oracle-setup-completion))
 
-(use-package emamux
-  :ensure t
-  :demand (display-graphic-p)
-  :config
-  (global-set-key (kbd "C-z") emamux:keymap)
-  (custom-set-variables
-   '(emamux:completing-read-type 'normal)))
-
 (use-package emacs-lisp-mode
   :mode ("\\.el\\'" . emacs-lisp-mode)
   :init
