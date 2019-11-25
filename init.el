@@ -491,33 +491,6 @@
   (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
   (add-hook 'after-save-hook 'check-parens nil t))
 
-(use-package ensime
-  :ensure t
-  :disabled
-  :config
-  (custom-set-variables
-   '(ensime-startup-notification nil)
-   '(ensime-startup-snapshot-notification nil)
-   '(ensime-startup-snapshot-notification-3)
-   '(ensime-overlays-use-font-lock t)
-   '(ensime-eldoc-hints 'all)
-   '(ensime-search-interface 'ivy)
-   '(ensime-sem-high-faces
-     '((var . scala-font-lock:var-face)
-       (val . (:inherit font-lock-constant-face :slant italic))
-       (varField . scala-font-lock:var-face)
-       (valField . (:inherit font-lock-constant-face :slant italic))
-       (functionCall . font-lock-function-name-face)
-       (operator . font-lock-keyword-face)
-       (param . (:slant italic))
-       (class . font-lock-type-face)
-       (trait .  (:inherit font-lock-type-face :slant italic))
-       (object . font-lock-constant-face)
-       (package . font-lock-preprocessor-face)
-       (implicitConversion . nil)
-       (implicitParams . nil)
-       (deprecated . (:strike-through "dark gray"))))))
-
 (use-package erc
   :commands (erc erc-tls)
   :config
