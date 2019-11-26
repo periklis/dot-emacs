@@ -517,21 +517,6 @@
   :config
   (add-hook 'web-mode-hook 'eslintd-fix-mode))
 
-(use-package eyebrowse
-  :ensure t
-  :demand t
-  :bind (("C-z n" . eyebrowse-next-window-config)
-         ("C-z p" . eyebrowse-prev-window-config))
-  :init
-  (custom-set-variables
-   '(eyebrowse-keymap-prefix (kbd "C-c C-z")))
-  :config
-  (custom-set-variables
-   '(eyebrowse-new-workspace t)
-   '(eyebrowse-wrap-around t))
-  (eyebrowse-setup-opinionated-keys)
-  (eyebrowse-mode))
-
 (use-package exec-path-from-shell
   :ensure t
   :disabled
