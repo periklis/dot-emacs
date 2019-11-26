@@ -799,10 +799,6 @@
   (add-hook 'go-mode-hook #'go-imenu-setup)
   (add-hook 'go-mode-hook #'lsp-deferred))
 
-(use-package google-maps
-  :ensure t
-  :commands google-maps)
-
 (use-package google-translate
   :ensure t
   :defer t
