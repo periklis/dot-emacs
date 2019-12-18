@@ -2,6 +2,7 @@
 .#.*
 .#*
 .emacs.desktop*
+.lsp-session*
 .org-id-locations
 .sx/*
 \#bbdb\#
