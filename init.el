@@ -517,12 +517,11 @@
 
 (use-package exec-path-from-shell
   :ensure t
-  :disabled
   :config
+  (exec-path-from-shell-copy-env "GOPATH")
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)
     (exec-path-from-shell-copy-env "PYTHONPATH")
-    (exec-path-from-shell-copy-env "GOPATH")
     (exec-path-from-shell-copy-env "SSH_AUTH_SOCK")))
 
 (use-package expand-region
