@@ -68,6 +68,14 @@
 ;; Make backups of files, even when they're in version control
 (setq vc-make-backup-files t)
 
+;; Buffers that I don't want popping up by default
+(add-to-list
+ 'display-buffer-alist
+ '("\\*Async Shell Command\\*.*" display-buffer-no-window))
+(add-to-list
+ 'display-buffer-alist
+ '("\\*system-packages\\*.*" display-buffer-no-window))
+
 ;; Add package manager configuration
 (eval-and-compile
   (setq package-archives nil)
