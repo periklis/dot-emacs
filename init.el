@@ -95,7 +95,12 @@
    '(use-package-enable-imenu-support t))
 
   (require 'cl)
-  (require 'use-package))
+  (require 'use-package)
+  (use-package use-package-ensure-system-package
+    :ensure t
+    :config
+    (custom-set-variables
+     '(system-packages-noconfirm t))))
 
 ;; Custom variables definitions
 (custom-set-variables
@@ -746,6 +751,30 @@
 
 (use-package go-mode
   :ensure t
+  :ensure-system-package
+  (go
+   go-bindata
+   go-tools
+   delve
+   (errcheck . "go get github.com/kisielk/errcheck")
+   (fillstruct . "go get github.com/davidrjenni/reftools/cmd/fillstruct")
+   (go-outline . "go get github.com/lukehoban/go-outline")
+   (go-symbolds . "go get github.com/newhook/go-symbols")
+   (godef . "go get github.com/rogpeppe/godef")
+   (golint . "go get golang.org/x/lint/golint")
+   (gomodifytags . "go get github.com/fatih/gomodifytags")
+   (gopkgs . "go get github.com/uudashr/gopkgs/cmd/gopkgs@latest")
+   (gopls . "go get golang.org/x/tools/gopls@latest")
+   (goreturns . "go get github.com/sqs/goreturns")
+   (gotests . "go get github.com/cweill/gotests/gotests")
+   (impl . "go get github.com/josharian/impl")
+   (keyify . "go get honnef.co/go/tools/cmd/keyify")
+   (rdeps . "go get honnef.co/go/tools/cmd/rdeps")
+   (staticcheck . "go get honnef.co/go/tools/cmd/staticcheck")
+   (structlayout . "go get honnef.co/go/tools/cmd/structlayout")
+   (structlayout-optimize . "go get honnef.co/go/tools/cmd/structlayout-optimize")
+   (structlayout-pretty . "go get honnef.co/go/tools/cmd/structlayout-pretty")
+   (unconvert . "go get github.com/mdempsky/unconvert"))
   :config
   (use-package go-dlv :ensure t)
   (use-package go-errcheck :ensure t)
@@ -1138,6 +1167,7 @@
 (use-package pandoc-mode
   :ensure t
   :commands pandoc-mode
+  :ensure-system-package (pandoc)
   :bind (:map pandoc-mode-map
               ("C-c / r" . pandoc-run-pandoc)
               ("C-c / p" . pandoc-convert-to-pdf)
