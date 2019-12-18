@@ -394,9 +394,7 @@
 (use-package docker
   :ensure t
   :diminish docker-mode
-  :bind ("C-c d" . docker)
-  :config
-  (use-package docker-machine))
+  :bind ("C-c d" . docker))
 
 (use-package docker-compose-mode
   :ensure t
