@@ -299,8 +299,7 @@
    (c-mode-common . google-make-newline-indent)))
 
 (use-package ctags
-  :preface
-  (defvar ctags-executable)
+  :defines (ctags-executable)
   :commands (create-tags create-project-tags)
   :config
   (defun create-tags ()
@@ -317,8 +316,7 @@
 
 (use-package cmake-mode
   :ensure t
-  :preface
-  (defvar company-backends)
+  :defines (company-backends)
   :mode (("\\.cmake\\'" . cmake-mode)
          ("\\CMakeLists.txt\\'" . cmake-mode))
   :config
@@ -521,8 +519,7 @@
   (erc-spelling-mode))
 
 (use-package eshell
-  :preface
-  (defvar eshell-visual-commands)
+  :defines (eshell-visual-commands)
   :custom
   (eshell-where-to-jump 'begin)
   (eshell-review-quick-commands nil)
@@ -1237,8 +1234,7 @@
 (use-package php-mode
   :ensure t
   :commands (php-mode)
-  :preface
-  (defvar company-semantic-modes)
+  :defines (company-semantic-modes)
   :bind(:map php-mode-map
              ("C-c C-y" . yas/create-php-snippet)
              ("C-x s" . company-semantic)
