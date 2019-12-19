@@ -42,3 +42,4 @@ url/*
 /eshell/*
 /nov-save-place
 /transient/history.el
+/.last-package-update-day
