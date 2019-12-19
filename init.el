@@ -343,7 +343,7 @@
     (set-terminal-parameter nil 'background-mode 'dark)
     (enable-theme 'solarized))
   :hook
-  ((after-init .periklis/load-solarized-theme)))
+  ((after-init . periklis/load-solarized-theme)))
 
 (use-package company
   :ensure t
@@ -765,40 +765,38 @@
    ;; (message-mode . turn-on-orgtbl)
    ;; (message-mode . turn-on-orgstruct)
    ;; (message-mode . turn-on-orgstruct++)
-  ))
+   ))
 
 (use-package go-mode
   :ensure t
-  :ensure-system-package
-  (go
-   go-bindata
-   go-tools
-   delve
-   (errcheck . "go get github.com/kisielk/errcheck")
-   (fillstruct . "go get github.com/davidrjenni/reftools/cmd/fillstruct")
-   (go-outline . "go get github.com/lukehoban/go-outline")
-   (go-symbolds . "go get github.com/newhook/go-symbols")
-   (godef . "go get github.com/rogpeppe/godef")
-   (golint . "go get golang.org/x/lint/golint")
-   (gomodifytags . "go get github.com/fatih/gomodifytags")
-   (gopkgs . "go get github.com/uudashr/gopkgs/cmd/gopkgs@latest")
-   (gopls . "go get golang.org/x/tools/gopls@latest")
-   (goreturns . "go get github.com/sqs/goreturns")
-   (gotests . "go get github.com/cweill/gotests/gotests")
-   (impl . "go get github.com/josharian/impl")
-   (keyify . "go get honnef.co/go/tools/cmd/keyify")
-   (rdeps . "go get honnef.co/go/tools/cmd/rdeps")
-   (staticcheck . "go get honnef.co/go/tools/cmd/staticcheck")
-   (structlayout . "go get honnef.co/go/tools/cmd/structlayout")
-   (structlayout-optimize . "go get honnef.co/go/tools/cmd/structlayout-optimize")
-   (structlayout-pretty . "go get honnef.co/go/tools/cmd/structlayout-pretty")
-   (unconvert . "go get github.com/mdempsky/unconvert"))
-  :bind
-  (:map go-mode-map
-   ("M-." . lsp-find-definition)
-   ("C-x f" . go-test-current-file)
-   ("C-x t" . go-test-current-test)
-   ("C-x p" . go-test-current-project))
+  :ensure-system-package (go
+                          go-bindata
+                          go-tools
+                          delve
+                          (errcheck . "go get github.com/kisielk/errcheck")
+                          (fillstruct . "go get github.com/davidrjenni/reftools/cmd/fillstruct")
+                          (go-outline . "go get github.com/lukehoban/go-outline")
+                          (go-symbolds . "go get github.com/newhook/go-symbols")
+                          (godef . "go get github.com/rogpeppe/godef")
+                          (golint . "go get golang.org/x/lint/golint")
+                          (gomodifytags . "go get github.com/fatih/gomodifytags")
+                          (gopkgs . "go get github.com/uudashr/gopkgs/cmd/gopkgs@latest")
+                          (gopls . "go get golang.org/x/tools/gopls@latest")
+                          (goreturns . "go get github.com/sqs/goreturns")
+                          (gotests . "go get github.com/cweill/gotests/gotests")
+                          (impl . "go get github.com/josharian/impl")
+                          (keyify . "go get honnef.co/go/tools/cmd/keyify")
+                          (rdeps . "go get honnef.co/go/tools/cmd/rdeps")
+                          (staticcheck . "go get honnef.co/go/tools/cmd/staticcheck")
+                          (structlayout . "go get honnef.co/go/tools/cmd/structlayout")
+                          (structlayout-optimize . "go get honnef.co/go/tools/cmd/structlayout-optimize")
+                          (structlayout-pretty . "go get honnef.co/go/tools/cmd/structlayout-pretty")
+                          (unconvert . "go get github.com/mdempsky/unconvert"))
+  :bind (:map go-mode-map
+         ("M-." . lsp-find-definition)
+         ("C-x f" . go-test-current-file)
+         ("C-x t" . go-test-current-test)
+         ("C-x p" . go-test-current-project))
   :custom
   (gofmt-command "goimports")
   (godoc-and-godef-command "go doc")
@@ -820,15 +818,15 @@
   (defun periklis/setup-go-mode ()
     "Extra setup for go-mode."
     (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command)
-           "go build -v && go test -v && go vet"))
+        (set (make-local-variable 'compile-command)
+             "go build -v && go test -v && go vet"))
     (setq indent-tabs-mode nil)
     (whitespace-cleanup-mode nil)
     (eldoc-mode nil)
     (projectile-register-project-type 'gomake projectile-go-project-test-function
-                                  :compile "go build"
-                                  :test "go test ./..."
-                                  :test-suffix "_test"))
+                                      :compile "go build"
+                                      :test "go test ./..."
+                                      :test-suffix "_test"))
   :hook
   ((before-save . gofmt-before-save)
    (go-mode . subword-mode)
@@ -1422,11 +1420,7 @@
                                               ("* ||\n[i]" "RET"))))
   (smartparens-global-strict-mode -1)
   (smartparens-global-mode 1)
-  (show-smartparens-global-mode -1)
-  ;; :hook
-  ;; ((prog-mode .turn-on-smartparens-mode)
-  ;;  (minibuffer-setup . turn-on-smartparens-strict-mode)))
-  )
+  (show-smartparens-global-mode -1))
 
 (use-package srefactor
   :ensure t
