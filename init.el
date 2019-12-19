@@ -1,4 +1,5 @@
 ;;; init.el --- Emacs initialization
+
 ;;; Commentary:
 
 ;;; Emacs initialization
