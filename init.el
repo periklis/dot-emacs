@@ -1,5 +1,4 @@
 ;;; init.el --- Emacs initialization
-
 ;;; Commentary:
 
 ;;; Emacs initialization
@@ -37,6 +36,7 @@
 (when (eq window-system 'ns)
   ;; Unset TERM_PROGRAM=Apple_Terminal, which will be set if GUI Emacs was
   ;; launched from a terminal
+  (defvar ns-use-proxy-icon)
   (setenv "TERM_PROGRAM" nil)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
@@ -80,21 +80,18 @@
 (eval-and-compile
   (setq package-archives nil)
 
-  ;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   ;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
-  ;; (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
-  ;;   (package-refresh-contents))
+  (unless (file-exists-p (expand-file-name "elpa/archives/gnu" user-emacs-directory))
+    (package-refresh-contents))
 
   (unless (file-exists-p (expand-file-name "elpa/archives/melpa" user-emacs-directory))
     (package-refresh-contents))
 
   ;; (unless (file-exists-p (expand-file-name "elpa/archives/melpa-stable" user-emacs-directory))
   ;;   (package-refresh-contents))
-
-  ;; (unless (package-installed-p 'use-package)
-  ;;   (package-install 'use-package))
 
   (package-initialize nil)
 
@@ -299,6 +296,8 @@
    (c-mode-common . google-make-newline-indent)))
 
 (use-package ctags
+  :preface
+  (defvar ctags-executable)
   :commands (create-tags create-project-tags)
   :config
   (defun create-tags ()
@@ -315,58 +314,61 @@
 
 (use-package cmake-mode
   :ensure t
+  :preface
+  (defvar company-backends)
   :mode (("\\.cmake\\'" . cmake-mode)
          ("\\CMakeLists.txt\\'" . cmake-mode))
   :config
   (defun periklis/cmake-mode-company-setup ()
     "Setup company for cmake-mode."
     (set (make-local-variable 'company-backends) '(company-cmake)))
-
-  (add-hook 'cmake-mode-hook #'periklis/cmake-mode-company-setup)
-  (add-hook 'cmake-mode-hook #'flyspell-prog-mode))
+  :hook
+  ((cmake-mode . periklis/cmake-mode-company-setup)
+   (cmake-mode . flyspell-prog-mode)))
 
 (use-package color-theme-solarized
   :disabled
   :ensure t
   :defer t
-  :init
-  (custom-set-variables
-   '(solarized-termcolors 256))
-
+  :custom
+  (solarized-termcolors 256)
+  :config
   (defun periklis/load-solarized-theme ()
     "Load solarized theme."
     (load-theme 'solarized t)
     (set-frame-parameter nil 'background-mode 'dark)
     (set-terminal-parameter nil 'background-mode 'dark)
     (enable-theme 'solarized))
-
-  (add-hook 'after-init-hook #'periklis/load-solarized-theme))
+  :hook
+  ((after-init .periklis/load-solarized-theme)))
 
 (use-package company
   :ensure t
   :demand t
   :diminish company-mode
   :bind (("C-c ;" . company-complete-common-or-cycle))
+  :custom
+  (company-auto-complete 'company-explicit-action-p)
+  (company-etags-everywhere t)
+  (company-dabbrev-downcase nil)
+  (company-idle-delay 0.2)
+  (company-minimum-prefix-length 1)
+  (company-require-match 'company-explicit-action-p)
+  (company-show-numbers t)
+  (company-tooltip-align-annotations t)
+  (company-tooltip-limit 20)
+  (company-tooltip-offset-display 'lines)
+  (company-transformers '(company-sort-by-backend-importance))
   :config
   (use-package company-c-headers :ensure t :defer t)
   (use-package company-quickhelp
     :ensure t
-    :init (add-hook 'company-mode-hook #'company-quickhelp-mode)
-    :config (setq company-quickhelp-delay 2))
-  (custom-set-variables
-   '(company-auto-complete 'company-explicit-action-p)
-   '(company-etags-everywhere t)
-   '(company-dabbrev-downcase nil)
-   '(company-idle-delay 0.2)
-   '(company-minimum-prefix-length 1)
-   '(company-require-match 'company-explicit-action-p)
-   '(company-show-numbers t)
-   '(company-tooltip-align-annotations t)
-   '(company-tooltip-limit 20)
-   '(company-tooltip-offset-display 'lines)
-   '(company-transformers '(company-sort-by-backend-importance)))
-
-  (add-hook 'after-init-hook 'global-company-mode))
+    :custom
+    (company-quickhelp-delay 2)
+    :hook
+    ((company-mode . company-quickhelp-mode)))
+  :hook
+  ((after-init . global-company-mode)))
 
 (use-package darktooth-theme
   :disabled
@@ -377,23 +379,23 @@
     "Load darktooth theme."
     (load-theme 'darktooth t)
     (enable-theme 'darktooth))
-
-  (add-hook 'after-init-hook #'periklis/load-darktooth-theme))
+  :hook
+  ((after-init . periklis/load-darktooth-theme)))
 
 (use-package dired
   :commands (dired dired-jump)
+  :custom
+  (dired-dwim-target t)
+  (dired-ls-F-marks-symlinks t)
+  (diredp-hide-details-initially-flag nil)
+  (delete-by-moving-to-trash t)
+  (global-auto-revert-non-file-buffers t)
   :config
-  (custom-set-variables
-   '(dired-dwim-target t)
-   '(dired-ls-F-marks-symlinks t)
-   '(diredp-hide-details-initially-flag nil)
-   '(delete-by-moving-to-trash t)
-   '(global-auto-revert-non-file-buffers t))
-
   (use-package dired-x
     :init
+    :custom
+    (dired-omit-files-p t)
     :config
-    (setq-default dired-omit-files-p t)
     (add-to-list 'dired-omit-extensions ".DS_Store"))
 
   (use-package dired-aux
@@ -425,33 +427,33 @@
   :mode ("\\docker-compose.yml\\'" . docker-compose-mode))
 
 (use-package dockerfile-mode
-  :ensure t)
+  :ensure t
+  :mode ("\\Dockerfile\\'" . dockerfile-mode))
 
 (use-package ecb
   :ensure t
   :commands (ecb-activate ecb-deactivate)
+  :custom
+  (ecb-auto-update-methods-after-save t)
+  (ecb-compile-window-height 10)
+  (ecb-compile-window-temporally-enlarge 'after-selection)
+  (ecb-enlarged-compilation-window-max-height 'half)
+  (ecb-force-reparse-when-semantic-idle-scheduler-off t)
+  (ecb-layout-name "left2")
+  (ecb-methods-menu-sorter nil)
+  (ecb-non-semantic-exclude-modes (quote (sh-mode fundamental-mode text-mode)))
+  (ecb-options-version "2.50")
+  (ecb-post-process-semantic-taglist
+   (quote
+    ((c++-mode ecb-group-function-tags-with-parents)
+     (emacs-lisp-mode ecb-group-function-tags-with-parents)
+     (c-mode ecb-filter-c-prototype-tags))))
+  (ecb-scroll-other-window-scrolls-compile-window t)
+  (ecb-source-path (quote (("/" "/"))))
+  (ecb-tip-of-the-day nil)
+  (ecb-windows-width 45)
+  (ecb-major-modes-show-or-hide '((php-mode js2-mode haskell-mode)))
   :config
-  (custom-set-variables
-   '(ecb-auto-update-methods-after-save t)
-   '(ecb-compile-window-height 10)
-   '(ecb-compile-window-temporally-enlarge 'after-selection)
-   '(ecb-enlarged-compilation-window-max-height 'half)
-   '(ecb-force-reparse-when-semantic-idle-scheduler-off t)
-   '(ecb-layout-name "left2")
-   '(ecb-methods-menu-sorter nil)
-   '(ecb-non-semantic-exclude-modes (quote (sh-mode fundamental-mode text-mode)))
-   '(ecb-options-version "2.50")
-   '(ecb-post-process-semantic-taglist
-     (quote
-      ((c++-mode ecb-group-function-tags-with-parents)
-       (emacs-lisp-mode ecb-group-function-tags-with-parents)
-       (c-mode ecb-filter-c-prototype-tags))))
-   '(ecb-scroll-other-window-scrolls-compile-window t)
-   '(ecb-source-path (quote (("/" "/"))))
-   '(ecb-tip-of-the-day nil)
-   '(ecb-windows-width 45)
-   '(ecb-major-modes-show-or-hide '((php-mode js2-mode haskell-mode))))
-
   (defun ecb-not-using-layout-advices (&rest args)
     "Do not use the layout advices of ecb."
     (ecb-disable-advices 'ecb-layout-basic-adviced-functions))
@@ -459,66 +461,69 @@
 
 (use-package ediff
   :defer t
-  :config
-  (add-hook 'ediff-load-hook 'ecb-deactivate)
-  (add-hook 'ediff-quit-hook 'ecb-activate)
-
-  (setq ediff-diff-options "-w")
-  (setq ediff-split-window-function 'split-window-vertically)
-  (setq ediff-ignore-similar-regions t))
+  :custom
+  (ediff-diff-options "-w")
+  (ediff-split-window-function 'split-window-vertically)
+  (ediff-ignore-similar-regions t))
 
 (use-package elm-mode
+  :disabled
   :ensure t
   :mode ("\\.elm\\'" . elm-mode)
+  :custom
+  (elm-tags-exclude-elm-stuff nil)
+  (elm-format-on-save t)
+  (elm-sort-imports-on-save t)
+  (elm-tags-on-save nil)
   :config
   (use-package elm-yasnippets :ensure t)
   (use-package flycheck-elm
     :ensure t
-    :config
-    (add-hook 'flycheck-mode-hook 'flycheck-elm-setup))
-
-  (custom-set-variables
-   '(elm-tags-exclude-elm-stuff nil)
-   '(elm-format-on-save t)
-   '(elm-sort-imports-on-save t)
-   '(elm-tags-on-save nil))
-
+    :hook
+    ((flycheck-mode . flycheck-elm-setup)))
   (defun periklis/elm-company-setup ()
     "Adds company-elm to company-backends."
     ;; (setq company-backends '(company-elm))
     (add-to-list 'company-backends 'company-elm))
-
-  (add-hook 'elm-mode-hook #'periklis/elm-company-setup)
-  (add-hook 'elm-mode-hook #'elm-oracle-setup-completion))
+  :hook
+  ((elm-mode . periklis/elm-company-setup)
+   (elm-mode . elm-oracle-setup-completion)))
 
 (use-package emacs-lisp-mode
   :mode ("\\.el\\'" . emacs-lisp-mode)
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'(lambda () (setq truncate-lines 0)))
-  (add-hook 'emacs-lisp-mode-hook #'electric-indent-mode)
-  (add-hook 'emacs-lisp-mode-hook #'electric-layout-mode)
-  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
-  (add-hook 'emacs-lisp-mode-hook #'flyspell-prog-mode)
-  (add-hook 'emacs-lisp-mode-hook #'subword-mode)
-  (add-hook 'emacs-lisp-mode-hook #'yas-minor-mode)
-  (add-hook 'after-save-hook 'check-parens nil t))
+  :custom
+  (truncate-lines 0)
+  :hook
+  ((emacs-lisp-mode . electric-indent-mode)
+   (emacs-lisp-mode . electric-layout-mode)
+   (emacs-lisp-mode . eldoc-mode)
+   (emacs-lisp-mode . flyspell-prog-mode)
+   (emacs-lisp-mode . subword-mode)
+   (emacs-lisp-mode . yas-minor-mode)
+   (after-save . check-parens)))
 
 (use-package erc
   :commands (erc erc-tls)
+  :custom
+  (erc-button-mode nil)
+  (erc-hide-timestamps nil)
+  (erc-join-buffer 'bury)
+  (erc-log-insert-log-on-open nil)
+  (erc-log-channels t)
+  (erc-log-channels-directory "~/.cache/erc/")
+  (erc-max-buffer-size 20000)
+  (erc-prompt-for-password nil)
+  (erc-save-buffer-on-part t)
   :config
-  (custom-set-variables
-   '(erc-button-mode nil)
-   '(erc-hide-timestamps nil)
-   '(erc-join-buffer 'bury)
-   '(erc-log-insert-log-on-open nil)
-   '(erc-log-channels t)
-   '(erc-log-channels-directory "~/.cache/erc/")
-   '(erc-max-buffer-size 20000)
-   '(erc-prompt-for-password nil)
-   '(erc-save-buffer-on-part t))
   (erc-spelling-mode))
 
 (use-package eshell
+  :preface
+  (defvar eshell-visual-commands)
+  :custom
+  (eshell-where-to-jump 'begin)
+  (eshell-review-quick-commands nil)
+  (eshell-smart-space-goes-to-end t)
   :config
   (use-package em-smart)
   (defun periklis/eshell-mode-hook ()
@@ -526,29 +531,25 @@
     (add-to-list 'eshell-visual-commands "htop" t)
     (add-to-list 'eshell-visual-commands "fzf" t)
     (add-to-list 'eshell-visual-commands "nix-shell" t))
-
-  (custom-set-variables
-   '(eshell-where-to-jump 'begin)
-   '(eshell-review-quick-commands nil)
-   '(eshell-smart-space-goes-to-end t))
-
-  (add-hook 'eshell-mode-hook #'periklis/eshell-mode-hook))
+  :hook
+  ((eshell-mode . periklis/eshell-mode-hook)))
 
 (use-package eslintd-fix
   :ensure t
-  :config
-  (add-hook 'web-mode-hook 'eslintd-fix-mode))
+  :hook
+  ((web-mode . eslintd-fix-mode)))
 
 (use-package exec-path-from-shell
   :ensure t
+  :custom
+  (exec-path-from-shell-arguments '("-i"))
+  (exec-path-from-shell-check-startup-files nil)
   :config
-  (setq exec-path-from-shell-arguments '("-i"))
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "GOPATH"))
 
 (use-package expand-region
   :ensure t
-  :defer t
   :bind (("C-=" . er/expand-region)))
 
 (use-package ffap
@@ -576,23 +577,24 @@
 (use-package flycheck
   :ensure t
   :demand t
+  :custom
+  (flycheck-display-errors-function nil)
+  (flycheck-check-syntax-automatically '(save mode-enabled))
   :config
   (use-package flycheck-inline :ensure t :demand t)
-  (custom-set-variables
-   '(flycheck-display-errors-function nil)
-   '(flycheck-check-syntax-automatically '(save mode-enabled)))
-  (add-hook 'after-init-hook #'global-flycheck-mode)
-  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+  :hook
+  ((after-init . global-flycheck-mode)
+   (flycheck-mode . flycheck-inline-mode)))
 
 (use-package git-gutter
   :ensure t
   :demand
+  :custom
+  (git-gutter:ask-p nil)
+  (git-gutter:hide-gutter t)
+  (git-gutter:window-width 2)
+  (git-gutter:verbosity 0)
   :config
-  (custom-set-variables
-   '(git-gutter:ask-p nil)
-   '(git-gutter:hide-gutter t)
-   '(git-gutter:window-width 2)
-   '(git-gutter:verbosity 0))
   (global-git-gutter-mode))
 
 (use-package gnus
@@ -600,171 +602,167 @@
   (require 'nnir)
   (require 'gnus-async)
   (require 'gnus-demon)
-  (custom-set-variables
-   '(gnus-asynchronous t)
-   '(gnus-select-method '(nnnil ""))
+  :custom
+  (gnus-asynchronous t)
+  (gnus-select-method '(nnnil ""))
+  (gnus-gcc-mark-as-read t)
+  (gnus-use-cache t)
+  (gnus-auto-select-next nil)
+  (gnus-auto-select-same t)
+  (gnus-auto-center-summary t)
+  (gnus-thread-hide-subtree t)
+  (gnus-thread-ignore-subject t)
+  (gnus-thread-indent-level 2)
+  (gnus-treat-hide-citation t)
+  (gnus-group-line-format "%M%S%5y:%B%(%G%)\n")
+  (gnus-summary-line-format "%O%U%R%z%d %B%(%[%4L: %-22,22f%]%) %s\n")
+  (gnus-summary-same-subject "")
+  (gnus-sum-thread-tree-root "")
+  (gnus-sum-thread-tree-single-indent "")
+  (gnus-sum-thread-tree-leaf-with-other "+-> ")
+  (gnus-sum-thread-tree-vertical "|")
+  (gnus-sum-thread-tree-single-leaf "`-> ")
+  (gnus-extract-address-components 'mail-extract-address-components)
+  (gnus-use-adaptive-scoring t)
+  (gnus-decay-scores t)
+  (gnus-default-adaptive-score-alist
+   '((gnus-unread-mark)
+     (gnus-ticked-mark (from 4))
+     (gnus-dormant-mark (from 5))
+     (gnus-del-mark (from -4) (subject -1))
+     (gnus-read-mark (from 4) (subject 2))
+     (gnus-expirable-mark (from -1) (subject -1))
+     (gnus-killed-mark (from -1) (subject -3))
+     (gnus-kill-file-mark)
+     (gnus-ancient-mark)
+     (gnus-low-score-mark)
+     (gnus-catchup-mark (from -1) (subject -1))))
+  (gnus-thread-sort-functions
+   '(gnus-thread-sort-by-most-recent-date
+     gnus-thread-sort-by-score))
 
-   '(gnus-gcc-mark-as-read t)
-   '(gnus-use-cache t)
-
-   '(gnus-auto-select-next nil)
-   '(gnus-auto-select-same t)
-   '(gnus-auto-center-summary t)
-   '(gnus-thread-hide-subtree t)
-   '(gnus-thread-ignore-subject t)
-   '(gnus-thread-indent-level 2)
-   '(gnus-treat-hide-citation t)
-   '(gnus-group-line-format "%M%S%5y:%B%(%G%)\n")
-   '(gnus-summary-line-format "%O%U%R%z%d %B%(%[%4L: %-22,22f%]%) %s\n")
-   '(gnus-summary-same-subject "")
-   '(gnus-sum-thread-tree-root "")
-   '(gnus-sum-thread-tree-single-indent "")
-   '(gnus-sum-thread-tree-leaf-with-other "+-> ")
-   '(gnus-sum-thread-tree-vertical "|")
-   '(gnus-sum-thread-tree-single-leaf "`-> ")
-   '(gnus-extract-address-components 'mail-extract-address-components)
-   '(gnus-use-adaptive-scoring t)
-   '(gnus-decay-scores t)
-   '(gnus-default-adaptive-score-alist
-     '((gnus-unread-mark)
-       (gnus-ticked-mark (from 4))
-       (gnus-dormant-mark (from 5))
-       (gnus-del-mark (from -4) (subject -1))
-       (gnus-read-mark (from 4) (subject 2))
-       (gnus-expirable-mark (from -1) (subject -1))
-       (gnus-killed-mark (from -1) (subject -3))
-       (gnus-kill-file-mark)
-       (gnus-ancient-mark)
-       (gnus-low-score-mark)
-       (gnus-catchup-mark (from -1) (subject -1))))
-
-   '(gnus-thread-sort-functions
-     '(gnus-thread-sort-by-most-recent-date
-       gnus-thread-sort-by-score))
-
-   '(gnus-subthread-sort-functions
-     '(gnus-thread-sort-by-number
-       gnus-thread-sort-by-date)))
-
-  (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
-  (add-hook 'gnus-message-setup-hook #'flyspell-mode)
-  ;; (add-hook 'message-mode-hook 'turn-on-orgstruct)
-  ;; (add-hook 'message-mode-hook 'turn-on-orgtbl)
-  ;; (add-hook 'message-mode-hook 'turn-on-orgstruct++)
-
-  (custom-set-variables
-   '(gnus-buffer-configuration
-     '((group
-        (vertical 1.0
-                  (group 1.0 point)))
-       (summary
-        (horizontal 1.0
-                    (vertical 0.25
-                              (group 1.0))
-                    (vertical 1.0
-                              (summary 1.0 point))))
-       (article
-        (cond
-         (gnus-use-trees
-          '(vertical 1.0
-                     (summary 0.25 point)
-                     (tree 0.25)
-                     (article 1.0)))
-         (t
-          '(horizontal 1.0
-                       (vertical 0.4
-                                 (summary 1.0 point))
-                       (vertical 1.0
-                                 (article 1.0))))))
-       (server
-        (vertical 1.0
-                  (server 1.0 point)))
-       (browse
-        (vertical 1.0
-                  (browse 1.0 point)))
-       (message
-        (vertical 1.0
-                  (message 1.0 point)))
-       (pick
-        (vertical 1.0
-                  (article 1.0 point)))
-       (info
-        (vertical 1.0
-                  (info 1.0 point)))
-       (summary-faq
-        (vertical 1.0
-                  (summary 0.25)
-                  (faq 1.0 point)))
-       (only-article
-        (vertical 1.0
-                  (article 1.0 point)))
-       (edit-article
-        (vertical 1.0
-                  (article 1.0 point)))
-       (edit-form
-        (vertical 1.0
-                  (group 0.5)
-                  (edit-form 1.0 point)))
-       (edit-score
-        (vertical 1.0
-                  (summary 0.25)
-                  (edit-score 1.0 point)))
-       (edit-server
-        (vertical 1.0
-                  (server 0.5)
-                  (edit-form 1.0 point)))
-       (post
-        (vertical 1.0
-                  (post 1.0 point)))
-       (reply
-        (vertical 1.0
-                  (article 0.5)
-                  (message 1.0 point)))
-       (forward
-        (vertical 1.0
-                  (message 1.0 point)))
-       (reply-yank
-        (vertical 1.0
-                  (message 1.0 point)))
-       (mail-bounce
-        (vertical 1.0
-                  (article 0.5)
-                  (message 1.0 point)))
-       (pipe
-        (vertical 1.0
-                  (summary 0.25 point)
-                  ("*Shell Command Output*" 1.0)))
-       (bug
-        (vertical 1.0
-                  (if gnus-bug-create-help-buffer
-                      '("*Gnus Help Bug*" 0.5))
-                  ("*Gnus Bug*" 1.0 point)))
-       (score-trace
-        (vertical 1.0
-                  (summary 0.5 point)
-                  ("*Score Trace*" 1.0)))
-       (score-words
-        (vertical 1.0
-                  (summary 0.5 point)
-                  ("*Score Words*" 1.0)))
-       (split-trace
-        (vertical 1.0
-                  (summary 0.5 point)
-                  ("*Split Trace*" 1.0)))
-       (category
-        (vertical 1.0
-                  (category 1.0)))
-       (compose-bounce
-        (vertical 1.0
-                  (article 0.5)
-                  (message 1.0 point)))
-       (display-term
-        (vertical 1.0
-                  ("*display*" 1.0)))
-       (mml-preview
-        (vertical 1.0
-                  (message 0.5)
-                  (mml-preview 1.0 point)))))))
+  (gnus-subthread-sort-functions
+   '(gnus-thread-sort-by-number
+     gnus-thread-sort-by-date))
+  (gnus-buffer-configuration
+   '((group
+      (vertical 1.0
+                (group 1.0 point)))
+     (summary
+      (horizontal 1.0
+                  (vertical 0.25
+                            (group 1.0))
+                  (vertical 1.0
+                            (summary 1.0 point))))
+     (article
+      (cond
+       (gnus-use-trees
+        '(vertical 1.0
+                   (summary 0.25 point)
+                   (tree 0.25)
+                   (article 1.0)))
+       (t
+        '(horizontal 1.0
+                     (vertical 0.4
+                               (summary 1.0 point))
+                     (vertical 1.0
+                               (article 1.0))))))
+     (server
+      (vertical 1.0
+                (server 1.0 point)))
+     (browse
+      (vertical 1.0
+                (browse 1.0 point)))
+     (message
+      (vertical 1.0
+                (message 1.0 point)))
+     (pick
+      (vertical 1.0
+                (article 1.0 point)))
+     (info
+      (vertical 1.0
+                (info 1.0 point)))
+     (summary-faq
+      (vertical 1.0
+                (summary 0.25)
+                (faq 1.0 point)))
+     (only-article
+      (vertical 1.0
+                (article 1.0 point)))
+     (edit-article
+      (vertical 1.0
+                (article 1.0 point)))
+     (edit-form
+      (vertical 1.0
+                (group 0.5)
+                (edit-form 1.0 point)))
+     (edit-score
+      (vertical 1.0
+                (summary 0.25)
+                (edit-score 1.0 point)))
+     (edit-server
+      (vertical 1.0
+                (server 0.5)
+                (edit-form 1.0 point)))
+     (post
+      (vertical 1.0
+                (post 1.0 point)))
+     (reply
+      (vertical 1.0
+                (article 0.5)
+                (message 1.0 point)))
+     (forward
+      (vertical 1.0
+                (message 1.0 point)))
+     (reply-yank
+      (vertical 1.0
+                (message 1.0 point)))
+     (mail-bounce
+      (vertical 1.0
+                (article 0.5)
+                (message 1.0 point)))
+     (pipe
+      (vertical 1.0
+                (summary 0.25 point)
+                ("*Shell Command Output*" 1.0)))
+     (bug
+      (vertical 1.0
+                (if gnus-bug-create-help-buffer
+                    '("*Gnus Help Bug*" 0.5))
+                ("*Gnus Bug*" 1.0 point)))
+     (score-trace
+      (vertical 1.0
+                (summary 0.5 point)
+                ("*Score Trace*" 1.0)))
+     (score-words
+      (vertical 1.0
+                (summary 0.5 point)
+                ("*Score Words*" 1.0)))
+     (split-trace
+      (vertical 1.0
+                (summary 0.5 point)
+                ("*Split Trace*" 1.0)))
+     (category
+      (vertical 1.0
+                (category 1.0)))
+     (compose-bounce
+      (vertical 1.0
+                (article 0.5)
+                (message 1.0 point)))
+     (display-term
+      (vertical 1.0
+                ("*display*" 1.0)))
+     (mml-preview
+      (vertical 1.0
+                (message 0.5)
+                (mml-preview 1.0 point)))))
+  :hook
+  ((gnus-group-mode . gnus-topic-mode)
+   (gnus-message-setup . flyspell-mode)
+   ;; (message-mode . turn-on-orgtbl)
+   ;; (message-mode . turn-on-orgstruct)
+   ;; (message-mode . turn-on-orgstruct++)
+  ))
 
 (use-package go-mode
   :ensure t
@@ -793,8 +791,8 @@
    (structlayout-pretty . "go get honnef.co/go/tools/cmd/structlayout-pretty")
    (unconvert . "go get github.com/mdempsky/unconvert"))
   :bind
-  (("M-." . lsp-find-definition)
-   :map go-mode-map
+  (:map go-mode-map
+   ("M-." . lsp-find-definition)
    ("C-x f" . go-test-current-file)
    ("C-x t" . go-test-current-test)
    ("C-x p" . go-test-current-project))
@@ -840,11 +838,12 @@
 
 (use-package google-translate
   :ensure t
-  :defer t
   :commands google-translate-at-point)
 
 (use-package groovy-mode
   :ensure t
+  :mode (("\\.groovy\\'" . groovy-mode)
+         ("\\Jenkinsfile\\'" . groovy-mode))
   :config
   (use-package groovy-imports
     :ensure t))
@@ -857,25 +856,22 @@
 
 (use-package guess-language
   :ensure t
-  :defer t
-  :init
-  (add-hook 'text-mode-hook #'guess-language-mode)
-  :config
-  (custom-set-variables
-   '(guess-language-langcodes '((en . ("en_US" "English"))
-                                (de . ("de_DE" "German"))))
-   '(guess-language-languages '(en de))
-   '(guess-language-min-paragraph-length 45))
-  :diminish guess-language-mode)
+  :diminish guess-language-mode
+  :custom
+  (guess-language-langcodes '((en . ("en_US" "English"))
+                              (de . ("de_DE" "German"))))
+  (guess-language-languages '(en de))
+  (guess-language-min-paragraph-length 45)
+  :hook
+  ((text-mode . guess-language-mode)))
 
 (use-package hardcore-mode
   :ensure t
   :demand t
   :diminish hardcore-mode
-  :init
-  (custom-set-variables
-   '(too-hardcore-backspace t)
-   '(too-hardcore-return t))
+  :custom
+  (too-hardcore-backspace t)
+  (too-hardcore-return t)
   :config
   (global-hardcore-mode))
 
@@ -895,24 +891,24 @@
   (dolist (project (directory-files cabal-lib-dir t "\\w+"))
     (when (file-directory-p project)
       (add-to-list 'load-path project)))
-
-  (custom-set-variables
-   '(haskell-process-auto-import-loaded-modules  t)
-   '(haskell-process-log                         t)
-   '(haskell-process-suggest-hoogle-imports      t)
-   '(haskell-process-suggest-remove-import-lines t)
-   '(haskell-stylish-on-save                     t)
-   '(haskell-tags-on-save                        t))
-
-  (add-hook 'haskell-mode-hook #'(lambda () (ghc-init)))
-  (add-hook 'haskell-mode-hook #'subword-mode)
-  (add-hook 'haskell-mode-hook #'electric-indent-mode)
-  (add-hook 'haskell-mode-hook #'electric-layout-mode)
-  (add-hook 'haskell-mode-hook #'turn-on-haskell-indentation)
-  (add-hook 'haskell-mode-hook #'interactive-haskell-mode))
+  :custom
+  (haskell-process-auto-import-loaded-modules  t)
+  (haskell-process-log                         t)
+  (haskell-process-suggest-hoogle-imports      t)
+  (haskell-process-suggest-remove-import-lines t)
+  (haskell-stylish-on-save                     t)
+  (haskell-tags-on-save                        t)
+  :hook
+  ((haskell-mode . ghc-init)
+   (haskell-mode . subword-mode)
+   (haskell-mode . electric-indent-mode)
+   (haskell-mode . electric-layout-mode)
+   (haskell-mode . turn-on-haskell-indentation)
+   (haskell-mode . interactive-haskell-mode)))
 
 (use-package hcl-mode
-  :ensure t)
+  :ensure t
+  :mode ("\\.hcl\\'" . hcl-mode))
 
 (use-package helpful
   :ensure t
@@ -925,44 +921,42 @@
 (use-package highlight-numbers
   :ensure t
   :diminish highlight-numbers-mode
-  :config
-  (add-hook 'prog-mode-hook #'highlight-numbers-mode))
+  :hook
+  ((prog-mode . highlight-numbers-mode)))
 
 (use-package highlight-symbol
   :ensure t
   :demand t
   :diminish highlight-symbol-mode
+  :bind (("M-n" . highlight-symbol-next)
+         ("M-p" . highlight-symbol-prev))
+  :custom
+  (highlight-symbol-idle-delay 0.2)
+  (highlight-symbol-on-navigation-p t)
   :config
   (highlight-symbol-nav-mode)
-
-  (add-hook 'prog-mode-hook (lambda () (highlight-symbol-mode)))
-  (add-hook 'org-mode-hook (lambda () (highlight-symbol-mode)))
-
-  (setq highlight-symbol-idle-delay 0.2
-        highlight-symbol-on-navigation-p t)
-
-  (global-set-key (kbd "M-n") 'highlight-symbol-next)
-  (global-set-key (kbd "M-p") 'highlight-symbol-prev))
+  :hook
+  ((prog-mode . highlight-symbol-mode)
+   (org-mode  . highlight-symbol-mode)))
 
 (use-package hippie-exp
   :bind (("M-/" . hippie-expand))
-  :config
-  (custom-set-variables
-   '(hippie-expand-try-functions-list
-     '(try-expand-dabbrev
-       try-expand-dabbrev-all-buffers
-       try-expand-dabbrev-from-kill
-       try-complete-file-name-partially
-       try-complete-file-name
-       try-expand-all-abbrevs
-       try-expand-list
-       try-expand-line
-       try-complete-lisp-symbol-partially
-       try-complete-lisp-symbol))))
+  :custom
+  (hippie-expand-try-functions-list
+   '(try-expand-dabbrev
+     try-expand-dabbrev-all-buffers
+     try-expand-dabbrev-from-kill
+     try-complete-file-name-partially
+     try-complete-file-name
+     try-expand-all-abbrevs
+     try-expand-list
+     try-expand-line
+     try-complete-lisp-symbol-partially
+     try-complete-lisp-symbol)))
 
 (use-package ibuffer
-  :config
-  (add-hook 'ibuffer-hook #'ibuffer-do-sort-by-alphabetic))
+  :hook
+  ((ibuffer . ibuffer-do-sort-by-alphabetic)))
 
 (use-package ivy
   :ensure t
@@ -979,73 +973,79 @@
          ("M-y" . counsel-yank-pop)
          ("M-i" . swiper)
          ("C-c M-i" . swiper-multi))
+  :custom
+  (ivy-height 10)
+  (ivy-use-virtual-buffers nil)
+  (ivy-count-format "%d/%d ")
+  (ivy-virtual-abbreviate 'full)
+  (ivy-rich-path-style 'abbrev)
+  (ivy-rich-switch-buffer-align-virtual-buffer t)
+  (ivy-initial-inputs-alist nil)
+  (ivy-re-builders-alist
+   '((t . ivy--regex-fuzzy)))
   :config
   (use-package ivy-rich :ensure t)
   (use-package smex :ensure t)
   (use-package swiper :ensure t)
-  (custom-set-variables
-   '(ivy-height 10)
-   '(ivy-use-virtual-buffers nil)
-   '(ivy-count-format "%d/%d ")
-   '(ivy-virtual-abbreviate 'full)
-   '(ivy-rich-path-style 'abbrev)
-   '(ivy-rich-switch-buffer-align-virtual-buffer t)
-   '(ivy-initial-inputs-alist nil)
-   '(ivy-re-builders-alist
-     '((t . ivy--regex-fuzzy))))
-
   (ivy-set-actions
    'ivy-switch-buffer
    '(("k" kill-buffer "kill")
      ("r" ivy--rename-buffer-action "rename")))
-
   (ivy-mode))
 
 (use-package java
   :commands java-mode
+  :custom
+  (truncate-lines 0)
   :config
   (use-package javadoc-lookup
     :ensure t
     :commands (javadoc-lookup)
-    :config
-    (custom-set-variables
-     '(javadoc-lookup-completing-read-function #'completing-read))
-    (global-set-key (kbd "C-c C-e j") 'javadoc-lookup))
-
-  (add-hook 'java-mode-hook #'(lambda () (setq truncate-lines 0)))
-  (add-hook 'java-mode-hook #'c-toggle-auto-newline)
-  (add-hook 'java-mode-hook #'c-toggle-hungry-state)
-  (add-hook 'java-mode-hook #'electric-indent-mode)
-  (add-hook 'java-mode-hook #'electric-layout-mode)
-  (add-hook 'java-mode-hook #'flyspell-prog-mode)
-  (add-hook 'java-mode-hook #'subword-mode)
-  (add-hook 'java-mode-hook #'wisent-java-default-setup)
-  (add-hook 'java-mode-hook #'semantic-mode)
-  (add-hook 'java-mode-hook #'yas-minor-mode))
+    :custom
+    (javadoc-lookup-completing-read-function #'completing-read)
+    :bind
+    ("C-c C-e j" . javadoc-lookup))
+  :hook
+  ((java-mode . c-toggle-auto-newline)
+   (java-mode . c-toggle-hungry-state)
+   (java-mode . electric-indent-mode)
+   (java-mode . electric-layout-mode)
+   (java-mode . flyspell-prog-mode)
+   (java-mode . subword-mode)
+   (java-mode . wisent-java-default-setup)
+   (java-mode . semantic-mode)
+   (java-mode . yas-minor-mode)))
 
 (use-package jinja2-mode
-  :ensure t)
+  :ensure t
+  :mode ("\\.jinja\\'" . jinja2-mode))
 
 (use-package json-mode
   :ensure t
   :commands json-mode
-  :init
-  (use-package json-reformat :ensure t :defer t)
-  (use-package json-snatcher :ensure t :defer t))
+  :config
+  (use-package json-reformat
+    :ensure t
+    :commands json-reformat-region)
+  (use-package json-snatcher
+    :ensure t))
 
 (use-package js2-mode
   :ensure t
+  :commands (js2-mode js2-jsx-mode)
+  :custom
+  (truncate-lines 0)
   :config
   (use-package js2-refactor :ensure t :commands js2-refactor-mode)
-
-  (add-hook 'js2-mode-hook #'(lambda () (setq truncate-lines 0)))
-  (add-hook 'js2-mode-hook #'subword-mode)
-  (add-hook 'js2-mode-hook #'flyspell-prog-mode)
-  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-  (add-hook 'js2-mode-hook #'yas-minor-mode))
+  :hook
+  ((js2-mode . subword-mode)
+   (js2-mode . flyspell-prog-mode)
+   (js2-mode . js2-imenu-extras-mode)
+   (js2-mode . yas-minor-mode)))
 
 (use-package list-environment
-  :commands (list-environment))
+  :ensure t
+  :bind ("C-c h e" . list-environment))
 
 (use-package lsp-mode
   :ensure t
@@ -1071,20 +1071,22 @@
   :ensure t
   :bind (("C-c m g" . magit-status))
   :commands projectile-vc
-  :init
-  (custom-set-variables
-   '(magit-last-seen-setup-instructions "1.4.0")
-   '(magit-diff-options '("-b"))
-   '(magit-completing-read-function 'ivy-completing-read))
+  :custom
+  (magit-last-seen-setup-instructions "1.4.0")
+  (magit-diff-options '("-b"))
+  (magit-completing-read-function 'ivy-completing-read)
   :config
-  (use-package gitconfig-mode   :ensure t)
-  (use-package gitignore-mode   :ensure t))
+  (use-package gitconfig-mode :ensure t)
+  (use-package gitignore-mode :ensure t))
 
 (use-package markdown-mode
   :ensure t
+  :ensure-system-package (marked)
   :mode (("\\README\\.md\\'" . gfm-mode)
          ("\\.md\\'"          . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
+  :custom
+  (markdown-command "marked")
   :config
   (use-package markdown-preview-mode
     :ensure t
@@ -1092,19 +1094,15 @@
     (add-to-list
      'markdown-preview-stylesheets
      "https://raw.githubusercontent.com/richleland/pygments-css/master/emacs.css"))
-
-  (custom-set-variables
-   '(markdown-command "marked"))
-
-  (add-hook 'markdown-mode-hook #'flyspell-mode)
-  (add-hook 'markdown-mode-hook #'yas-minor-mode))
+  :hook
+  ((markdown-mode . flyspell-mode)
+   (markdown-mode . yas-minor-mode)))
 
 (use-package nix-mode
   :ensure t
   :mode (("\\.nix\\'" . nix-mode))
-  :config
-  (custom-set-variables
-   '(nix-indent-function #'nix-indent-line)))
+  :custom
+  (nix-indent-function #'nix-indent-line))
 
 (use-package nord-theme
   :disabled
@@ -1113,20 +1111,18 @@
   (load-theme 'nord t))
 
 (use-package nxml-mode
-  :defer t
   :commands nxml-mode
   :mode (("\\.xml\\'" . nxml-mode)
          ("\\.pom\\'" . nxml-mode))
+  :custom
+  (nxml-child-indent                     4)
+  (nxml-attribute-indent                 4)
+  (nxml-auto-insert-xml-declaration-flag t)
+  (nxml-bind-meta-tab-to-complete-flag   t)
+  (nxml-slash-auto-complete-flag         t)
+  (nxml-sexp-element-flag                t)
   :config
-  (push '("<\\?xml" . nxml-mode) magic-mode-alist)
-
-  (custom-set-variables
-   '(nxml-child-indent                     4)
-   '(nxml-attribute-indent                 4)
-   '(nxml-auto-insert-xml-declaration-flag t)
-   '(nxml-bind-meta-tab-to-complete-flag   t)
-   '(nxml-slash-auto-complete-flag         t)
-   '(nxml-sexp-element-flag                t)))
+  (push '("<\\?xml" . nxml-mode) magic-mode-alist))
 
 (use-package one-themes
   :ensure t
@@ -1138,14 +1134,10 @@
   :mode ("\\.org\\'" . org-mode)
   :bind (("\C-cc" . org-capture)
          ("\C-ca" . org-agenda)
-         ("\C-cl" . org-store-link))
-  :config
-  (use-package org-mobile :disabled)
-  (use-package org-protocol)
-  (use-package org-projectile :ensure t)
-  (use-package interleave :ensure t :commands interleave-mode)
-  (use-package ox-pandoc :ensure t)
-
+         ("\C-cl" . org-store-link)
+         :map org-mode-map
+         ("C-c C-o" . periklis/org-open-at-point))
+  :init
   (defun periklis/org-open-at-point (&optional arg)
     "Open link in external browser if ARG given."
     (interactive "P")
@@ -1153,9 +1145,18 @@
         (let ((browse-url-browser-function #'browse-url-default-browser))
           (org-open-at-point))
       (org-open-at-point)))
-
-  (define-key org-mode-map (kbd "C-c C-o") #'periklis/org-open-at-point)
-
+  :custom
+  (org-M-RET-may-split-line '((default . nil)))
+  (org-agenda-include-diary t)
+  (org-special-ctrl-a/e  t)
+  (org-use-speed-commands t)
+  (org-tags-column -120)
+  :config
+  (use-package org-mobile :disabled)
+  (use-package org-protocol)
+  (use-package org-projectile :ensure t)
+  (use-package interleave :ensure t :commands interleave-mode)
+  (use-package ox-pandoc :ensure t)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
@@ -1163,19 +1164,11 @@
      (java . t)
      (js . t)
      (makefile . t)
-     (shell . t)
-     ))
-
-  (custom-set-variables
-   '(org-M-RET-may-split-line '((default . nil)))
-   '(org-agenda-include-diary t)
-   '(org-special-ctrl-a/e  t)
-   '(org-use-speed-commands t)
-   '(org-tags-column -120))
-
-  (add-hook 'org-mode-hook #'auto-revert-mode)
-  (add-hook 'ord-mode-hook #'flyspell-mode)
-  (add-hook 'org-mode-hook #'yas-minor-mode))
+     (shell . t)))
+  :hook
+  ((org-mode . auto-revert-mode)
+   (ord-mode . flyspell-mode)
+   (org-mode . yas-minor-mode)))
 
 (use-package pandoc-mode
   :ensure t
@@ -1197,85 +1190,83 @@
 (use-package paradox
   :ensure t
   :commands paradox-list-packages
+  :custom
+  (paradox-github-token t)
   :config
-  (custom-set-variables
-   '(paradox-github-token t))
   (paradox-enable))
 
 (use-package pdf-tools
   :ensure t
   :mode "\\.pdf\\'"
   :config
-  (pdf-tools-install)
+  (pdf-tools-install :no-query)
   (pdf-tools-enable-minor-modes))
 
 (use-package pinentry
   :disabled
   :ensure t
+  :custom
+  (epa-pinentry-mode 'loopback)
   :config
-  (custom-set-variables
-   '(epa-pinentry-mode 'loopback))
   (pinentry-start))
 
 (use-package projectile
   :ensure t
   :demand t
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :custom
+  (projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
+  (projectile-mode-line-lighter "")
+  (projectile-enable-caching t)
+  (projectile-completion-system 'ivy)
   :config
   (use-package counsel-projectile :ensure t)
-  (custom-set-variables
-   '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
-   '(projectile-mode-line-lighter "")
-   '(projectile-enable-caching t)
-   '(projectile-completion-system 'ivy))
-
   (projectile-mode)
-  (counsel-projectile-mode)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  (counsel-projectile-mode))
 
 (use-package php-mode
   :ensure t
   :commands (php-mode)
+  :preface
+  (defvar company-semantic-modes)
+  :bind(:map php-mode-map
+             ("C-c C-y" . yas/create-php-snippet)
+             ("C-x s" . company-semantic)
+             ("C-x t" . phpunit-current-test)
+             ("C-x c" . phpunit-current-class)
+             ("C-x p" . phpunit-current-project))
+  :custom
+  (truncate-lines 0)
+  (php-mode-speedbar-open nil)
+  (php-refactor-command "refactor")
+  (phpunit-arg "")
+  (phpunit-program "phpunit --colors --disallow-test-output")
+  (phpunit-stop-on-error t)
+  (phpunit-stop-on-failure t)
+  (php-auto-yasnippet-php-program
+   (expand-file-name
+    "elpa/php-auto-yasnippets-20141128.1411/Create-PHP-YASnippet.php"
+    user-emacs-directory))
   :config
   (use-package phpcbf              :ensure t :commands php-mode)
   (use-package php-refactor-mode   :ensure t :commands php-mode)
   (use-package php-auto-yasnippets :ensure t :commands php-mode)
   (use-package phpunit             :ensure t :commands php-mode)
-
-  (custom-set-variables
-   '(php-mode-speedbar-open nil)
-   '(php-refactor-command "refactor")
-   '(phpunit-arg "")
-   '(phpunit-program "phpunit --colors --disallow-test-output")
-   '(phpunit-stop-on-error t)
-   '(phpunit-stop-on-failure t)
-   '(php-auto-yasnippet-php-program
-     (expand-file-name
-      "elpa/php-auto-yasnippets-20141128.1411/Create-PHP-YASnippet.php"
-      user-emacs-directory)))
-
   (defun periklis/setup-php-comany-backends ()
     "Setup company backends for php-mode."
     (set (make-local-variable 'company-backends) '(company-semantic company-gtags))
     (add-to-list 'company-semantic-modes 'php-mode))
-
-  (add-hook 'php-mode-hook #'periklis/setup-php-comany-backends)
-  (add-hook 'php-mode-hook #'(lambda () (setq truncate-lines 0)))
-  (add-hook 'php-mode-hook #'electric-indent-mode)
-  (add-hook 'php-mode-hook #'electric-layout-mode)
-  (add-hook 'php-mode-hook #'c-toggle-auto-newline)
-  (add-hook 'php-mode-hook #'c-toggle-hungry-state)
-  (add-hook 'php-mode-hook #'flyspell-prog-mode)
-  (add-hook 'php-mode-hook #'php-refactor-mode)
-  (add-hook 'php-mode-hook #'semantic-php-default-setup)
-  (add-hook 'php-mode-hook #'semantic-mode)
-  (add-hook 'php-mode-hook #'subword-mode)
-
-  ;; key bindings
-  (define-key php-mode-map (kbd "C-c C-y") 'yas/create-php-snippet)
-  (define-key php-mode-map (kbd "C-x s") 'company-semantic)
-  (define-key php-mode-map (kbd "C-x t") 'phpunit-current-test)
-  (define-key php-mode-map (kbd "C-x c") 'phpunit-current-class)
-  (define-key php-mode-map (kbd "C-x p") 'phpunit-current-project))
+  :hook
+  ((php-mode . periklis/setup-php-comany-backends)
+   (php-mode . electric-indent-mode)
+   (php-mode . electric-layout-mode)
+   (php-mode . c-toggle-auto-newline)
+   (php-mode . c-toggle-hungry-state)
+   (php-mode . flyspell-prog-mode)
+   (php-mode . php-refactor-mode)
+   (php-mode . semantic-php-default-setup)
+   (php-mode . semantic-mode)
+   (php-mode . subword-mode)))
 
 (use-package powerline
   :ensure t
@@ -1287,51 +1278,55 @@
 
 (use-package prettier-js
   :ensure t
-  :config
-  (add-hook 'web-mode-hook 'prettier-js-mode))
+  :commands prettier-js-mode
+  :hook
+  ((web-mode . prettier-js-mode)))
 
 (use-package python-mode
+  :ensure t
   :mode ("\\.py\\'" . python-mode)
+  :custom
+  (elpy-rpc-backend "jedi")
+  (jedi:setup-keys t)
+  (jedi:complete-on-dot t)
+  (python-shell-interpreter "ipython")
+  (python-shell-interpreter-args "-i")
   :config
   (use-package elpy :ensure t)
   (use-package jedi :ensure t)
   (use-package company-jedi :ensure t)
   (use-package py-autopep8 :ensure t)
   (use-package virtualenv :ensure t)
-  (custom-set-variables
-   '(elpy-rpc-backend "jedi")
-     '(jedi:setup-keys t)
-     '(jedi:complete-on-dot t)
-     '(python-shell-interpreter "ipython")
-     '(python-shell-interpreter-args "-i"))
-  (elpy-use-ipython)
-  (add-hook 'python-mode-hook #'jedi:setup)
-  (add-hook 'python-mode-hook #'py-autopep8-enable-on-save))
+  :hook
+  ((python-mode . jedi:setup)
+   (python-mode . py-autopep8-enable-on-save)))
 
 (use-package realgud
+  :ensure t
   :commands (realgud))
 
 (use-package restclient
   :ensure t
   :mode ("\\.rest\\'" . restclient-mode)
-  :config
-  (custom-set-variables
-   '(restclient-log-request nil)))
+  :custom
+  (restclient-log-request nil))
 
 (use-package rust-mode
   :ensure t
   :mode ("\\.rs\\'" . rust-mode)
+  :bind (:map rust-mode-map
+              ("TAB" . company-indent-or-complete-common))
   :config
   (use-package cargo :ensure t)
   (use-package toml-mode :ensure t)
   (use-package racer :ensure t)
   (use-package flycheck-rust :ensure t)
-  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
-  (add-hook 'rust-mode-hook #'cargo-minor-mode)
-  (add-hook 'rust-mode-hook #'company-mode)
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  :hook
+  ((rust-mode . cargo-minor-mode)
+   (rust-mode . company-mode)
+   (rust-mode . racer-mode)
+   (racer-mode . eldoc-mode)
+   (flycheck-mode . flycheck-rust-setup)))
 
 (use-package sass-mode
   :ensure t
@@ -1340,11 +1335,10 @@
 (use-package sbt-mode
   :ensure t
   :commands (sbt-start sbt-command)
+  :custom
+  (sbt:program-options '("-Djline.terminal=auto"))
+  (sbt:scroll-to-bottom-on-output t)
   :config
-  (custom-set-variables
-   '(sbt:program-options '("-Djline.terminal=auto"))
-   '(sbt:scroll-to-bottom-on-output t))
-
   (substitute-key-definition
    'minibuffer-complete-word
    'self-insert-command
@@ -1353,9 +1347,9 @@
 (use-package scala-mode
   :ensure t
   :mode "\\.s\\(cala\\|bt\\)$"
-  :config
-  (add-hook 'scala-mode-hook #'auto-revert-mode)
-  (add-hook 'scala-mode-hook #'lsp))
+  :hook
+  ((scala-mode . auto-revert-mode)
+   (scala-mode . lsp)))
 
 (use-package semantic
   :commands (semantic-mode)
@@ -1381,21 +1375,20 @@
 
 (use-package smartparens
   :ensure t
+  :bind (:map smartparens-mode-map
+              ("C-M-t" . sp-transpose-sexp)
+              ("C-(" . sp-forward-barf-sexp)
+              ("C-)" . sp-forward-slurp-sexp)
+              ("M-(" . sp-backward-barf-sexp)
+              ("M-)" . sp-backward-slurp-sexp)
+              ("C-M-[" . sp-select-previous-thing)
+              ("C-M-]" . sp-select-next-thing))
   :init
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
-
   (add-hook 'prog-mode-hook 'turn-on-smartparens-mode)
   (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
-
-  (define-key smartparens-mode-map (kbd "C-M-t") 'sp-transpose-sexp)
-  (define-key smartparens-mode-map (kbd "C-(") 'sp-forward-barf-sexp)
-  (define-key smartparens-mode-map (kbd "C-)") 'sp-forward-slurp-sexp)
-  (define-key smartparens-mode-map (kbd "M-(") 'sp-backward-barf-sexp)
-  (define-key smartparens-mode-map (kbd "M-)") 'sp-backward-slurp-sexp)
-  (define-key smartparens-mode-map (kbd "C-M-[") 'sp-select-previous-thing)
-  (define-key smartparens-mode-map (kbd "C-M-]") 'sp-select-next-thing)
-
+  :config
   ;; Handle backspace in c-like modes better for smartparens
   (bind-key [remap c-electric-backspace]
             'sp-backward-delete-char smartparens-strict-mode-map)
@@ -1415,42 +1408,44 @@
     (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET")))
     (sp-local-pair "/*" "*/" :post-handlers '((" | " "SPC")
                                               ("* ||\n[i]" "RET"))))
-  :config
   (smartparens-global-strict-mode -1)
   (smartparens-global-mode 1)
-  (show-smartparens-global-mode -1))
+  (show-smartparens-global-mode -1)
+  ;; :hook
+  ;; ((prog-mode .turn-on-smartparens-mode)
+  ;;  (minibuffer-setup . turn-on-smartparens-strict-mode)))
+  )
 
 (use-package srefactor
   :ensure t
   :commands (srefactor-refactor-at-point)
-  :config
-  (define-key c-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
-  (define-key c++-mode-map (kbd "M-RET") 'srefactor-refactor-at-point))
+  :bind (:map c-mode-map
+         ("M-RET" . srefactor-refactor-at-point)
+         :map c++-mode-map
+         ("M-RET" . srefactor-refactor-at-point)))
 
 (use-package shell
   :ensure t
-  :demand t
+  :commands (shell)
+  :custom
+  (shell-dirtrack-verbose nil)
   :config
   (require 'ansi-color)
   (defun colorize-compilation-buffer ()
     "Turns ascii colors in compilation buffer."
     (read-only-mode)
     (ansi-color-apply-on-region (point-min) (point-max)))
-
-  (custom-set-variables
-   '(shell-dirtrack-verbose nil))
-
-  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
+  :hook
+  ((compilation-filter . colorize-compilation-buffer)))
 
 (use-package ssh
   :ensure t
   :commands ssh
-  :config
-  (add-hook 'ssh-mode-hook
-            (lambda ()
-              (setq ssh-directory-tracking-mode t)
-              (shell-dirtrack-mode t)
-              (setq shell-dirtrackp nil))))
+  :custom
+  (ssh-directory-tracking-mode t)
+  (shell-dirtrackp nil)
+  :hook
+  ((ssh-mode . shell-dirtrack-mode)))
 
 (use-package ssh-config-mode
   :ensure t
@@ -1466,12 +1461,11 @@
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
     (tide-hl-identifier-mode +1))
-
-  (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (add-hook 'typescript-mode-hook #'display-line-numbers-mode)
-  (add-hook 'typescript-mode-hook #'flyspell-prog-mode)
-
-  (add-hook 'js2-mode-hook #'setup-tide-mode))
+  :hook
+  ((typescript-mode . setup-tide-mode)
+   (typescript-mode . display-line-numbers-mode)
+   (typescript-mode . flyspell-prog-mode)
+   (js2-mode . setup-tide-mode)))
 
 (use-package typescript-mode
   :ensure t
@@ -1479,27 +1473,23 @@
          ("\\.spec\\'" . typescript-mode)))
 
 (use-package tramp
-  :demand t
   :bind ("C-c s" . counsel-tramp)
+  :custom
+  (tramp-default-method "ssh")
+  (tramp-histfile-override nil)
+  (vc-ignore-dir-regexp
+   (format "\\(%s\\)\\|\\(%s\\)"
+           vc-ignore-dir-regexp
+           tramp-file-name-regexp))
   :config
   (use-package counsel-tramp :ensure t)
   (use-package docker-tramp :ensure t)
   (use-package tramp-term   :ensure t)
   (defalias 'exit-tramp 'tramp-cleanup-all-buffers)
-
-  (custom-set-variables
-   '(tramp-default-method "ssh")
-   '(tramp-histfile-override nil)
-   '(vc-ignore-dir-regexp
-     (format "\\(%s\\)\\|\\(%s\\)"
-             vc-ignore-dir-regexp
-             tramp-file-name-regexp)))
-
   (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
 
 (use-package undo-tree
   :ensure t
-  :demand t
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode))
@@ -1510,36 +1500,35 @@
          ("\\.htm\\'" . web-mode)
          ("\\.jsx\\'" . web-mode)
          ("\\.tsx\\'" . web-mode))
+  :custom
+  (web-mode-enable-current-element-highlight nil)
+  (web-mode-enable-current-column-highlight nil)
   :config
-  (custom-set-variables
-   '(web-mode-enable-current-element-highlight nil)
-   '(web-mode-enable-current-column-highlight nil))
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "jsx" (file-name-extension buffer-file-name))
-                (tide-mode))))
-
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (tide-setup)))))
+  :hook
+  ((web-mode
+    .
+    (lambda ()
+      (when (string-equal "jsx" (file-name-extension buffer-file-name))
+        (tide-mode))))
+   (web-mode
+    .
+    (lambda ()
+      (when (string-equal "tsx" (file-name-extension buffer-file-name))
+        (tide-setup))))))
 
 (use-package which-key
   :ensure t
-  :demand t
   :diminish which-key-mode
-  :init
+  :custom
+  (which-key-sort-order 'which-key-key-order-alpha)
+  (which-key-use-C-h-commands t)
+  :config
   (which-key-mode)
-  (which-key-setup-minibuffer)
-  (custom-set-variables
-   '(which-key-sort-order 'which-key-key-order-alpha)
-   '(which-key-use-C-h-commands t)))
+  (which-key-setup-minibuffer))
 
 (use-package whitespace-cleanup-mode
   :ensure t
-  :demand t
   :diminish whitespace-cleanup-mode
   :config
   (global-whitespace-cleanup-mode))
@@ -1547,33 +1536,32 @@
 (use-package wgrep
   :ensure t
   :commands (grep rgrep)
-  :config
-  (custom-set-variables
-   '(wgrep-auto-save-buffer t))
-  (define-key grep-mode-map (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode)
-  (define-key grep-mode-map (kbd "C-c C-c") 'wgrep-finish-edit))
+  :bind (:map grep-mode-map
+              ("C-x C-q" . wgrep-change-to-wgrep-mode)
+              ("C-c C-c" . wgrep-finish-edit))
+  :custom
+  (wgrep-auto-save-buffer t))
 
 (use-package with-editor
   :ensure t
-  :init
-  (progn
-    (add-hook 'shell-mode-hook  'with-editor-export-editor)
-    (add-hook 'eshell-mode-hook 'with-editor-export-editor)))
+  :hook
+  ((shell-mode . with-editor-export-editor)
+   (eshell-mode . with-editor-export-editor)))
 
 (use-package xterm-color
   :ensure t
   :disabled
   :config
-  (progn (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
-         (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
-         ;;(setq font-lock-unfontify-region-function 'xterm-color-unfontify-region)
-         ))
+  (progn
+    (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter)
+    (setq comint-output-filter-functions (remove 'ansi-color-process-output comint-output-filter-functions))
+    (setq font-lock-unfontify-region-function 'xterm-color-unfontify-region)))
 
 (use-package yaml-mode
   :ensure t
   :mode ("\\.yml\\'" . yaml-mode)
-  :config
-  (add-hook 'yaml-mode-hook #'yas-minor-mode))
+  :hook
+  ((yaml-mode . yas-minor-mode)))
 
 (use-package yasnippet
   :ensure t
@@ -1581,12 +1569,11 @@
               ("C-c y" . yas-expand))
   :commands yas-minor-mode
   :diminish  yas-minor-mode
+  :custom
+  (yas-prompt-functions '(yas-completing-prompt))
   :config
   (use-package auto-yasnippet :ensure t)
-  (use-package yasnippet-snippets :ensure t)
-  (custom-set-variables
-   '(yas-prompt-functions
-     '(yas-completing-prompt))))
+  (use-package yasnippet-snippets :ensure t))
 
 ;; Add global key bindings
 (use-package key-bindings
