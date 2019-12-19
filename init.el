@@ -552,6 +552,15 @@
   :ensure t
   :bind (("C-=" . er/expand-region)))
 
+(use-package fast-scroll
+  :ensure
+  :config
+  (fast-scroll-config)
+  (fast-scroll-mode 1)
+  :hook
+  ((fast-scroll-start-hook . (lambda () (flycheck-mode -1)))
+   (fast-scroll-end-hook . (lambda () (flycheck-mode 1)))))
+
 (use-package ffap
   :bind (("C-x C-f" . find-file-at-point)
          ("C-x C-r" . ffap-read-only)
