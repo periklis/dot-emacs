@@ -953,8 +953,13 @@
      try-complete-lisp-symbol)))
 
 (use-package ibuffer
+  :config
+  (use-package ibuffer-vc :ensure t)
   :hook
-  ((ibuffer . ibuffer-do-sort-by-alphabetic)))
+  ((ibuffer . (lambda ()
+                (ibuffer-vc-set-filter-groups-by-vc-root)
+                (unless (eq ibuffer-sorting-mode 'alphabetic)
+                  (ibuffer-do-sort-by-alphabetic))))))
 
 (use-package ivy
   :ensure t
