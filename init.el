@@ -1199,6 +1199,7 @@
 (use-package pdf-tools
   :ensure t
   :mode "\\.pdf\\'"
+  :magic-fallback ("%PDF" . pdf-view-mode)
   :config
   (pdf-tools-install :no-query)
   (pdf-tools-enable-minor-modes))
