@@ -222,13 +222,15 @@
   (auto-compile-on-load-mode 1)
   (auto-compile-on-save-mode 1))
 
-;; (use-package auto-package-update
-;;   :ensure t
-;;   :config
-;;   (custom-set-variables
-;;    '(auto-package-update-delete-old-versions t)
-;;    '(auto-package-update-hide-results t))
-;;   (auto-package-update-maybe))
+(use-package auto-package-update
+  :ensure t
+  :custom
+  (auto-package-update-interval 14)
+  (auto-package-update-prompt-before-update t)
+  (auto-package-update-delete-old-versions t)
+  (auto-package-update-hide-results t)
+  :config
+  (auto-package-update-maybe))
 
 (use-package bbdb
   :ensure t
