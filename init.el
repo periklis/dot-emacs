@@ -182,9 +182,9 @@
 (use-package let-alist            :ensure t :defer t)
 (use-package popwin               :ensure t :demand t
   :config
-  (custom-set-variables
-   '(popwin:popup-window-width 100)
-   '(popwin:popup-window-position 'right)))
+  :custom
+  (popwin:popup-window-width 100)
+  (popwin:popup-window-position 'right))
 (use-package s                    :ensure t :defer t)
 (use-package uuidgen              :ensure t :defer t)
 (use-package xml-rpc              :ensure t :defer t)
