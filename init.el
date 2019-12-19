@@ -265,8 +265,10 @@
          ("\\.tpp\\'" . c++-mode))
   :config
   (use-package eassist
-    :bind (:map c-mode-base-map
-                ("M-o" . eassist-switch-h-cpp)))
+    :bind
+    (:map c-mode-base-map
+          ("M-o" . eassist-switch-h-cpp)))
+
   (use-package google-c-style :ensure t :defer t)
 
   (use-package cmake-ide
@@ -274,28 +276,27 @@
     :config
     (use-package rtags
       :disabled
+      :custom
+      (rtags-autostart-diagnostics t)
+      (rtags-completions-enabled t)
       :config
-      (custom-set-variables
-       '(rtags-autostart-diagnostics t)
-       '(rtags-completions-enabled t))
-
       (rtags-enable-standard-keybindings)
       (rtags-diagnostics)
-
       (use-package flycheck-rtags)
       (use-package company-rtags)
       (defun periklis/company-rtags()
         "Push company-rtags to company-backends."
         (set (make-local-variable 'company-backends) '(company-rtags)))
+      :hook
+      ((c-mode-common . periklis/company-rtags)
+       (c++-mode-common . periklis/company-rtags)))
 
-      (add-hook 'c-mode-common-hook #'periklis/company-rtags)
-      (add-hook 'c++-mode-common-hook #'periklis/company-rtags))
     (cmake-ide-setup)
     (remove-hook 'before-save-hook 'cide--before-save))
-
-  (add-hook 'c-mode-common-hook #'flyspell-prog-mode)
-  (add-hook 'c-mode-common-hook #'google-set-c-style)
-  (add-hook 'c-mode-common-hook #'google-make-newline-indent))
+  :hook
+  ((c-mode-common . flyspell-prog-mode)
+   (c-mode-common . google-set-c-style)
+   (c-mode-common . google-make-newline-indent)))
 
 (use-package ctags
   :commands (create-tags create-project-tags)
