@@ -106,9 +106,8 @@
   (require 'use-package)
   (use-package use-package-ensure-system-package
     :ensure t
-    :config
-    (custom-set-variables
-     '(system-packages-noconfirm t))))
+    :custom
+    (system-packages-noconfirm t)))
 
 ;; Custom variables definitions
 (custom-set-variables
