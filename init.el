@@ -1215,6 +1215,10 @@
   :ensure t
   :demand t
   :bind-keymap ("C-c p" . projectile-command-map)
+  :bind (:map projectile-command-map
+              ("s f" . find-file-in-project)
+              ("s a" . find-file-in-project-at-point)
+              ("s s" . find-file-in-project-by-selected))
   :custom
   (projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
   (projectile-mode-line-lighter "")
@@ -1222,6 +1226,10 @@
   (projectile-completion-system 'ivy)
   :config
   (use-package counsel-projectile :ensure t)
+  (use-package find-file-in-project
+    :ensure t
+    :custom
+    (ffip-use-rust-fd t))
   (projectile-mode)
   (counsel-projectile-mode))
 
