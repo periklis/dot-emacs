@@ -781,13 +781,23 @@
    (structlayout-optimize . "go get honnef.co/go/tools/cmd/structlayout-optimize")
    (structlayout-pretty . "go get honnef.co/go/tools/cmd/structlayout-pretty")
    (unconvert . "go get github.com/mdempsky/unconvert"))
+  :bind
+  (("M-." . lsp-find-definition)
+   :map go-mode-map
+   ("C-x f" . go-test-current-file)
+   ("C-x t" . go-test-current-test)
+   ("C-x p" . go-test-current-project))
+  :custom
+  (gofmt-command "goimports")
+  (godoc-and-godef-command "go doc")
+  (go-packages-function 'go-packages-go-list)
   :config
   (use-package go-dlv :ensure t)
   (use-package go-errcheck :ensure t)
   (use-package go-fill-struct :ensure t)
   (use-package go-gen-test :ensure t)
   (use-package go-guru :ensure t)
-  (use-package go-imenu :ensure t)
+  (use-package go-imenu :ensure t)1
   (use-package go-impl :ensure t)
   (use-package go-imports :ensure t)
   (use-package go-projectile :ensure t)
@@ -795,19 +805,8 @@
   (use-package go-snippets :ensure t)
   (use-package gotest :ensure t)
 
-  (custom-set-variables
-   '(gofmt-command "goimports")
-   '(godoc-and-godef-command "go doc")
-   '(go-packages-function 'go-packages-go-list))
-
-  ;; Temporary go-vet fix until https://github.com/flycheck/flycheck/pull/1548
-  (let ((govet (flycheck-checker-get 'go-vet 'command)))
-    (when (equal (cadr govet) "tool")
-      (setf (cdr govet) (cddr govet))))
-
   (defun periklis/setup-go-mode ()
     "Extra setup for go-mode."
-    (local-set-key (kbd "M-.") 'lsp-find-definition)
     (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
            "go build -v && go test -v && go vet"))
@@ -817,19 +816,16 @@
     (projectile-register-project-type 'gomake projectile-go-project-test-function
                                   :compile "go build"
                                   :test "go test ./..."
-                                  :test-suffix "_test")
-    (define-key go-mode-map (kbd "C-x f") 'go-test-current-file)
-    (define-key go-mode-map (kbd "C-x t") 'go-test-current-test)
-    (define-key go-mode-map (kbd "C-x p") 'go-test-current-project))
-
-  (add-hook 'before-save-hook #'gofmt-before-save)
-  (add-hook 'go-mode-hook #'subword-mode)
-  (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
-  (add-hook 'go-mode-hook #'periklis/setup-go-mode)
-  (add-hook 'go-mode-hook #'company-mode)
-  (add-hook 'go-mode-hook #'go-eldoc-setup)
-  (add-hook 'go-mode-hook #'go-imenu-setup)
-  (add-hook 'go-mode-hook #'lsp-deferred))
+                                  :test-suffix "_test"))
+  :hook
+  ((before-save . gofmt-before-save)
+   (go-mode . subword-mode)
+   (go-mode . go-guru-hl-identifier-mode)
+   (go-mode . periklis/setup-go-mode)
+   (go-mode . company-mode)
+   (go-mode . go-eldoc-setup)
+   (go-mode . go-imenu-setup)
+   (go-mode . lsp-deferred)))
 
 (use-package google-translate
   :ensure t
