@@ -828,11 +828,11 @@
   ((before-save . gofmt-before-save)
    (go-mode . subword-mode)
    (go-mode . go-guru-hl-identifier-mode)
-   (go-mode . periklis/setup-go-mode)
    (go-mode . company-mode)
    (go-mode . go-eldoc-setup)
    (go-mode . go-imenu-setup)
-   (go-mode . lsp-deferred)))
+   (go-mode . lsp-deferred)
+   (go-mode . periklis/setup-go-mode)))
 
 (use-package google-translate
   :ensure t
@@ -1059,7 +1059,12 @@
          ("C-c C-l i" . lsp-ui-imenu))
   :config
   (use-package company-lsp :ensure t)
-  (use-package lsp-ui :ensure t))
+  (use-package lsp-ui
+    :ensure t
+    :custom
+    (lsp-ui-flycheck-enable nil)
+    (lsp-ui-doc-enable nil)
+    (lsp-ui-sideline-enable nil)))
 
 (use-package macrostep
   :ensure t
