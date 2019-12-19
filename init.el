@@ -205,46 +205,57 @@
   :ensure t
   :commands (alert)
   :init
-  (custom-set-variables
-   '(alert-default-style 'notifier)
-   '(alert-severity-colors
-     '((urgent   . "red")
-       (high     . "orange")
-       (moderate . "yellow")
-       (normal   . "grey85")
-       (low      . "blue")
-       (trivial . "purple")))))
+  :custom
+  (alert-default-style 'notifier)
+  (alert-severity-colors
+   '((urgent   . "red")
+     (high     . "orange")
+     (moderate . "yellow")
+     (normal   . "grey85")
+     (low      . "blue")
+     (trivial . "purple"))))
 
 (use-package auto-compile
   :ensure t
+  :custom
+  (auto-compile-display-buffer nil)
+  (auto-compile-mode-line-counter t)
   :config
-  (setq auto-compile-display-buffer nil)
-  (setq auto-compile-mode-line-counter t)
   (auto-compile-on-load-mode 1)
   (auto-compile-on-save-mode 1))
 
+;; (use-package auto-package-update
+;;   :ensure t
+;;   :config
+;;   (custom-set-variables
+;;    '(auto-package-update-delete-old-versions t)
+;;    '(auto-package-update-hide-results t))
+;;   (auto-package-update-maybe))
+
 (use-package bbdb
   :ensure t
-  :demand t
+  :commands bbdb
+  :custom
+  (bbdb-mua-update-interactive-p '(query . create))
+  (bbdb-mua-auto-update-init 'message)
+  (bbdb-offer-to-create t)
+  (bbdb-message-all-addresses t)
+  (bbdb-north-american-phone-numbers-p nil)
+  (bbdb-complete-name-allow-cycling t)
+  (bbdb-use-pop-up nil)
   :config
   (use-package counsel-bbdb :ensure t)
   (bbdb-initialize 'gnus 'message)
   (bbdb-insinuate-gnus)
-  (bbdb-mua-auto-update-init 'gnus 'message)
-  (custom-set-variables
-   '(bbdb-mua-update-interactive-p '(query . create))
-   '(bbdb-mua-auto-update-init 'message)
-   '(bbdb-offer-to-create t)
-   '(bbdb-message-all-addresses t)
-   '(bbdb-north-american-phone-numbers-p nil)
-   '(bbdb-complete-name-allow-cycling t)
-   '(bbdb-use-pop-up nil)))
+  (bbdb-mua-auto-update-init 'gnus 'message))
 
 (use-package calendar
   :config
-  (add-hook 'diary-list-entries-hook 'diary-sort-entries t)
-  (add-hook 'diary-list-entries-hook 'diary-include-other-diary-files)
-  (add-hook 'diary-mark-entries-hook 'diary-mark-included-diary-files))
+  :commands calendar
+  :hook
+  ((diary-list-entries . diary-sort-entries)
+   (diary-list-entries . diary-include-other-diary-files)
+   (diary-mark-entries . diary-mark-included-diary-files)))
 
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
