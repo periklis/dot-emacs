@@ -554,12 +554,11 @@
 
 (use-package fast-scroll
   :ensure
+  :custom
+  (fast-scroll-throttle 0.5)
   :config
   (fast-scroll-config)
-  (fast-scroll-mode 1)
-  :hook
-  ((fast-scroll-start-hook . (lambda () (flycheck-mode -1)))
-   (fast-scroll-end-hook . (lambda () (flycheck-mode 1)))))
+  (fast-scroll-mode 1))
 
 (use-package ffap
   :bind (("C-x C-f" . find-file-at-point)
