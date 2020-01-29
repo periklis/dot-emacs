@@ -811,8 +811,7 @@
   (use-package go-errcheck :ensure t)
   (use-package go-fill-struct :ensure t)
   (use-package go-gen-test :ensure t)
-  (use-package go-guru :ensure t)
-  (use-package go-imenu :ensure t)1
+  (use-package go-imenu :ensure t)
   (use-package go-impl :ensure t)
   (use-package go-imports :ensure t)
   (use-package go-projectile :ensure t)
@@ -835,9 +834,7 @@
   :hook
   ((before-save . gofmt-before-save)
    (go-mode . subword-mode)
-   (go-mode . go-guru-hl-identifier-mode)
    (go-mode . company-mode)
-   (go-mode . go-eldoc-setup)
    (go-mode . go-imenu-setup)
    (go-mode . lsp-deferred)
    (go-mode . periklis/setup-go-mode)))
