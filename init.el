@@ -461,11 +461,16 @@
   (advice-add #'ecb-activate--impl :after #'ecb-not-using-layout-advices))
 
 (use-package ediff
-  :defer t
+  :commands (ediff ediff3)
   :custom
   (ediff-diff-options "-w")
   (ediff-split-window-function 'split-window-vertically)
-  (ediff-ignore-similar-regions t))
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-ignore-similar-regions t)
+  :hook
+  ((ediff-startup . ediff-toggle-wide-display)
+   (ediff-cleanup . ediff-toggle-wide-display)
+   (ediff-suspend . ediff-toggle-wide-display)))
 
 (use-package elm-mode
   :disabled
