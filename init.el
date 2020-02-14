@@ -788,6 +788,7 @@
                           (go-outline . "go get github.com/lukehoban/go-outline")
                           (go-symbolds . "go get github.com/newhook/go-symbols")
                           (godef . "go get github.com/rogpeppe/godef")
+                          (goimports . "go get golang.org/x/tools/cmd/goimports")
                           (golint . "go get golang.org/x/lint/golint")
                           (gomodifytags . "go get github.com/fatih/gomodifytags")
                           (gopkgs . "GO111MODULE=on go get github.com/uudashr/gopkgs/cmd/gopkgs@latest")
