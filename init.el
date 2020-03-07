@@ -551,7 +551,9 @@
   (exec-path-from-shell-check-startup-files nil)
   :config
   (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH"))
+  ;; (exec-path-from-shell-copy-env "GOPATH")
+  ;; (exec-path-from-shell-copy-env "GOROOT")
+  )
 
 (use-package expand-region
   :ensure t
