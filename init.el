@@ -838,13 +838,25 @@
                                       :compile "go build"
                                       :test "go test ./..."
                                       :test-suffix "_test"))
+
+  (defun periklis/lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+  (defun periklis/lsp-go-custom-settings ()
+    (lsp-register-custom-settings
+     '(("gopls.completeUnimported" t t)
+       ("gopls.staticcheck" t t))))
+
   :hook
-  ((before-save . gofmt-before-save)
-   (go-mode . subword-mode)
+  ((go-mode . subword-mode)
    (go-mode . company-mode)
    (go-mode . go-imenu-setup)
    (go-mode . lsp-deferred)
-   (go-mode . periklis/setup-go-mode)))
+   (go-mode . periklis/setup-go-mode)
+   (go-mode . periklis/lsp-go-install-save-hooks)
+   (go-mode . yas-minor-mode)
+   (lsp-mode . periklis/lsp-go-custom-settings)))
 
 (use-package google-translate
   :ensure t
