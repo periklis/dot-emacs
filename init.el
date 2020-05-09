@@ -781,37 +781,36 @@
 
 (use-package go-mode
   :ensure t
-  :ensure-system-package (go
-                          go-bindata
-                          go-tools
-                          delve
-                          (errcheck . "go get github.com/kisielk/errcheck")
-                          (fillstruct . "go get github.com/davidrjenni/reftools/cmd/fillstruct")
-                          (go-outline . "go get github.com/lukehoban/go-outline")
-                          (go-symbolds . "go get github.com/newhook/go-symbols")
-                          (godef . "go get github.com/rogpeppe/godef")
-                          (goimports . "go get golang.org/x/tools/cmd/goimports")
-                          (golint . "go get golang.org/x/lint/golint")
-                          (gomodifytags . "go get github.com/fatih/gomodifytags")
-                          (gopkgs . "GO111MODULE=on go get github.com/uudashr/gopkgs/cmd/gopkgs@latest")
-                          (gopls . "GO111MODULE=on go get golang.org/x/tools/gopls@latest")
-                          (goreturns . "go get github.com/sqs/goreturns")
-                          (gotests . "go get github.com/cweill/gotests/gotests")
-                          (impl . "go get github.com/josharian/impl")
-                          (keyify . "go get honnef.co/go/tools/cmd/keyify")
-                          (rdeps . "go get honnef.co/go/tools/cmd/rdeps")
-                          (staticcheck . "go get honnef.co/go/tools/cmd/staticcheck")
-                          (structlayout . "go get honnef.co/go/tools/cmd/structlayout")
-                          (structlayout-optimize . "go get honnef.co/go/tools/cmd/structlayout-optimize")
-                          (structlayout-pretty . "go get honnef.co/go/tools/cmd/structlayout-pretty")
-                          (unconvert . "go get github.com/mdempsky/unconvert"))
+  ;; :ensure-system-package (go
+  ;;                         go-bindata
+  ;;                         go-tools
+  ;;                         delve
+  ;;                         (errcheck . "go get github.com/kisielk/errcheck")
+  ;;                         (fillstruct . "go get github.com/davidrjenni/reftools/cmd/fillstruct")
+  ;;                         (go-outline . "go get github.com/lukehoban/go-outline")
+  ;;                         (go-symbolds . "go get github.com/newhook/go-symbols")
+  ;;                         (godef . "go get github.com/rogpeppe/godef")
+  ;;                         (goimports . "go get golang.org/x/tools/cmd/goimports")
+  ;;                         (golint . "go get golang.org/x/lint/golint")
+  ;;                         (gomodifytags . "go get github.com/fatih/gomodifytags")
+  ;;                         (gopkgs . "GO111MODULE=on go get github.com/uudashr/gopkgs/cmd/gopkgs@latest")
+  ;;                         (gopls . "GO111MODULE=on go get golang.org/x/tools/gopls@latest")
+  ;;                         (goreturns . "go get github.com/sqs/goreturns")
+  ;;                         (gotests . "go get github.com/cweill/gotests/gotests")
+  ;;                         (impl . "go get github.com/josharian/impl")
+  ;;                         (keyify . "go get honnef.co/go/tools/cmd/keyify")
+  ;;                         (rdeps . "go get honnef.co/go/tools/cmd/rdeps")
+  ;;                         (staticcheck . "go get honnef.co/go/tools/cmd/staticcheck")
+  ;;                         (structlayout . "go get honnef.co/go/tools/cmd/structlayout")
+  ;;                         (structlayout-optimize . "go get honnef.co/go/tools/cmd/structlayout-optimize")
+  ;;                         (structlayout-pretty . "go get honnef.co/go/tools/cmd/structlayout-pretty")
+  ;;                         (unconvert . "go get github.com/mdempsky/unconvert"))
   :bind (:map go-mode-map
          ("M-." . lsp-find-definition)
          ("C-x f" . go-test-current-file)
          ("C-x t" . go-test-current-test)
          ("C-x p" . go-test-current-project))
   :custom
-  (gofmt-command "goimports")
   (godoc-and-godef-command "go doc")
   (go-packages-function 'go-packages-go-list)
   :config
