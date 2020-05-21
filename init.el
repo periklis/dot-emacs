@@ -101,11 +101,7 @@
    '(use-package-enable-imenu-support t))
 
   (require 'cl)
-  (require 'use-package)
-  (use-package use-package-ensure-system-package
-    :ensure t
-    :custom
-    (system-packages-noconfirm t)))
+  (require 'use-package))
 
 ;; Custom variables definitions
 (custom-set-variables
@@ -781,30 +777,6 @@
 
 (use-package go-mode
   :ensure t
-  ;; :ensure-system-package (go
-  ;;                         go-bindata
-  ;;                         go-tools
-  ;;                         delve
-  ;;                         (errcheck . "go get github.com/kisielk/errcheck")
-  ;;                         (fillstruct . "go get github.com/davidrjenni/reftools/cmd/fillstruct")
-  ;;                         (go-outline . "go get github.com/lukehoban/go-outline")
-  ;;                         (go-symbolds . "go get github.com/newhook/go-symbols")
-  ;;                         (godef . "go get github.com/rogpeppe/godef")
-  ;;                         (goimports . "go get golang.org/x/tools/cmd/goimports")
-  ;;                         (golint . "go get golang.org/x/lint/golint")
-  ;;                         (gomodifytags . "go get github.com/fatih/gomodifytags")
-  ;;                         (gopkgs . "GO111MODULE=on go get github.com/uudashr/gopkgs/cmd/gopkgs@latest")
-  ;;                         (gopls . "GO111MODULE=on go get golang.org/x/tools/gopls@latest")
-  ;;                         (goreturns . "go get github.com/sqs/goreturns")
-  ;;                         (gotests . "go get github.com/cweill/gotests/gotests")
-  ;;                         (impl . "go get github.com/josharian/impl")
-  ;;                         (keyify . "go get honnef.co/go/tools/cmd/keyify")
-  ;;                         (rdeps . "go get honnef.co/go/tools/cmd/rdeps")
-  ;;                         (staticcheck . "go get honnef.co/go/tools/cmd/staticcheck")
-  ;;                         (structlayout . "go get honnef.co/go/tools/cmd/structlayout")
-  ;;                         (structlayout-optimize . "go get honnef.co/go/tools/cmd/structlayout-optimize")
-  ;;                         (structlayout-pretty . "go get honnef.co/go/tools/cmd/structlayout-pretty")
-  ;;                         (unconvert . "go get github.com/mdempsky/unconvert"))
   :bind (:map go-mode-map
          ("M-." . lsp-find-definition)
          ("C-x f" . go-test-current-file)
@@ -846,7 +818,8 @@
   (defun periklis/lsp-go-custom-settings ()
     (lsp-register-custom-settings
      '(("gopls.completeUnimported" t t)
-       ("gopls.staticcheck" t t))))
+       ;; ("gopls.staticcheck" nil nil)
+       )))
 
   :hook
   ((go-mode . subword-mode)
@@ -1057,6 +1030,9 @@
   (use-package json-snatcher
     :ensure t))
 
+(use-package jsonnet-mode
+  :ensure t)
+
 (use-package js2-mode
   :ensure t
   :commands (js2-mode js2-jsx-mode)
@@ -1113,7 +1089,6 @@
 
 (use-package markdown-mode
   :ensure t
-  :ensure-system-package (marked)
   :mode (("\\README\\.md\\'" . gfm-mode)
          ("\\.md\\'"          . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
@@ -1205,7 +1180,6 @@
 (use-package pandoc-mode
   :ensure t
   :commands pandoc-mode
-  :ensure-system-package (pandoc)
   :bind (:map pandoc-mode-map
               ("C-c / r" . pandoc-run-pandoc)
               ("C-c / p" . pandoc-convert-to-pdf)
