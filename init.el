@@ -785,6 +785,7 @@
   :custom
   (godoc-and-godef-command "go doc")
   (go-packages-function 'go-packages-go-list)
+  (lsp-clients-go-format-tool "gofmt")
   :config
   (use-package go-dlv :ensure t)
   (use-package go-errcheck :ensure t)
