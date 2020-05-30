@@ -1066,9 +1066,11 @@
          ("C-c C-l r" . lsp-find-references)
          ("C-c C-l R" . lsp-ui-peek-find-references)
          ("C-c C-l s" . lsp-ui-sideline-mode)
+         ("C-c C-l w" . lsp-ivy-workspace-symbol)
          ("C-c C-l i" . lsp-ui-imenu))
   :config
   (use-package company-lsp :ensure t)
+  (use-package lsp-ivy :ensure t)
   (use-package lsp-ui
     :ensure t
     :custom
