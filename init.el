@@ -1072,6 +1072,7 @@
          ("C-c C-l w" . lsp-ivy-workspace-symbol)
          ("C-c C-l i" . lsp-ui-imenu))
   :custom
+  (lsp-file-watch-threshold 10000)
   (lsp-idle-delay 0.500)
   (lsp-prefer-capf t)
   (lsp-print-performance t)
