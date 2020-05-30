@@ -786,6 +786,8 @@
   (godoc-and-godef-command "go doc")
   (go-packages-function 'go-packages-go-list)
   (lsp-clients-go-format-tool "goimports")
+  (flycheck-golangci-lint-enable-all t)
+  (flycheck-golangci-lint-tests t)
   :config
   (use-package go-dlv :ensure t)
   (use-package go-errcheck :ensure t)
@@ -798,6 +800,7 @@
   (use-package go-rename :ensure t)
   (use-package go-snippets :ensure t)
   (use-package gotest :ensure t)
+  (use-package flycheck-golangci-lint :ensure t)
 
   (defun periklis/setup-go-mode ()
     "Extra setup for go-mode."
@@ -830,6 +833,7 @@
    (go-mode . periklis/setup-go-mode)
    (go-mode . periklis/lsp-go-install-save-hooks)
    (go-mode . yas-minor-mode)
+   (go-mode . flycheck-golangci-lint-setup)
    (lsp-mode . periklis/lsp-go-custom-settings)))
 
 (use-package google-translate
