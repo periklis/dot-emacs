@@ -128,6 +128,7 @@
  '(enable-local-variables :all)
  '(fast-but-imprecise-scrolling t)
  '(fringe-mode '(4 . 0))
+ '(gc-cons-threshold 100000000)
  '(global-display-line-numbers-mode nil)
  '(global-hl-line-mode t)
  '(global-visual-line-mode t)
@@ -146,6 +147,7 @@
  '(ns-auto-hide-menu-bar t)
  '(proced-tree-flag t)
  '(redisplay-dont-pause t)
+ '(read-process-output-max (* 1024 1024))
  '(ring-bell-function (quote ignore) t)
  '(scroll-bar-mode nil)
  '(scroll-step 1)
@@ -788,6 +790,7 @@
   (lsp-clients-go-format-tool "goimports")
   (flycheck-golangci-lint-enable-all t)
   (flycheck-golangci-lint-tests t)
+  (tab-width 2)
   :config
   (use-package go-dlv :ensure t)
   (use-package go-errcheck :ensure t)
@@ -1068,6 +1071,10 @@
          ("C-c C-l s" . lsp-ui-sideline-mode)
          ("C-c C-l w" . lsp-ivy-workspace-symbol)
          ("C-c C-l i" . lsp-ui-imenu))
+  :custom
+  (lsp-idle-delay 0.500)
+  (lsp-prefer-capf t)
+  (lsp-print-performance t)
   :config
   (use-package company-lsp :ensure t)
   (use-package lsp-ivy :ensure t)
