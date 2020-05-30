@@ -785,7 +785,7 @@
   :custom
   (godoc-and-godef-command "go doc")
   (go-packages-function 'go-packages-go-list)
-  (lsp-clients-go-format-tool "gofmt")
+  (lsp-clients-go-format-tool "goimports")
   :config
   (use-package go-dlv :ensure t)
   (use-package go-errcheck :ensure t)
@@ -819,7 +819,7 @@
   (defun periklis/lsp-go-custom-settings ()
     (lsp-register-custom-settings
      '(("gopls.completeUnimported" t t)
-       ;; ("gopls.staticcheck" nil nil)
+       ("gopls.staticcheck" t t)
        )))
 
   :hook
