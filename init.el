@@ -11,8 +11,7 @@
 (add-hook 'after-init-hook
           (lambda ()
             (garbage-collect)
-            (setq gc-cons-threshold
-                  (car (get 'gc-cons-threshold 'standard-value)))))
+            (setq gc-cons-threshold 100000000)))
 
 (setq inhibit-startup-message t)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -780,7 +779,6 @@
 (use-package go-mode
   :ensure t
   :bind (:map go-mode-map
-         ("M-." . lsp-find-definition)
          ("C-x f" . go-test-current-file)
          ("C-x t" . go-test-current-test)
          ("C-x p" . go-test-current-project))
@@ -1075,7 +1073,7 @@
   (lsp-file-watch-threshold 10000)
   (lsp-idle-delay 0.500)
   (lsp-prefer-capf t)
-  (lsp-print-performance t)
+  (lsp-print-performance nil)
   :config
   (use-package lsp-ivy :ensure t)
   (use-package lsp-ui
