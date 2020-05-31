@@ -1089,6 +1089,11 @@
   :ensure t
   :bind ("C-c e m" . macrostep-expand))
 
+(use-package makefile-executor
+  :ensure t
+  :config
+  (add-hook 'makefile-mode-hook 'makefile-executor-mode))
+
 (use-package magit
   :ensure t
   :bind (("C-c m g" . magit-status))
