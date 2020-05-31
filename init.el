@@ -1077,7 +1077,6 @@
   (lsp-prefer-capf t)
   (lsp-print-performance t)
   :config
-  (use-package company-lsp :ensure t)
   (use-package lsp-ivy :ensure t)
   (use-package lsp-ui
     :ensure t
