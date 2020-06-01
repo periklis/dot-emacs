@@ -1080,8 +1080,13 @@
     :ensure t
     :custom
     (lsp-ui-flycheck-enable nil)
+    (lsp-ui-sideline-enable nil)
     (lsp-ui-doc-enable nil)
-    (lsp-ui-sideline-enable nil)))
+    (lsp-ui-doc-header t)
+    (lsp-ui-doc-include-signature t)
+    (lsp-ui-doc-position 'at-point)
+    (lsp-ui-doc-use-childframe t)
+    (lsp-ui-doc-use-webkit nil)))
 
 (use-package macrostep
   :ensure t
