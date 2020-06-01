@@ -823,7 +823,7 @@
   (defun periklis/lsp-go-custom-settings ()
     (lsp-register-custom-settings
      '(("gopls.completeUnimported" t t)
-       ("gopls.staticcheck" t t)
+       ;; ("gopls.staticcheck" t t)
        )))
 
   :hook
