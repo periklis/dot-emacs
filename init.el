@@ -99,7 +99,6 @@
    '(use-package-verbose t)
    '(use-package-enable-imenu-support t))
 
-  (require 'cl)
   (require 'use-package))
 
 ;; Custom variables definitions
@@ -138,8 +137,8 @@
  ;; '(jit-lock-defer-time 0.01)
  '(load-prefer-newer t)
  '(menu-bar-mode nil)
- '(max-lisp-eval-depth 50000)
- '(max-specpdl-size 500000)
+ '(max-lisp-eval-depth 5000)
+ '(max-specpdl-size 5000)
  '(message-kill-buffer-on-exit t)
  '(network-security-level 'paranoid)
  '(next-error-recenter t)
