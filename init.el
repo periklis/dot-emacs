@@ -785,6 +785,7 @@
   (godoc-and-godef-command "go doc")
   (go-packages-function 'go-packages-go-list)
   (lsp-clients-go-format-tool "goimports")
+  (lsp-gopls-codelens nil)
   (flycheck-golangci-lint-enable-all t)
   (flycheck-golangci-lint-tests t)
   (tab-width 2)
@@ -1069,7 +1070,7 @@
          ("C-c C-l w" . lsp-ivy-workspace-symbol)
          ("C-c C-l i" . lsp-ui-imenu))
   :custom
-  (lsp-file-watch-threshold 10000)
+  (lsp-file-watch-threshold 1000)
   (lsp-idle-delay 0.500)
   (lsp-prefer-capf t)
   (lsp-print-performance nil)
