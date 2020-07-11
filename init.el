@@ -1156,6 +1156,7 @@
 (use-package one-themes
   :ensure t
   :init
+  (setq emacs-one-scale-org-headlines nil)
   (load-theme 'one-dark t))
 
 (use-package org
@@ -1309,7 +1310,7 @@
   :demand t
   :config
   (use-package spaceline :ensure t :demand t)
-  (spaceline-emacs-theme)
+  (spaceline-spacemacs-theme)
   (spaceline-toggle-minor-modes-off))
 
 (use-package prettier-js
