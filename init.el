@@ -823,8 +823,9 @@
   (defun periklis/lsp-go-custom-settings ()
     (lsp-register-custom-settings
      '(("gopls.completeUnimported" t t)
-       ;; ("gopls.staticcheck" t t)
-       )))
+       ("gopls.usePlaceholders" t t)
+       ("gopls.analyses.fillreturns" t t)
+       ("gopls.analyses.unusedparams" t t))))
 
   :hook
   ((go-mode . subword-mode)
@@ -1058,18 +1059,8 @@
 
 (use-package lsp-mode
   :ensure t
-  :bind (("C-c C-l d" . lsp-ui-doc-show)
-         ("C-c C-l h" . lsp-ui-doc-hide)
-         ("C-c C-l f" . lsp-format-buffer)
-         ("C-c C-l j" . lsp-find-definition)
-         ("C-c C-l J" . lsp-ui-peek-find-definitions)
-         ("C-c C-l n" . lsp-rename)
-         ("C-c C-l r" . lsp-find-references)
-         ("C-c C-l R" . lsp-ui-peek-find-references)
-         ("C-c C-l s" . lsp-ui-sideline-mode)
-         ("C-c C-l w" . lsp-ivy-workspace-symbol)
-         ("C-c C-l i" . lsp-ui-imenu))
   :custom
+  (lsp-keymap-prefix "C-c C-l")
   (lsp-file-watch-threshold 1000)
   (lsp-idle-delay 0.500)
   (lsp-prefer-capf t)
