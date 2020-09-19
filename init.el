@@ -1148,6 +1148,7 @@
   :ensure t
   :init
   (setq emacs-one-scale-org-headlines nil)
+  (setq emacs-one-use-variable-pitch nil)
   (load-theme 'one-dark t))
 
 (use-package org
