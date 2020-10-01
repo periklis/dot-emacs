@@ -825,7 +825,11 @@
      '(("gopls.completeUnimported" t t)
        ("gopls.usePlaceholders" t t)
        ("gopls.analyses.fillreturns" t t)
-       ("gopls.analyses.unusedparams" t t))))
+       ("gopls.analyses.unusedparams" t t)))
+    (flycheck-add-next-checker 'lsp '(warning . golangci-lint))
+    (flycheck-add-next-checker 'golangci-lint '(warning . go-errcheck))
+    (flycheck-add-next-checker 'go-errcheck '(warning . go-unconvert))
+    (flycheck-add-next-checker 'go-unconvert '(warning . go-vet)))
 
   :hook
   ((go-mode . subword-mode)
