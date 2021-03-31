@@ -784,11 +784,10 @@
   :custom
   (godoc-and-godef-command "go doc")
   (go-packages-function 'go-packages-go-list)
-  (lsp-go-codelens '((gc_details . t)
-                     (generate . t)
-                     (test . t)
-                     (tidy . t)
-                     (upgrade_dependency . t)))
+  (lsp-go-codelenses '((gc_details . t)
+                       (test . t)
+                       (tidy . t)
+                       (upgrade_dependency . t)))
   (flycheck-golangci-lint-tests t)
   (tab-width 4)
   :config
@@ -824,7 +823,8 @@
        ("gopls.usePlaceholders" t t)
        ("gopls.analyses.fillreturns" t t)
        ("gopls.analyses.unusedparams" t t)
-       ("gopls.gofumpt" t t)))
+       ;; ("gopls.gofumpt" t t)
+       ))
     (flycheck-add-next-checker 'lsp 'golangci-lint))
 
   :hook
