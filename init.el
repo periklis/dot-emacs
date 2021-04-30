@@ -1177,7 +1177,6 @@
   (use-package org-mobile :disabled)
   (use-package org-protocol)
   (use-package org-projectile :ensure t)
-  (use-package interleave :ensure t :commands interleave-mode)
   (use-package ox-pandoc :ensure t)
   (org-babel-do-load-languages
    'org-babel-load-languages
