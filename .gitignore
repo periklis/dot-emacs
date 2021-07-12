@@ -43,3 +43,4 @@ url/*
 /nov-save-place
 /transient/history.el
 /.last-package-update-day
+/eln-cache/
