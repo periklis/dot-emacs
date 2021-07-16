@@ -827,6 +827,16 @@
        ))
     (flycheck-add-next-checker 'lsp 'golangci-lint))
 
+  (defvar-local periklis/flycheck-local-checkers nil)
+  (defun +flycheck-checker-get(fn checker property)
+    (or (alist-get property (alist-get checker periklis/flycheck-local-checkers))
+        (funcall fn checker property)))
+  (advice-add 'flycheck-checker-get :around '+flycheck-checker-get)
+
+  (defun periklis/lsp-flycheck-setup ()
+    (flycheck-golangci-lint-setup)
+    (setq periklis/flycheck-local-checkers '((lsp . ((next-checkers . (golangci-lint)))))))
+
   :hook
   ((go-mode . subword-mode)
    (go-mode . company-mode)
@@ -835,7 +845,7 @@
    (go-mode . periklis/setup-go-mode)
    (go-mode . periklis/lsp-go-install-save-hooks)
    (go-mode . yas-minor-mode)
-   (go-mode . flycheck-golangci-lint-setup)
+   (go-mode . periklis/lsp-flycheck-setup)
    (lsp-mode . periklis/lsp-go-custom-settings)))
 
 (use-package google-translate
