@@ -44,3 +44,4 @@ url/*
 /transient/history.el
 /.last-package-update-day
 /eln-cache/
+/projects
