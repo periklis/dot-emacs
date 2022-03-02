@@ -260,10 +260,7 @@
          ("\\.cpp\\'" . c++-mode)
          ("\\.tpp\\'" . c++-mode))
   :config
-  (use-package eassist
-    :bind
-    (:map c-mode-base-map
-          ("M-o" . eassist-switch-h-cpp)))
+  (use-package eassist)
 
   (use-package google-c-style :ensure t :defer t)
 
@@ -791,7 +788,7 @@
   (flycheck-golangci-lint-tests t)
   (tab-width 4)
   :config
-  (use-package go-dlv :ensure t)
+  (use-package go-dlv :ensure t :disabled)
   (use-package go-fill-struct :ensure t)
   (use-package go-imenu :ensure t)
   (use-package go-impl :ensure t)
@@ -1107,8 +1104,8 @@
   (magit-diff-options '("-b"))
   (magit-completing-read-function 'ivy-completing-read)
   :config
-  (use-package gitconfig-mode :ensure t)
-  (use-package gitignore-mode :ensure t))
+  (use-package gitconfig-mode :ensure t :disabled)
+  (use-package gitignore-mode :ensure t :disabled))
 
 (use-package markdown-mode
   :ensure t
@@ -1327,6 +1324,7 @@
   (elpy-rpc-backend "jedi")
   (jedi:setup-keys t)
   (jedi:complete-on-dot t)
+  (jedi:key-goto-definition "M-.")
   (python-shell-interpreter "ipython")
   (python-shell-interpreter-args "-i")
   :config
