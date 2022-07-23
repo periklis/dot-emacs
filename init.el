@@ -997,6 +997,7 @@
   (ivy-initial-inputs-alist nil)
   (ivy-re-builders-alist
    '((t . ivy--regex-fuzzy)))
+  (counsel-find-file-ignore-regexp (concat (regexp-opt completion-ignored-extensions) "\\'"))
   :config
   (use-package ivy-rich :ensure t)
   (use-package smex :ensure t)
