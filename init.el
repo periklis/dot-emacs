@@ -1107,7 +1107,8 @@
   (magit-completing-read-function 'ivy-completing-read)
   :config
   (use-package gitconfig-mode :ensure t :disabled)
-  (use-package gitignore-mode :ensure t :disabled))
+  (use-package gitignore-mode :ensure t :disabled)
+  (use-package forge :ensure t :after magit :disabled))
 
 (use-package markdown-mode
   :ensure t
