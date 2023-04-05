@@ -45,3 +45,4 @@ url/*
 /.last-package-update-day
 /eln-cache/
 /projects
+/forge-database.sqlite
