@@ -842,6 +842,7 @@
    (go-mode . periklis/setup-go-mode)
    (go-mode . periklis/lsp-go-install-save-hooks)
    (go-mode . yas-minor-mode)
+   (go-mode . tree-sitter-hl-mode)
    (go-mode . periklis/lsp-flycheck-setup)
    (lsp-mode . periklis/lsp-go-custom-settings)))
 
@@ -1520,6 +1521,11 @@
   (use-package tramp-term   :ensure t)
   (defalias 'exit-tramp 'tramp-cleanup-all-buffers)
   (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
+
+(use-package tree-sitter
+  :ensure t
+  :config
+  (use-package tree-sitter-langs :ensure t))
 
 (use-package undo-tree
   :ensure t
