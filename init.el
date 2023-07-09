@@ -1518,7 +1518,6 @@
            tramp-file-name-regexp))
   :config
   (use-package counsel-tramp :ensure t)
-  (use-package docker-tramp :ensure t)
   (use-package tramp-term   :ensure t)
   (defalias 'exit-tramp 'tramp-cleanup-all-buffers)
   (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
