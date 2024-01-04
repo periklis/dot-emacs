@@ -1110,13 +1110,13 @@
   (use-package gitignore-mode :ensure t :disabled)
   (use-package forge :ensure t :after magit :disabled))
 
-(use-package markdown-mode
+(use-package  markdown-mode
   :ensure t
   :mode (("\\README\\.md\\'" . gfm-mode)
          ("\\.md\\'"          . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :custom
-  (markdown-command "marked")
+  (markdown-command "multimarkdown")
   :config
   (use-package markdown-preview-mode
     :ensure t
