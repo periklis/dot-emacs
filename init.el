@@ -488,7 +488,7 @@
   ((elm-mode . periklis/elm-company-setup)
    (elm-mode . elm-oracle-setup-completion)))
 
-(use-package emacs-lisp-mode
+(use-package elisp-mode
   :mode ("\\.el\\'" . emacs-lisp-mode)
   :custom
   (truncate-lines 0)
@@ -498,7 +498,6 @@
    (emacs-lisp-mode . eldoc-mode)
    (emacs-lisp-mode . flyspell-prog-mode)
    (emacs-lisp-mode . subword-mode)
-   (emacs-lisp-mode . yas-minor-mode)
    (after-save . check-parens)))
 
 (use-package erc
@@ -1159,6 +1158,7 @@
   :init
   (setq emacs-one-scale-org-headlines nil)
   (setq emacs-one-use-variable-pitch nil)
+  :config
   (load-theme 'one-dark t))
 
 (use-package org
