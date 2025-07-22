@@ -1134,7 +1134,6 @@
   (nix-indent-function #'nix-indent-line))
 
 (use-package nord-theme
-  :disabled
   :ensure t
   :config
   (load-theme 'nord t))
@@ -1154,6 +1153,7 @@
   (push '("<\\?xml" . nxml-mode) magic-mode-alist))
 
 (use-package one-themes
+  :disabled
   :ensure t
   :init
   (setq emacs-one-scale-org-headlines nil)
