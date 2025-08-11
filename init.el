@@ -307,6 +307,14 @@
     (create-tags)
     (message "Created language tags for current project")))
 
+(use-package claude-code-ide
+  :load-path "~/.emacs.d/site-lisp/claude-code-ide.el/"
+  :bind ("C-c C-'" . claude-code-ide-menu)
+  :custom
+  (claude-code-ide-window-width	150)
+  :config
+  (claude-code-ide-emacs-tools-setup))
+
 (use-package cmake-mode
   :ensure t
   :defines (company-backends)
@@ -1530,8 +1538,13 @@
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
+  :custom
+  (undo-tree-auto-save-history nil)
   :config
   (global-undo-tree-mode))
+
+(use-package vterm
+  :ensure t)
 
 (use-package web-mode
   :ensure t
