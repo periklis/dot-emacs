@@ -803,7 +803,11 @@
   (use-package go-projectile :ensure t)
   (use-package go-snippets :ensure t)
   (use-package gotest :ensure t)
-  (use-package flycheck-golangci-lint :ensure t)
+  (use-package flycheck-golangci-lint
+    ;; Disable public package until all projects are
+    ;; using golangci-lint v2
+    ;; :ensure t
+    :load-path "~/.emacs.d/site-lisp/flycheck-golangci-lint/")
 
   (defun periklis/setup-go-mode ()
     "Extra setup for go-mode."
