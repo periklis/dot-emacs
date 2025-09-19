@@ -311,7 +311,8 @@
   :load-path "~/.emacs.d/site-lisp/claude-code-ide.el/"
   :bind ("C-c C-'" . claude-code-ide-menu)
   :custom
-  (claude-code-ide-window-width	150)
+  (claude-code-ide-window-width	200)
+  (claude-code-ide-use-ide-diff nil)
   :config
   (claude-code-ide-emacs-tools-setup))
 
