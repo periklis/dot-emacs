@@ -1167,6 +1167,7 @@
   (push '("<\\?xml" . nxml-mode) magic-mode-alist))
 
 (use-package one-themes
+  :disabled
   :load-path "~/.emacs.d/site-lisp/emacs-one-themes/"
   :init
   (setq emacs-one-scale-org-headlines nil)
