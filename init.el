@@ -38,8 +38,10 @@
   ;; launched from a terminal
   (defvar ns-use-proxy-icon)
   (setenv "TERM_PROGRAM" nil)
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . nil))
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (setq ns-use-native-fullscreen nil)
+  (setq frame-resize-pixelwise t)
   (setq ns-use-proxy-icon  nil)
   (setq frame-title-format nil))
 
@@ -142,7 +144,7 @@
  '(message-kill-buffer-on-exit t)
  '(network-security-level 'paranoid)
  '(next-error-recenter t)
- '(ns-auto-hide-menu-bar t)
+ '(ns-auto-hide-menu-bar nil)
  '(proced-tree-flag t)
  '(redisplay-dont-pause t)
  '(read-process-output-max (* 1024 1024))
